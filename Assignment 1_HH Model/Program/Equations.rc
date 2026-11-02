@@ -1,0 +1,14 @@
+/* Rendered equation images (LaTeX -> PNG), linked as RCDATA.
+   Overview and notation shown in tab 6 "Model and Equations":
+     Resources\tex\hh_equations.tex, Resources\tex\hh_nomenclature.tex
+   Mathematical sheets opened in separate windows (EquationViewer.pas):
+     Resources\tex\sheet1_membrane.tex ... sheet6_analysis.tex
+     (render with Resources\tex\build_sheets.py, then rebuild the project) */
+EQUATIONS_PNG    RCDATA "Resources\\hh_equations.png"
+NOMENCLATURE_PNG RCDATA "Resources\\hh_nomenclature.png"
+SHEET1_PNG       RCDATA "Resources\\sheet1_membrane.png"
+SHEET2_PNG       RCDATA "Resources\\sheet2_gating.png"
+SHEET3_PNG       RCDATA "Resources\\sheet3_rk4.png"
+SHEET4_PNG       RCDATA "Resources\\sheet4_cable.png"
+SHEET5_PNG       RCDATA "Resources\\sheet5_fd.png"
+SHEET6_PNG       RCDATA "Resources\\sheet6_analysis.png"

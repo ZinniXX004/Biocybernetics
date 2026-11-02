@@ -1,0 +1,68 @@
+\documentclass[border=14pt,varwidth=18.5cm]{standalone}
+\input{preamble}
+\renewcommand{\theequation}{3.\arabic{equation}}
+\begin{document}
+\sheettitle{Fourth-Order Runge-Kutta Integration of the HH Equations (APG)}
+
+\sect{State vector and right-hand side}
+\begin{align}
+\mathbf{Y} = \begin{bmatrix} v\\ m\\ h\\ n\end{bmatrix},\qquad
+\frac{d\mathbf{Y}}{dt} = \mathbf{F}(t,\mathbf{Y}) =
+\begin{bmatrix}
+\big[J_{in}(t) - \bar g_{Na}m^3h(v-v_{Na}) - \bar g_K n^4 (v-v_K) - \bar g_L (v-v_L)\big]/C_m\\
+\alpha_m(1-m)-\beta_m m\\
+\alpha_h(1-h)-\beta_h h\\
+\alpha_n(1-n)-\beta_n n
+\end{bmatrix}
+\end{align}
+
+\sect{Classical RK4 on the coupled system (default method of the program)}
+\begin{align}
+\mathbf{K}_1 &= \mathbf{F}\big(t_k,\ \mathbf{Y}_k\big) \\
+\mathbf{K}_2 &= \mathbf{F}\big(t_k+\tfrac{\Delta t}{2},\ \mathbf{Y}_k+\tfrac{\Delta t}{2}\mathbf{K}_1\big) \\
+\mathbf{K}_3 &= \mathbf{F}\big(t_k+\tfrac{\Delta t}{2},\ \mathbf{Y}_k+\tfrac{\Delta t}{2}\mathbf{K}_2\big) \\
+\mathbf{K}_4 &= \mathbf{F}\big(t_k+\Delta t,\ \mathbf{Y}_k+\Delta t\,\mathbf{K}_3\big) \\
+&\hlbox{\mathbf{Y}_{k+1} = \mathbf{Y}_k + \frac{\Delta t}{6}\big(\mathbf{K}_1+2\mathbf{K}_2+2\mathbf{K}_3+\mathbf{K}_4\big)}
+\end{align}
+Local error $O(\Delta t^5)$, global error $O(\Delta t^4)$; $\Delta t = 0.01$~ms (the ``10 sec'' printed on the slide is 10~$\mu$s).
+
+\sect{Lecturer's sequential scheme (selectable for comparison)}
+Rates are frozen at $v_k$; each gate is advanced by a scalar RK4 step, then $v$ is advanced with the new gates held constant:
+\begin{align}
+x_{k+1} &= \mathrm{RK4}\big[\,\dot x = \alpha_x(v_k)(1-x)-\beta_x(v_k)\,x\,\big],\qquad x\in\{n,m,h\} \\
+v_{k+1} &= \mathrm{RK4}\big[\,\dot v = \big(J_{in}-J_{ion}(v;\,m_{k+1},h_{k+1},n_{k+1})\big)/C_m\,\big]
+\end{align}
+This is a splitting scheme (first order in the coupling); at $\Delta t=0.01$~ms both methods differ by $\le 0.01$~ms in spike times.
+
+\sect{Initial condition, stimulus protocols and output}
+\begin{align}
+\mathbf{Y}_0 &= \big[\,0,\ m_\infty(0),\ h_\infty(0),\ n_\infty(0)\,\big]^{T} \\
+J_{in}(t) &= \begin{cases}
+J_{level} \text{ for } t_{on}\le t<t_{off} & \text{step}\\
+-5,\,-10,\,-20,\,0 \text{ for } t\in[0,25),[25,38),[38,50),[50,\infty) & \text{lecturer staircase}\\
+J_1 \text{ on } [t_{on},t_{on}{+}w),\ J_2 \text{ on } [t_{on}{+}\Delta T,\,t_{on}{+}\Delta T{+}w) & \text{paired pulse}
+\end{cases} \\
+&\hlbox{V_{m,k} = -\,(v_k+70)\ \text{mV}}
+\end{align}
+
+\nomtable{
+\mathbf{Y} & state vector $[v,m,h,n]^T$ & mixed \\
+v & membrane potential displacement from rest & mV \\
+m,\ h,\ n & gating variables & - \\
+t & time & ms \\
+\mathbf{F} & right-hand side of the HH system & mixed/ms \\
+J_{in} & stimulus current density & $\mu$A/cm$^2$ \\
+\bar g_{Na},\bar g_K,\bar g_L & maximal conductances & mS/cm$^2$ \\
+v_{Na},v_K,v_L & reversal potentials relative to rest & mV \\
+C_m & membrane capacitance & $\mu$F/cm$^2$ \\
+\alpha_x,\ \beta_x & rate constants (sheet 2) & ms$^{-1}$ \\
+\mathbf{K}_1..\mathbf{K}_4 & RK4 slope estimates & mixed/ms \\
+t_k,\ \mathbf{Y}_k & time and state at step $k$ & ms, mixed \\
+\Delta t & integration step & ms \\
+J_{ion} & total ionic current density & $\mu$A/cm$^2$ \\
+x_\infty & steady-state gate value & - \\
+J_{level},t_{on},t_{off} & step amplitude, onset and offset & $\mu$A/cm$^2$, ms \\
+J_1,J_2,w,\Delta T & paired-pulse amplitudes, width and onset interval & $\mu$A/cm$^2$, ms \\
+V_m & absolute membrane potential & mV \\
+}
+\end{document}

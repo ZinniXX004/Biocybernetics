@@ -1,0 +1,87 @@
+# Biocybernetics (EB234701): repository ignore rules
+# Policy: only the student's own work (assignments, final project,
+# documentation) is versioned. Lecturer slides, textbooks, senior/peer
+# reports and personal administrative files are NOT redistributed.
+
+# Third-party / reference material (copyright, not redistributed)
+/Materials/
+/Biocyber/
+/Contoh Teman/
+/Module Handbook/
+/Tes 01 Biocybernetics/
+/Catatan_ETS_Biocybernetics_EB234701-v2.docx
+/Catatan_ETS_Biocybernetics_EB234701-v2.pdf
+/Bukti Screenshot_Kode Absen.pdf
+
+# Journal papers handed out by the lecturer (IEEE copyright: personal use
+# only, redistribution requires IEEE permission). Keep future papers in a
+# "References" folder inside each assignment; it is ignored as a whole.
+/Assignment 1_HH Model/*.pdf
+**/References/
+
+# AI assistant (Claude) working files
+.claude/
+**/.claude/
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
+
+# Delphi build output
+Win32/
+Win64/
+*.dcu
+*.exe
+*.dll
+*.bpl
+*.dcp
+*.map
+*.drc
+*.rsm
+*.tds
+*.res
+
+# Delphi IDE state (machine specific)
+__history/
+__recovery/
+*.local
+*.identcache
+*.dsk
+*.stat
+*.tvsconfig
+*.~*
+
+# Free Pascal verification build artifacts
+*.o
+*.ppu
+*.a
+**/Verification/TestHH
+**/Verification/actual.txt
+
+# Microsoft Office lock / temp files
+~$*
+*.tmp
+
+# OS clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# LaTeX build products of the equation sheets (sources and PNG are versioned)
+**/Resources/tex/*.aux
+**/Resources/tex/*.log
+**/Resources/tex/*.pdf
+
+# delivery bundles from Claude sessions (extract, then delete)
+/_bundle_*.zip
+
+# Submission archives built for MyITS Classroom (the folder itself is versioned)
+/5023231017_*.zip
+
+# Delphi IDE recovery copies
+**/__recovery/
+
+# Output folder of the Claude desktop app (Cowork)
+/Claude outputs/
+
+# Lecturer handout of the final project (third-party material)
+/gasal 2627_*.pdf

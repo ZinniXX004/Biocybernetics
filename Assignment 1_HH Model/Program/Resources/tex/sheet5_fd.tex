@@ -1,0 +1,89 @@
+\documentclass[border=14pt,varwidth=18.5cm]{standalone}
+\input{preamble}
+\renewcommand{\theequation}{5.\arabic{equation}}
+\begin{document}
+\sheettitle{Central and Forward Difference Integration of the Cable PDE (Problem 2)}
+
+\sect{Grid}
+$x_j = j\,h$ ($j=0,\dots,N-1$), $\ t^{n} = n\,k$, $\ v_j^{n}\approx v(x_j,t^{n})$. The PDE to integrate (sheet 4) is
+\begin{equation}
+\frac{\partial v}{\partial t} = D\,\frac{\partial^2 v}{\partial x^2} + \frac{J_{in}-J_{ion}}{C_m}
+\end{equation}
+
+\sect{Central difference for $\partial^2 v/\partial x^2$ (Taylor series in space)}
+\begin{align}
+v(x\pm h,t) &= v \pm h\,v_x + \frac{h^2}{2!}v_{xx} \pm \frac{h^3}{3!}v_{xxx} + \frac{h^4}{4!}v_{xxxx} \pm \cdots \\
+v(x+h,t)+v(x-h,t) &= 2v + h^2 v_{xx} + \frac{h^4}{12}v_{xxxx} + O(h^6) \\
+&\hlbox{\frac{\partial^2 v}{\partial x^2}\bigg|_{j}^{n} = \frac{v_{j+1}^{n}-2v_j^{n}+v_{j-1}^{n}}{h^2} - \frac{h^2}{12}v_{xxxx}
+\approx \frac{v_{j+1}^{n}-2v_j^{n}+v_{j-1}^{n}}{h^2}}
+\end{align}
+
+\sect{Forward difference for $\partial v/\partial t$ (Taylor series in time)}
+\begin{align}
+v(x,t+k) &= v + k\,v_t + \frac{k^2}{2!}v_{tt} + O(k^3) \\
+&\hlbox{\frac{\partial v}{\partial t}\bigg|_{j}^{n} = \frac{v_j^{n+1}-v_j^{n}}{k} - \frac{k}{2}v_{tt}
+\approx \frac{v_j^{n+1}-v_j^{n}}{k}}
+\end{align}
+
+\sect{Substitution into the PDE at $(x_j,t^n)$}
+\begin{align}
+\frac{v_j^{n+1}-v_j^{n}}{k} &= D\,\frac{v_{j+1}^{n}-2v_j^{n}+v_{j-1}^{n}}{h^2} + \frac{J_{in,j}^{n}-J_{ion,j}^{n}}{C_m} \\
+&\hlbox{v_j^{n+1} = v_j^{n} + r\big(v_{j+1}^{n}-2v_j^{n}+v_{j-1}^{n}\big) + \frac{k}{C_m}\big(J_{in,j}^{n}-J_{ion,j}^{n}\big),\qquad r=\frac{D\,k}{h^2}}
+\end{align}
+Passive cable (lecturer's form, with $D=[(r_o+r_i)c_m]^{-1}$ and the local node voltage in the leak term):
+\begin{equation}
+v_j^{n+1} = v_j^{n} + \frac{k}{h^2\,(r_o+r_i)\,c_m}\big(v_{j+1}^{n}-2v_j^{n}+v_{j-1}^{n}\big) - \frac{k\,g_m}{C_m}\,v_j^{n}
+\end{equation}
+Local truncation error: $\tau_j^{n} = -\tfrac{k}{2}v_{tt} - D\tfrac{h^2}{12}v_{xxxx} = O(k+h^2)$.
+
+\sect{Stability (von Neumann analysis of the diffusion part)}
+\begin{align}
+v_j^{n} = \xi^{n}e^{\,\mathrm{i}\beta j h}\ \Rightarrow\ \xi = 1 + r\big(e^{\mathrm{i}\beta h}-2+e^{-\mathrm{i}\beta h}\big) = 1-4r\sin^2\!\frac{\beta h}{2}
+\end{align}
+\begin{equation}
+|\xi|\le 1\ \ \forall\beta \quad\Longleftrightarrow\quad \hlbox{r = \frac{D\,k}{h^2}\le\frac{1}{2}}
+\end{equation}
+With the explicit scheme the program refuses to run when $r>1/2$ and reports the largest admissible step $k_{max}=h^2/(2D)$.
+
+\sect{Crank-Nicolson option (trapezoidal rule for the diffusion term)}
+Averaging the central difference over levels $n$ and $n+1$ (membrane and stimulus terms stay at level $n$):
+\begin{equation}
+\hlbox{-\tfrac{r}{2}\,v_{j-1}^{n+1}+(1+r)\,v_j^{n+1}-\tfrac{r}{2}\,v_{j+1}^{n+1}= v_j^{n}+\tfrac{r}{2}\big(v_{j+1}^{n}-2v_j^{n}+v_{j-1}^{n}\big)+\tfrac{k}{C_m}\big(J_{in}-J_{ion}\big)_j^{n}}
+\end{equation}
+A tridiagonal system solved by the Thomas algorithm each step; $\xi=\frac{1-2r\sin^2(\beta h/2)}{1+2r\sin^2(\beta h/2)}$, so $|\xi|\le1$ for every $r$ (unconditionally stable; second order in $k$ for the diffusion term).
+
+\sect{Boundary conditions, gates and algorithm}
+\begin{align}
+\text{sealed ends: } \frac{\partial v}{\partial x}=0 \ \Rightarrow\ v_{-1}^{n}=v_{1}^{n},\quad v_{N}^{n}=v_{N-2}^{n}
+\ \Rightarrow\ v_0^{n+1} = v_0^{n} + 2r\big(v_1^{n}-v_0^{n}\big)+\tfrac{k}{C_m}\big(J_{in}-J_{ion}\big)_0^{n} \\
+x_j^{n+1} = x_j^{n} + k\big[\alpha_x(v_j^{n})(1-x_j^{n}) - \beta_x(v_j^{n})\,x_j^{n}\big],\qquad x\in\{m,h,n\}\ \text{(active cable only)}
+\end{align}
+For every time level $n$: (1) evaluate $J_{ion,j}^{n}$ and the rates from $v_j^{n}$ and the gates; (2) update all gates with (5.14);
+(3) update all voltages with (5.8) using only level-$n$ values; (4) record $V_m=-(v+70)$, peak values and the first 0~mV crossing per node.
+The same structure solves the heat equation $u_t=\alpha\,u_{xx}$ shown in the lecture ($\alpha\leftrightarrow D$).
+Excitation at $x=0$: current pulses ($J_{in}$ in the first segments) or, as in the lecturer's program, the APG waveform
+imposed on node 0, $v_0^{n}=v_{APG}(t^{n})$ (Dirichlet condition replacing the sealed end at $x=0$).
+
+\nomtable{
+x_j,\ j & position of node $j$ and node index (displayed in mm) & cm, - \\
+h & spatial step (lecturer's notation; not the Na gate here; entered in mm) & cm \\
+N & number of nodes & - \\
+t^n,\ n & time level and its index & ms, - \\
+k & time step & ms \\
+v_j^n & membrane potential displacement at node $j$, level $n$ & mV \\
+D & diffusion coefficient $1/((r_o+r_i)c_m)$ & cm$^2$/ms \\
+J_{in},J_{ion} & stimulus and ionic current densities & $\mu$A/cm$^2$ \\
+C_m & membrane capacitance per unit area & $\mu$F/cm$^2$ \\
+v_x,v_{xx},.. & partial derivatives of $v$ with respect to $x$ & mV/cm$^p$ \\
+v_t,v_{tt} & partial derivatives of $v$ with respect to $t$ & mV/ms$^p$ \\
+r & diffusion number $Dk/h^2$ & - \\
+r_o,r_i,c_m & cable constants per unit length (sheet 4) & $\Omega$/cm, $\mu$F/cm \\
+g_m & passive membrane conductance & mS/cm$^2$ \\
+\tau_j^n & local truncation error & mV/ms \\
+\xi,\ \beta & amplification factor and spatial wave number & -, cm$^{-1}$ \\
+x & gate variable in (5.14) ($m$, $h$ or $n$) & - \\
+\alpha_x,\beta_x & gate rate constants (sheet 2) & ms$^{-1}$ \\
+V_m & absolute membrane potential & mV \\
+v_{APG} & APG waveform imposed at $x=0$ (lecturer's drive) & mV \\
+}
+\end{document}

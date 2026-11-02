@@ -1,0 +1,78 @@
+\documentclass[border=14pt,varwidth=18.5cm]{standalone}
+\input{preamble}
+\renewcommand{\theequation}{4.\arabic{equation}}
+\begin{document}
+\sheettitle{Cable Equation Derivation for Action Potential Propagation}
+
+\sect{Discretized axon (RC transmission line, lecturer week 9)}
+\begin{center}
+\begin{circuitikz}[scale=0.82, transform shape]
+  % outside rail
+  \draw (-3.3,3.4) -- (0.8,3.4) to[R, l=$r_o\Delta x$] (4.2,3.4) -- (5.8,3.4) to[R, l=$r_o\Delta x$] (9.2,3.4) -- (10.8,3.4) to[R, l=$r_o\Delta x$] (14.2,3.4) -- (15.2,3.4);
+  % inside rail
+  \draw (-3.3,0) -- (0.8,0) to[R, l_=$r_i\Delta x$] (4.2,0) -- (5.8,0) to[R, l_=$r_i\Delta x$] (9.2,0) -- (10.8,0) to[R, l_=$r_i\Delta x$] (14.2,0) -- (15.2,0);
+  % membrane elements at x, x+dx, x+2dx
+  \foreach \xx/\lab in {0/x, 5/x{+}\Delta x, 10/x{+}2\Delta x}{
+    \draw (\xx-0.8,3.4) to[C, l_=$c_m\Delta x$] (\xx-0.8,0);
+    \draw (\xx+0.8,3.4) to[R, l=$g_m\Delta x$] (\xx+0.8,0);
+    \node at (\xx,-0.8) {$\lab$};
+  }
+  \draw[->, thick] (1.7,0.6) -- node[above]{$i(x)$} (3.3,0.6);
+  \draw[->, thick] (6.7,0.6) -- node[above]{$i(x{+}\Delta x)$} (8.3,0.6);
+  \draw[->, thick] (-2.9,2.6) -- node[left]{$i_m(x)$} (-2.9,0.8);
+  \node at (6.3,4.45) {\textbf{Outside}};
+  \node at (6.3,-1.45) {\textbf{Inside}};
+\end{circuitikz}
+\end{center}
+In the active (HH) cable every membrane element $(c_m,\ g_m)$ is replaced by the HH circuit of sheet 1.
+
+\sect{Step 1 - Ohm's law along the axis}
+\begin{align}
+v(x+\Delta x,t)-v(x,t) &= -\,i(x,t)\,(r_o+r_i)\,\Delta x \\
+\lim_{\Delta x\to 0}\ \frac{v(x+\Delta x)-v(x)}{\Delta x} &= \frac{\partial v}{\partial x} = -\,(r_o+r_i)\,i
+\end{align}
+
+\sect{Step 2 - Kirchhoff's current law at a node}
+\begin{align}
+i(x+\Delta x,t)-i(x,t) &= -\,i_m(x,t)\,\Delta x,\qquad i_m = c_m\frac{\partial v}{\partial t}+i_{ion} \\
+\frac{\partial i}{\partial x} &= -\Big(c_m\frac{\partial v}{\partial t}+i_{ion}\Big)
+\end{align}
+
+\sect{Step 3 - eliminate the axial current}
+Differentiating (4.2) with respect to $x$ and substituting (4.4):
+\begin{equation}
+\hlbox{\frac{\partial^2 v}{\partial x^2} = (r_o+r_i)\Big(c_m\frac{\partial v}{\partial t}+i_{ion}\Big)}
+\end{equation}
+
+\sect{Step 4 - explicit form used by the program}
+\begin{equation}
+\hlbox{\frac{\partial v}{\partial t} = D\,\frac{\partial^2 v}{\partial x^2} - \frac{i_{ion}}{c_m}
+= D\,\frac{\partial^2 v}{\partial x^2} + \frac{J_{in}-J_{ion}}{C_m},\qquad D=\frac{1}{(r_o+r_i)\,c_m}}
+\end{equation}
+\begin{align}
+r_i &= \frac{R_i}{\pi a^2},\qquad c_m = 2\pi a\,C_m,\qquad i_{ion} = 2\pi a\,J_{ion} \\
+J_{ion} &= \begin{cases} J_{Na}+J_K+J_L & \text{active HH cable (propagating AP)}\\ g_m\,v & \text{passive RC cable (electrotonic decay)}\end{cases}
+\end{align}
+The lecture slide writes the coefficient as $\big[(r_o+r_i)\,C_m\big]^{-1}$ with $C_m$ the
+capacitance per unit length (the $c_m$ of this sheet, e.g.\ $1.6\times10^{-9}$ mF/mm), which is the same $D$. For the passive cable the steady spread decays as $e^{-x/\lambda}$ with
+$\lambda=\sqrt{1/\big(2\pi a\,g_m\,(r_o+r_i)\big)}$.
+
+\nomtable{
+x,\ \Delta x & position along the axon and segment length (displayed in mm by the program) & cm \\
+r_o,\ r_i & external and internal (axial) resistance per unit length & $\Omega$/cm \\
+i & axial current & $\mu$A \\
+c_m & membrane capacitance per unit length, $2\pi a C_m$ & $\mu$F/cm \\
+g_m & membrane conductance of the passive cable & mS/cm$^2$ \\
+i_m & membrane current per unit length & $\mu$A/cm \\
+v & membrane potential displacement from rest & mV \\
+t & time & ms \\
+i_{ion} & ionic membrane current per unit length & $\mu$A/cm \\
+D & diffusion coefficient of the cable & cm$^2$/ms \\
+J_{in},\ J_{ion} & stimulus and ionic current densities & $\mu$A/cm$^2$ \\
+C_m & membrane capacitance per unit area & $\mu$F/cm$^2$ \\
+R_i & specific resistivity of the axoplasm & $\Omega\,$cm \\
+a & axon radius & cm \\
+J_{Na},J_K,J_L & HH ionic current densities (sheet 1) & $\mu$A/cm$^2$ \\
+\lambda & passive length constant & cm \\
+}
+\end{document}

@@ -1,0 +1,58 @@
+\documentclass[border=14pt,varwidth=18.5cm]{standalone}
+\input{preamble}
+\renewcommand{\theequation}{6.\arabic{equation}}
+\begin{document}
+\sheettitle{Analysis Definitions: Spike, Inter-Pulse Interval, Refractory Threshold and Conduction Velocity}
+
+\sect{Action potential (spike) detection}
+\begin{align}
+t_{c,i} &= \text{instant of the $i$-th upward crossing of } V_m = 0\ \text{mV},\qquad
+V_{peak,i} = \max_{t\in[t_{c,i},\,t_{d,i}]} V_m(t),\quad t_{p,i}=\arg\max
+\end{align}
+where $t_{d,i}$ is the next downward crossing. Graded responses that stay below 0~mV are not counted.
+
+\sect{Inter-pulse interval and firing frequency (tab 4)}
+\begin{align}
+\mathrm{ISI}_i &= t_{p,i}-t_{p,i-1},\qquad
+\hlbox{\overline{\mathrm{ISI}}(J_{in}) = \frac{1}{N_s}\sum_{t_{p,i-1}\ge t_{dis}}\mathrm{ISI}_i,\qquad f = \frac{1000}{\overline{\mathrm{ISI}}}\ \text{Hz}}
+\end{align}
+A constant $J_{in}$ is applied from $t=0$; spikes before $t_{dis}$ (transient) are discarded. Larger $|J_{in}|$ charges $C_m$ faster
+after each spike, so the threshold is reached earlier and $\overline{\mathrm{ISI}}$ decreases: the input level programs the inter-pulse interval.
+
+\sect{Refractory period (paired-pulse protocol, tab 3)}
+\begin{align}
+J_{th,0} &= \min\{\,|J|:\ \text{one pulse of width } w \text{ evokes an AP}\,\}\qquad\text{(rested threshold)} \\
+J_{th}(\Delta T) &= \min\{\,|J_2|:\ \text{the test pulse at } t_{on}+\Delta T \text{ evokes a second AP}\,\} \\
+&\hlbox{\text{absolute: } J_{th}(\Delta T)>|J_2|_{max};\qquad \text{relative: } J_{th,0}<J_{th}(\Delta T)\ \text{and}\ J_{th}\le 1.05\,J_{th,0}\ \text{marks its end}}
+\end{align}
+Both thresholds are found by bisection on $[0,\ |J_2|_{max}]$ with 16 halvings (resolution $|J_2|_{max}/2^{16}$).
+
+\sect{Conduction velocity and passive length constant (tab 5)}
+\begin{align}
+&\hlbox{\theta = \frac{x_{75\%}-x_{25\%}}{t_c(x_{75\%})-t_c(x_{25\%})}\cdot 10\ \ \text{m/s}\quad(\text{cm/ms}\to\text{m/s})} \\
+\lambda &= \sqrt{\frac{1}{2\pi a\,g_m\,(r_o+r_i)}},\qquad \theta \propto \sqrt{a}\ \ \text{(HH 1952, eq. 34)}
+\end{align}
+The crossing time $t_c(x_j)$ is linearly interpolated between the two time levels that bracket $V_m=0$.
+
+\nomtable{
+t_{c,i},t_{d,i} & upward and downward 0 mV crossing times of spike $i$ & ms \\
+V_m & absolute membrane potential & mV \\
+V_{peak,i},t_{p,i} & peak value and peak time of spike $i$ & mV, ms \\
+\mathrm{ISI}_i & inter-spike (inter-pulse) interval & ms \\
+\overline{\mathrm{ISI}} & mean steady interval for a given $J_{in}$ & ms \\
+N_s & number of intervals used in the mean & - \\
+t_{dis} & discarded transient time & ms \\
+f & firing frequency & Hz \\
+J_{in} & constant stimulus current density & $\mu$A/cm$^2$ \\
+J_{th,0} & rested single-pulse threshold & $\mu$A/cm$^2$ \\
+w & pulse width & ms \\
+J_{th},\ \Delta T & test-pulse threshold and onset-to-onset interval & $\mu$A/cm$^2$, ms \\
+J_2,\ t_{on} & test-pulse amplitude and conditioning-pulse onset & $\mu$A/cm$^2$, ms \\
+|J_2|_{max} & largest test amplitude searched & $\mu$A/cm$^2$ \\
+\theta & conduction velocity & m/s \\
+x_{25\%},x_{75\%} & nodes at 25 \% and 75 \% of the axon length & cm \\
+\lambda & passive length constant & cm \\
+a & axon radius & cm \\
+g_m,r_o,r_i & passive conductance and axial resistances (sheet 4) & mS/cm$^2$, $\Omega$/cm \\
+}
+\end{document}

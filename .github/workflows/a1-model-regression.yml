@@ -1,0 +1,80 @@
+# Regression test for the numerical core of Assignment 1 (HHModel.pas).
+#
+# The VCL front end cannot be built on GitHub-hosted runners (it needs
+# Windows + RAD Studio, and the Community Edition licence is per developer),
+# so CI compiles only the UI-independent unit with Free Pascal in Delphi mode,
+# compares the harness output with the committed golden file, and then
+# cross-checks the same quantities against independent Python references.
+
+name: A1 HH model regression
+
+on:
+  push:
+    paths:
+      - "Assignment 1_HH Model/Program/HHModel.pas"
+      - "Assignment 1_HH Model/Program/Verification/**"
+      - ".github/workflows/a1-model-regression.yml"
+  pull_request:
+    paths:
+      - "Assignment 1_HH Model/Program/HHModel.pas"
+      - "Assignment 1_HH Model/Program/Verification/**"
+      - ".github/workflows/a1-model-regression.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: a1-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fpc-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+        working-directory: "Assignment 1_HH Model/Program/Verification"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install Free Pascal 3.2.2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fp-compiler fp-units-base
+          fpc -iV
+
+      - name: Build verification harness
+        run: fpc -O2 -Fu.. -FU. -FE. TestHH.dpr
+
+      - name: Compare with golden output
+        run: |
+          ./TestHH > actual.txt
+          diff -u --strip-trailing-cr TestHH_output.txt actual.txt
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Cross-check with the independent Python references
+        run: |
+          python -m pip install --quiet numpy
+          python crosscheck.py actual.txt | tee crosscheck.txt
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "### Assignment 1 numerical core"
+            echo
+            if [ -f crosscheck.txt ]; then
+              echo '```'
+              cat crosscheck.txt
+              echo '```'
+            else
+              echo "The harness did not reach the cross-check (see the failed step)."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

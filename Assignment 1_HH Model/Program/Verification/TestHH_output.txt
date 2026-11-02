@@ -1,0 +1,51 @@
+gm_rest=0.6773
+ExpRatio(0)=1.000000 ExpRatio(1e-5)=0.99999500 alpha_m(-25)=1.000000 alpha_n(-10)=0.100000
+--- method 0
+J=-2 spikes=0
+J=-3 spikes=1 peak1=32.51 t1=5.85
+J=-5 spikes=1 peak1=34.05 t1=4.23
+J=-7 spikes=6 lastISI=17.140 peak1=34.69 t1=3.61
+J=-10 spikes=7 lastISI=14.640 peak1=35.26 t1=3.14
+J=-20 spikes=9 lastISI=11.560 peak1=36.30 t1=2.50
+J=-40 spikes=11 lastISI=9.210 peak1=37.49 t1=2.09
+J=-100 spikes=1 peak1=40.00 t1=1.72
+staircase spikes: 3.23 28.36 40.01
+--- method 1
+J=-2 spikes=0
+J=-3 spikes=1 peak1=32.51 t1=5.85
+J=-5 spikes=1 peak1=34.06 t1=4.23
+J=-7 spikes=6 lastISI=17.150 peak1=34.69 t1=3.61
+J=-10 spikes=7 lastISI=14.630 peak1=35.27 t1=3.14
+J=-20 spikes=9 lastISI=11.570 peak1=36.30 t1=2.51
+J=-40 spikes=11 lastISI=9.210 peak1=37.49 t1=2.09
+J=-100 spikes=1 peak1=40.01 t1=1.73
+staircase spikes: 3.23 28.36 40.01
+single pulse threshold (0.5ms) = 13.268
+interval 2.0 thr2=Nan peak2(J2=-40)=Nan
+interval 4.0 thr2=Nan peak2(J2=-40)=Nan
+interval 6.0 thr2=161.690 peak2(J2=-40)=Nan
+interval 8.0 thr2=73.090 peak2(J2=-40)=Nan
+interval 10.0 thr2=42.191 peak2(J2=-40)=Nan
+interval 12.0 thr2=26.314 peak2(J2=-40)=33.99
+interval 15.0 thr2=14.755 peak2(J2=-40)=36.03
+interval 20.0 thr2=11.421 peak2(J2=-40)=36.02
+interval 30.0 thr2=13.466 peak2(J2=-40)=35.75
+steady J=-2 n=0 ISI=Nan
+steady J=-3 n=1 ISI=Nan
+steady J=-5 n=1 ISI=Nan
+steady J=-7 n=12 ISI=17.145
+steady J=-10 n=14 ISI=14.636
+steady J=-20 n=18 ISI=11.565
+steady J=-40 n=22 ISI=9.207
+steady J=-100 n=1 ISI=Nan
+cable active: D=0.3362 r=0.3362 N=61 frames=601 vel=12.037 lambda=0.7047 peak0=34.1 peakMid=33.0 tc15=1.735 tc45=4.227
+cable passive: vel=Nan peak0=-35.23 p5=-56.30 p10=-65.30 p15=-68.14
+dx=0.05 stable=FALSE r=1.345
+dx=0.05 dt=0.0025 vel=12.247
+T=18.5 vel=18.224
+CN squid: stable=TRUE vel=12.086 peakMid=33.08
+CN squid dx=0.05 dt=0.01: r=1.345 stable=TRUE vel=12.116
+pulse train x3: frames=2251 vel=12.037 last frame Vm(mid)=-73.19
+lecturer passive APG drive scheme 0: r=0.0441 lambda(mm)=1.021 peaks 35.3 -9.5 -32.7 -45.0 -50.4 -51.9
+lecturer passive APG drive scheme 1: r=0.0441 lambda(mm)=1.021 peaks 35.3 -9.6 -32.8 -45.0 -50.5 -51.9
+lecturer active APG drive CN dx=0.1mm (r>0.5): vel=1.947 peakEnd=37.03

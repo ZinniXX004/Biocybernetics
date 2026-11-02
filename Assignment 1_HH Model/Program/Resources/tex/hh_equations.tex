@@ -1,0 +1,53 @@
+\documentclass[border=14pt,varwidth=18cm]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\definecolor{head}{HTML}{0072B2}
+\begin{document}
+\setlength{\parindent}{0pt}
+{\large\bfseries\color{head} 1. Hodgkin--Huxley membrane (lecturer week-9 notation, HH 1952 sign convention)}\par\medskip
+\begin{align}
+C_m\frac{dv}{dt} &= J_{in} - \left(J_{Na}+J_K+J_L\right) \\
+J_{Na} &= \bar g_{Na}\,m^{3}h\,(v-v_{Na}),\qquad
+J_{K} = \bar g_{K}\,n^{4}(v-v_{K}),\qquad
+J_{L} = \bar g_{L}\,(v-v_{L}) \\
+\frac{dx}{dt} &= \alpha_x(1-x)-\beta_x x = -x(\alpha_x+\beta_x)+\alpha_x,\qquad x\in\{m,h,n\} \\
+x_\infty &= \frac{\alpha_x}{\alpha_x+\beta_x},\qquad \tau_x=\frac{1}{\alpha_x+\beta_x} \\
+V_m &= -(v+70)\ \text{mV}\qquad\text{(output alignment; depolarization is negative } v\text{)}
+\end{align}
+{\large\bfseries\color{head} 2. Voltage-dependent rate constants (ms$^{-1}$, $v$ in mV)}\par\medskip
+\begin{align}
+\alpha_m &= \frac{0.1(v+25)}{e^{0.1v+2.5}-1}, & \beta_m &= 4\,e^{v/18} \\
+\alpha_h &= 0.07\,e^{v/20}, & \beta_h &= \frac{1}{e^{0.1v+3}+1} \\
+\alpha_n &= \frac{0.01(v+10)}{e^{0.1v+1}-1}, & \beta_n &= 0.125\,e^{v/80}
+\end{align}
+Removable singularities: $\lim_{v\to-25}\alpha_m=1$ and $\lim_{v\to-10}\alpha_n=0.1$, evaluated with
+$x/(e^{x}-1)\approx 1-\tfrac{x}{2}+\tfrac{x^{2}}{12}$ for $|x|<10^{-4}$. Temperature: every rate is multiplied by
+$\phi=3^{(T-6.3)/10}$.\par\bigskip
+{\large\bfseries\color{head} 3. Fourth-order Runge--Kutta (state vector $\mathbf{Y}=[v,m,h,n]^{T}$, step $\Delta t$)}\par\medskip
+\begin{align}
+\mathbf{K}_1 &= \mathbf{F}(t_k,\mathbf{Y}_k), &
+\mathbf{K}_2 &= \mathbf{F}\!\left(t_k+\tfrac{\Delta t}{2},\,\mathbf{Y}_k+\tfrac{\Delta t}{2}\mathbf{K}_1\right), \\
+\mathbf{K}_3 &= \mathbf{F}\!\left(t_k+\tfrac{\Delta t}{2},\,\mathbf{Y}_k+\tfrac{\Delta t}{2}\mathbf{K}_2\right), &
+\mathbf{K}_4 &= \mathbf{F}(t_k+\Delta t,\,\mathbf{Y}_k+\Delta t\,\mathbf{K}_3), \\
+\mathbf{Y}_{k+1} &= \mathbf{Y}_k+\frac{\Delta t}{6}\left(\mathbf{K}_1+2\mathbf{K}_2+2\mathbf{K}_3+\mathbf{K}_4\right) \notag
+\end{align}
+{\large\bfseries\color{head} 4. Action potential propagation (cable equation, explicit finite differences)}\par\medskip
+\begin{align}
+\frac{\partial^{2} v}{\partial x^{2}} &= (r_o+r_i)\left(c_m\frac{\partial v}{\partial t}+i_{ion}\right)
+\;\Longrightarrow\;
+\frac{\partial v}{\partial t} = \underbrace{\frac{1}{(r_o+r_i)\,c_m}}_{D}\,\frac{\partial^{2} v}{\partial x^{2}}
++\frac{J_{in}-J_{ion}}{C_m} \\
+r_i &= \frac{R_i}{\pi a^{2}},\qquad c_m = 2\pi a\,C_m,\qquad i_{ion}=2\pi a\,J_{ion},\qquad
+J_{ion} = J_{Na}+J_K+J_L\ \text{(active)}\quad\text{or}\quad g_m v\ \text{(passive)} \\
+\frac{\partial^{2} v}{\partial x^{2}} &\approx \frac{v_{j+1}^{k}-2v_{j}^{k}+v_{j-1}^{k}}{h^{2}}
+\ \text{(central)},\qquad
+\frac{\partial v}{\partial t} \approx \frac{v_{j}^{k+1}-v_{j}^{k}}{k_t}\ \text{(forward)} \\
+v_{j}^{k+1} &= v_{j}^{k} + r\left(v_{j+1}^{k}-2v_{j}^{k}+v_{j-1}^{k}\right)
++\frac{k_t}{C_m}\left(J_{in,j}^{k}-J_{ion,j}^{k}\right),\qquad r=\frac{D\,k_t}{h^{2}}\le\frac{1}{2} \\
+\lambda &= \sqrt{\frac{1}{2\pi a\,g_m\,(r_o+r_i)}},\qquad
+\theta = \frac{x_{75\%}-x_{25\%}}{t_{75\%}-t_{25\%}}\quad\text{(conduction velocity)}
+\end{align}
+Sealed ends: $v_{-1}=v_{1}$ and $v_{N}=v_{N-2}$ (zero axial current at both terminals).
+\end{document}

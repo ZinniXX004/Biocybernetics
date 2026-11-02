@@ -1,0 +1,22 @@
+# Line-ending policy
+# Delphi sources keep CRLF on every platform (the RAD Studio IDE and the form
+# designer expect CRLF); verification text files keep LF so that the CI
+# comparison on Linux is byte-exact.
+*.pas      text eol=crlf
+*.dpr      text eol=crlf
+*.dfm      text eol=crlf
+*.dproj    text eol=crlf
+*.inc      text eol=crlf
+
+*.md       text eol=lf
+*.py       text eol=lf
+*.yml      text eol=lf
+*.txt      text eol=lf
+*.csv      text eol=lf
+
+# Binary documents and images
+*.docx     binary
+*.pdf      binary
+*.png      binary
+*.jpg      binary
+*.res      binary

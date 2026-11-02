@@ -1,0 +1,26 @@
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\usepackage{empheq}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[american,siunitx]{circuitikz}
+\definecolor{head}{HTML}{0072B2}
+\definecolor{hl}{HTML}{FFF59D}
+\definecolor{note}{HTML}{555555}
+\newcommand{\sheettitle}[1]{{\Large\bfseries\color{head}#1}\par\smallskip
+  {\small\color{note}Jeremia Christ Immanuel Manalu - 5023231017 - Biocybernetics (EB234701), Class Q}\par\medskip}
+\newcommand{\sect}[1]{\par\medskip{\large\bfseries\color{head}#1}\par\smallskip}
+\newcommand{\hlbox}[1]{\colorbox{hl}{$\displaystyle #1$}}
+\newcommand{\nomtable}[1]{\par\medskip{\large\bfseries\color{head}Notation (in order of appearance)}\par\smallskip
+  \renewcommand{\arraystretch}{1.15}%
+  \begin{tabular}{>{$}l<{$} p{10.6cm} l}
+  \toprule
+  \textrm{\textbf{Symbol}} & \textbf{Meaning} & \textbf{Unit} \\
+  \midrule
+  #1
+  \bottomrule
+  \end{tabular}}
+\setlength{\parindent}{0pt}

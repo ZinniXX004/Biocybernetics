@@ -1,0 +1,58 @@
+\documentclass[border=14pt,varwidth=18.5cm]{standalone}
+\input{preamble}
+\renewcommand{\theequation}{2.\arabic{equation}}
+\begin{document}
+\sheettitle{Gating Kinetics and Rate Constants}
+
+\sect{First-order gate kinetics}
+Each gate $x\in\{m,h,n\}$ is the fraction of open gating particles and obeys
+\begin{align}
+\frac{dx}{dt} &= \alpha_x(v)\,(1-x) - \beta_x(v)\,x = -x\big(\alpha_x+\beta_x\big)+\alpha_x \\
+x_\infty(v) &= \frac{\alpha_x}{\alpha_x+\beta_x},\qquad \tau_x(v)=\frac{1}{\alpha_x+\beta_x} \\
+\Rightarrow\quad &\hlbox{\frac{dx}{dt} = \frac{x_\infty(v)-x}{\tau_x(v)}}
+\end{align}
+Equation (2.3) shows that every gate relaxes towards its steady state $x_\infty$ with time constant $\tau_x$.
+During an action potential $v$ changes faster than $h$ and $n$ can follow, so the trajectory $x(V_m)$ lags behind
+$x_\infty(V_m)$ and forms the loops displayed in tab 2 (Gating Phase Plots).
+
+\sect{Voltage-dependent rate constants (lecturer week-9 form, $v$ in mV, rates in ms$^{-1}$)}
+\begin{align}
+\alpha_m &= \frac{0.1\,(v+25)}{e^{0.1v+2.5}-1}, & \beta_m &= 4\,e^{v/18} \\
+\alpha_h &= 0.07\,e^{v/20}, & \beta_h &= \frac{1}{e^{0.1v+3}+1} \\
+\alpha_n &= \frac{0.01\,(v+10)}{e^{0.1v+1}-1}, & \beta_n &= 0.125\,e^{v/80}
+\end{align}
+
+\sect{Removable singularities of $\alpha_m$ and $\alpha_n$}
+With $u = 0.1v+2.5$ for $\alpha_m$ and $u=0.1v+1$ for $\alpha_n$, both rates contain $u/(e^{u}-1)$, which is $0/0$ at $u=0$:
+\begin{align}
+\alpha_m = \frac{u}{e^{u}-1},\qquad \alpha_n = 0.1\,\frac{u}{e^{u}-1},\qquad
+\lim_{u\to0}\frac{u}{e^{u}-1} \overset{\text{L'H\^opital}}{=} \lim_{u\to0}\frac{1}{e^{u}} = 1
+\end{align}
+\begin{equation}
+\hlbox{\frac{u}{e^{u}-1} \approx 1-\frac{u}{2}+\frac{u^{2}}{12}\quad(|u|<10^{-4})}\quad\Rightarrow\quad
+\alpha_m(-25)=1,\qquad \alpha_n(-10)=0.1
+\end{equation}
+Adding a small constant to the denominator (e.g.\ $+10^{-9}$, as in older reference programs) gives $0$ instead of the
+correct limit at these points.
+
+\sect{Resting state and temperature}
+\begin{align}
+x(0) &= x_\infty(v=0):\qquad m_0=0.0529,\quad h_0=0.5961,\quad n_0=0.3177 \\
+\alpha_x,\beta_x &\;\leftarrow\; \phi\,\alpha_x,\ \phi\,\beta_x,\qquad \phi = 3^{(T-6.3)/10}
+\end{align}
+
+\nomtable{
+x & generic gate variable, $x\in\{m,h,n\}$ & - \\
+t & time & ms \\
+\alpha_x,\ \beta_x & opening and closing rate constants of gate $x$ & ms$^{-1}$ \\
+v & membrane potential displacement from rest (depolarization negative) & mV \\
+x_\infty & steady-state value of gate $x$ & - \\
+\tau_x & time constant of gate $x$ & ms \\
+V_m & absolute membrane potential, $V_m=-(v+70)$ & mV \\
+m,\ h,\ n & Na activation, Na inactivation and K activation gates & - \\
+u & auxiliary argument of $u/(e^{u}-1)$ & - \\
+m_0,h_0,n_0 & resting gate values & - \\
+\phi & temperature factor of all rate constants ($Q_{10}=3$) & - \\
+T & temperature (6.3 $^\circ$C gives $\phi=1$) & $^\circ$C \\
+}
+\end{document}

@@ -1,0 +1,49 @@
+\documentclass[border=14pt,varwidth=18cm]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\definecolor{head}{HTML}{0072B2}
+\begin{document}
+\setlength{\parindent}{0pt}
+{\large\bfseries\color{head} 5. Nomenclature (symbols, meaning, units and default values)}\par\medskip
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{>{$}l<{$} p{9.2cm} l l}
+\toprule
+\textrm{\textbf{Symbol}} & \textbf{Meaning} & \textbf{Unit} & \textbf{Default} \\
+\midrule
+v & membrane potential displacement from rest (HH 1952 sign: depolarization negative) & mV & 0 at rest \\
+V_m & absolute membrane potential, $V_m=-(v+70)$ & mV & $-70$ \\
+J_{in} & injected (stimulus) current density; $J_{in}<0$ depolarizes, $J_{in}>0$ hyperpolarizes & $\mu$A/cm$^2$ & protocol \\
+J_{Na},\,J_K,\,J_L & sodium, potassium and leakage current densities (inward positive) & $\mu$A/cm$^2$ & -- \\
+J_{ion} & total ionic current density $J_{Na}+J_K+J_L$ & $\mu$A/cm$^2$ & -- \\
+C_m & membrane capacitance per unit area & $\mu$F/cm$^2$ & 1 \\
+\bar g_{Na},\,\bar g_K,\,\bar g_L & maximal sodium, potassium and leakage conductances & mS/cm$^2$ & 120, 36, 0.3 \\
+g_{Na},\,g_K & instantaneous conductances $\bar g_{Na}m^3h$ and $\bar g_K n^4$ & mS/cm$^2$ & -- \\
+v_{Na},\,v_K,\,v_L & reversal potentials relative to rest (HH sign) & mV & $-115$, 12, $-10.613$ \\
+m & sodium activation gate & -- & 0.0529 \\
+h & sodium inactivation gate & -- & 0.5961 \\
+n & potassium activation gate & -- & 0.3177 \\
+\alpha_x,\,\beta_x & opening and closing rate constants of gate $x$ & ms$^{-1}$ & eq. (6)--(8) \\
+x_\infty,\,\tau_x & steady-state value and time constant of gate $x$ & --, ms & eq. (4) \\
+T,\ \phi & temperature and rate factor $3^{(T-6.3)/10}$ & $^\circ$C, -- & 6.3, 1 \\
+\Delta t & integration step of RK4 (APG) & ms & 0.01 \\
+\midrule
+x & position along the axon & cm & 0--6 \\
+a & axon radius & $\mu$m & 238 \\
+R_i & specific resistivity of the axoplasm & $\Omega\,$cm & 35.4 \\
+r_i,\ r_o & internal and external resistance per unit length & $\Omega$/cm & 19893, 0 \\
+c_m & membrane capacitance per unit length, $2\pi a C_m$ & $\mu$F/cm & 0.1495 \\
+i_{ion} & membrane ionic current per unit length, $2\pi a J_{ion}$ & $\mu$A/cm & -- \\
+g_m & membrane conductance of the passive cable (resting HH value) & mS/cm$^2$ & 0.6773 \\
+D & diffusion coefficient $1/((r_o+r_i)c_m)$ & cm$^2$/ms & 0.336 \\
+h,\ k_t & spatial and temporal steps of the finite-difference scheme & cm, ms & 0.1, 0.01 \\
+r & diffusion number $D k_t/h^2$ (stability requires $r\le 1/2$) & -- & 0.336 \\
+\lambda & passive length constant & cm & 0.705 \\
+\theta & conduction velocity & m/s & $\approx 12$ (6.3 $^\circ$C) \\
+\bottomrule
+\end{tabular}\par\medskip
+\parbox{17cm}{\small Note: following the lecturer's notation, $h$ is both the sodium inactivation gate and the spatial step, and $x$ is a generic gate in eqs.~(3)--(4) but the position along the axon in eqs.~(11)--(15); the meaning follows from the context.}
+\end{document}

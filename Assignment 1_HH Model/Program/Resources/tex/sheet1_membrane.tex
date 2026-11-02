@@ -1,0 +1,60 @@
+\documentclass[border=14pt,varwidth=18.5cm]{standalone}
+\input{preamble}
+\renewcommand{\theequation}{1.\arabic{equation}}
+\begin{document}
+\sheettitle{Hodgkin-Huxley Equivalent Circuit and Membrane Equations}
+
+\sect{Equivalent circuit of a membrane patch (space clamped)}
+\begin{center}
+\begin{circuitikz}[scale=0.95, transform shape]
+  \draw (0,0) -- (11,0);
+  \draw (0,4) -- (11,4);
+  \draw (0,0) to[american current source, l=$J_{in}$] (0,4);
+  \draw (2.2,4) to[C, l_=$C_m$, i>^=$J_{C}$] (2.2,0);
+  \draw (4.8,4) to[vR, l_=$g_{Na}$, i>^=$J_{Na}$] (4.8,2) to[battery1, l_=$v_{Na}$] (4.8,0);
+  \draw (7.4,4) to[vR, l_=$g_{K}$, i>^=$J_{K}$] (7.4,2) to[battery1, l_=$v_{K}$] (7.4,0);
+  \draw (10,4) to[R, l_=$g_{L}$, i>^=$J_{L}$] (10,2) to[battery1, l_=$v_{L}$] (10,0);
+  \draw (11,4) to[short, -o] (11.8,4) node[right]{$-$};
+  \draw (11,0) to[short, -o] (11.8,0) node[right]{$+$};
+  \draw[<->, thick] (12.6,0.2) -- node[right]{$V_m$ (voltmeter)} (12.6,3.8);
+  \node at (5.5,4.55) {\textbf{Outside axon}};
+  \node at (5.5,-0.55) {\textbf{Inside axon}};
+\end{circuitikz}
+\end{center}
+
+\sect{Current balance (Kirchhoff's current law)}
+\begin{align}
+J_{in} &= J_C + J_{Na} + J_K + J_L,\qquad J_C = C_m\frac{dv}{dt} \\
+\Rightarrow\quad &\hlbox{\frac{dv}{dt} = \frac{1}{C_m}\Big[J_{in} - \big(J_{Na}+J_K+J_L\big)\Big]}
+\end{align}
+
+\sect{Ionic currents and conductances}
+\begin{align}
+J_{Na} &= g_{Na}\,(v - v_{Na}), & g_{Na} &= \bar g_{Na}\, m^{3} h \\
+J_{K}  &= g_{K}\,(v - v_{K}),   & g_{K}  &= \bar g_{K}\, n^{4} \\
+J_{L}  &= g_{L}\,(v - v_{L}),   & g_{L}  &= \bar g_{L} \ \ (\text{constant})
+\end{align}
+
+\sect{Sign convention and output alignment}
+The model follows Hodgkin and Huxley (1952) and the lecturer's week-9 material: $v$ is the displacement
+of the membrane potential from rest, \emph{depolarization is negative}, ionic currents are positive when
+inward, $v_{Na}=-115$~mV, $v_K=+12$~mV and $v_L=-10.613$~mV. A negative $J_{in}$ therefore depolarizes the
+membrane. The absolute membrane voltage displayed by the program is
+\begin{equation}
+\hlbox{V_m = -\,(v + 70)\ \text{mV}}\qquad\big(v=0\ \Rightarrow\ V_m=-70\ \text{mV};\ \ v=-100\ \Rightarrow\ V_m=+30\ \text{mV}\big)
+\end{equation}
+
+\nomtable{
+J_{in} & injected (stimulus) current density; $J_{in}<0$ depolarizes & $\mu$A/cm$^2$ \\
+J_{C} & capacitive current density & $\mu$A/cm$^2$ \\
+C_m & membrane capacitance per unit area ($=1$) & $\mu$F/cm$^2$ \\
+J_{Na},J_K,J_L & sodium, potassium and leakage current densities (inward positive) & $\mu$A/cm$^2$ \\
+v & membrane potential displacement from rest (depolarization negative) & mV \\
+t & time & ms \\
+g_{Na},g_K,g_L & sodium, potassium and leakage conductances & mS/cm$^2$ \\
+v_{Na},v_K,v_L & reversal potentials relative to rest ($-115$, $12$, $-10.613$) & mV \\
+\bar g_{Na},\bar g_K,\bar g_L & maximal conductances ($120$, $36$, $0.3$) & mS/cm$^2$ \\
+m,\ h,\ n & Na activation, Na inactivation and K activation gates & - \\
+V_m & absolute membrane potential (program output) & mV \\
+}
+\end{document}
