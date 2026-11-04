@@ -6,6 +6,40 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 ## [Unreleased]
 
+### 2026-11-05 - Assignment 1 (session 10): design-time form, compact report listings, demo handout
+
+#### Changed
+
+- UI v4.3: the whole visual design of the main window moved into
+  `Unit1.dfm`, so the lecturer can inspect it in the Form Designer before
+  compiling (ISS-035): 14 charts in 2D with titles, axis titles, grid,
+  legends with check boxes and 48 design-time series (`TFastLineSeries`,
+  `TLineSeries`, `TPointSeries`) in the Okabe-Ito / viridis colours; chart
+  events (`OnZoom`, `OnMouseMove`, ...) bound in the form; default rows of
+  the five parameter tables; the model summary memo; the rendered
+  equations of tab 6 (`imgEquations`, `imgNomenclature`, PNG stored in the
+  form). The student's own layout changes in the form were kept.
+- `Unit1.pas`: `SetupChart`, `StyleAxis`, `SetRightAxisColor`, `AddLine`,
+  `AddMarkedLine`, `AddPoints`, `InitRefEditor`, `InitISIEditor` and
+  `LoadEquationImages` removed; `RegisterChart` only joins a chart to the
+  zoom/export logic; plotting fills the design-time series, `ClearChart`
+  clears points instead of freeing series (no series is created or freed
+  at run time any more, see ISS-020). Numerical results are unchanged
+  (`HHModel.pas` untouched, CI golden output unchanged).
+- `Equations.rc`: `EQUATIONS_PNG` and `NOMENCLATURE_PNG` removed (now in
+  the form).
+- Report: every code line carries its line number in the source file;
+  code at 8 pt (token styles were 10.5 pt); routines of the form shortened
+  with `{ lines a-b omitted: ... }` comments, numerical routines complete;
+  Section 2.2.1 describes the design-time form with a `Unit1.dfm` excerpt
+  (`Report/source/revisions/session10/`). 65 to 51 pages in LibreOffice.
+- READMEs: live CI badge of `ZinniXX004/Biocybernetics`, UI v4.3.
+
+#### Added
+
+- Demo handout (Claude Docs, bilingual) and the Final Project prompt
+  template (claude.ai project docs, not versioned here).
+
 ### 2026-11-02 - Assignment 1 (session 9): memo table fix, CI cross-check, README redesign
 
 #### Fixed

@@ -9,7 +9,7 @@
 [![Delphi](https://img.shields.io/badge/RAD%20Studio-Delphi%2013%20Florence%20CE-B71C1C)](#build-and-run)
 [![Language](https://img.shields.io/badge/Object%20Pascal-VCL%20%2B%20TeeChart-1565C0)](Program/Unit1.pas)
 [![Numerics](https://img.shields.io/badge/numerics-RK4%20%7C%20FTCS%20%7C%20Crank--Nicolson-2E7D32)](#numerical-methods)
-[![CI](https://img.shields.io/badge/CI-FPC%20golden%20%2B%20Python%20cross--check-6A1B9A)](#verification-and-ci)
+[![A1 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml)
 [![Report](https://img.shields.io/badge/report-English%2C%20IEEE-455A64)](Report/)
 
 [Overview](#overview) ·
@@ -39,7 +39,7 @@
 | **Course**   | Biocybernetics (EB234701), Class Q, Department of Biomedical Engineering, ITS |
 | **Student**  | Jeremia Christ Immanuel Manalu (5023231017)                                   |
 | **Lecturer** | Dr. Achmad Arifin, S.T., M.Eng.                                               |
-| **Program**  | `HHSimulator`, UI v4.2: six tabs, six derivation windows, CSV and PNG export  |
+| **Program**  | `HHSimulator`, UI v4.3: six tabs, six derivation windows, CSV and PNG export  |
 | **Model**    | Hodgkin and Huxley (1952), squid giant axon, original sign convention         |
 | **Status**   | Submitted on MyITS Classroom; the program and the report are maintained here  |
 
@@ -288,7 +288,7 @@ The VCL front end needs Windows and RAD Studio, so it is built locally only.
 
 ```mermaid
 flowchart TB
-    UI["Unit1.pas / Unit1.dfm<br/>main form: 6 tabs, TeeChart, presets, export"]
+    UI["Unit1.pas / Unit1.dfm<br/>main form: 6 tabs, 14 charts and 48 series<br/>designed in the form, presets, export"]
     CORE["HHModel.pas<br/>rates, RK4, cable solvers (no UI)"]
     EV["EquationViewer.pas<br/>derivation windows"]
     RES["Resources/*.png<br/>linked as RCDATA by Equations.rc"]
@@ -303,7 +303,7 @@ Assignment 1_HH Model/
 ├── Program/
 │   ├── Project1.dpr / .dproj   Delphi 13 VCL project
 │   ├── HHModel.pas             numerical core
-│   ├── Unit1.pas / Unit1.dfm   main form
+│   ├── Unit1.pas / Unit1.dfm   main form (charts, series, tables designed in the .dfm)
 │   ├── EquationViewer.pas      sheet windows
 │   ├── Equations.rc            resource script for the sheet images
 │   ├── Resources/              rendered equations and sheets (+ tex/ sources)

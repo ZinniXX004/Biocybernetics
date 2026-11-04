@@ -10,7 +10,7 @@
 [![Course](https://img.shields.io/badge/course-EB234701%20Biocybernetics-0D47A1)](#about)
 [![Class](https://img.shields.io/badge/class-Q%20%28English%29-00838F)](#about)
 [![Delphi](https://img.shields.io/badge/RAD%20Studio-Delphi%2013%20Florence%20CE-B71C1C)](#tech-stack)
-[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-6A1B9A)](#continuous-integration)
+[![A1 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml)
 [![Assignments](https://img.shields.io/badge/assignments-1%20of%205%20done-2E7D32)](#assignments)
 
 [About](#about) ·
@@ -118,7 +118,7 @@ flowchart LR
 | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | [`a1-model-regression.yml`](.github/workflows/a1-model-regression.yml) | Assignment 1: HH membrane (RK4), refractory sweep, C-F curve, cable (FTCS, Crank-Nicolson, APG drive) |
 
-Run history: [Actions](../../actions).
+Run history: [Actions](https://github.com/ZinniXX004/Biocybernetics/actions).
 
 <p align="right"><sub><a href="#top">Back to top</a></sub></p>
 

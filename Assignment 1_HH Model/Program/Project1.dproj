@@ -123,15 +123,15 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <RcCompile Include="Equations.rc">
+            <Form>Equations.res</Form>
+        </RcCompile>
         <DCCReference Include="HHModel.pas"/>
         <DCCReference Include="EquationViewer.pas"/>
         <DCCReference Include="Unit1.pas">
             <Form>Form1</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <RcCompile Include="Equations.rc">
-            <Form>Equations.res</Form>
-        </RcCompile>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

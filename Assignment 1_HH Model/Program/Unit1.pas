@@ -1,7 +1,7 @@
 unit Unit1;
 
 {
-  Unit1.pas - Main form of the Hodgkin-Huxley neuron simulator (UI v4.2).
+  Unit1.pas - Main form of the Hodgkin-Huxley neuron simulator (UI v4.3).
 
   Course : Biocybernetics (EB234701), Class Q - Assignment 1
   Author : Jeremia Christ Immanuel Manalu (5023231017)
@@ -29,8 +29,12 @@ unit Unit1;
       blue, leakage uses green, the stimulus uses grey.
     - Line width adapts to the number of series in a chart (2 px for up to
       four series, 1 px otherwise); emphasised series keep 3 px.
-    - Every chart: bold title, axis titles with units, light grid, legend at
-      the bottom with check boxes (click to hide/show a series).
+    - Every chart is designed in Unit1.dfm (visible in the Form Designer):
+      2D, bold title, axis titles with units, light grid, legend at the
+      bottom with check boxes (click to hide/show a series) and its series
+      with their colours. The code only fills the series with data; the
+      parameter editors, the model summary and the rendered equations of
+      tab 6 are also part of the form.
     - Interaction: drag right-down = zoom box, drag left-up or double-click =
       reset, right-drag = pan, mouse wheel = zoom at the cursor (Shift +
       wheel = time axis only), toolbar buttons act on the chart under the
@@ -55,6 +59,10 @@ uses
   Vcl.ComCtrls, Vcl.Grids, Vcl.ValEdit, Vcl.Clipbrd, Vcl.Imaging.pngimage,
   VCLTee.TeEngine, VCLTee.TeeProcs, VCLTee.Chart, VCLTee.Series, HHModel,
   EquationViewer;
+
+const
+  { recording sites (and Vm(x) snapshots) designed on the form in tab 5 }
+  C_MAX_SITES = 8;
 
 type
   { Visual role of a flat (TPanel-based) button }
@@ -95,18 +103,37 @@ type
     splAPG: TSplitter;
     gpAPG: TGridPanel;
     chtVm: TChart;
+    serVm: TFastLineSeries;
+    serJin: TFastLineSeries;
     chtCurrents: TChart;
+    serJNa: TFastLineSeries;
+    serJK: TFastLineSeries;
+    serJL: TFastLineSeries;
     chtGates: TChart;
+    serM: TFastLineSeries;
+    serH: TFastLineSeries;
+    serN: TFastLineSeries;
     chtConductance: TChart;
+    serGNa: TFastLineSeries;
+    serGK: TFastLineSeries;
     pnlPhaseTop: TPanel;
     btnTheoryPhase: TPanel;
     btnClearPhase: TPanel;
     lblPhaseInfo: TLabel;
     gpPhase: TGridPanel;
     chtPhaseM: TChart;
+    serTrajM: TPointSeries;
+    serInfM: TFastLineSeries;
     chtPhaseH: TChart;
+    serTrajH: TPointSeries;
+    serInfH: TFastLineSeries;
     chtPhaseN: TChart;
+    serTrajN: TPointSeries;
+    serInfN: TFastLineSeries;
     chtTau: TChart;
+    serTauM: TFastLineSeries;
+    serTauH: TFastLineSeries;
+    serTauN: TFastLineSeries;
     pnlRefLeft: TPanel;
     vleRef: TValueListEditor;
     pnlRefButtons: TPanel;
@@ -121,7 +148,13 @@ type
     splRef: TSplitter;
     gpRef: TGridPanel;
     chtRefThreshold: TChart;
+    serRefThr: TLineSeries;
+    serRefBase: TLineSeries;
+    serRefPeak: TLineSeries;
     chtRefExample: TChart;
+    serRefEx1: TFastLineSeries;
+    serRefEx2: TFastLineSeries;
+    serRefEx3: TFastLineSeries;
     pnlISILeft: TPanel;
     vleISI: TValueListEditor;
     pnlISIButtons: TPanel;
@@ -133,7 +166,12 @@ type
     splISI: TSplitter;
     gpISI: TGridPanel;
     chtISI: TChart;
+    serISI: TLineSeries;
+    serFreq: TLineSeries;
     chtISITraces: TChart;
+    serTraceA: TFastLineSeries;
+    serTraceB: TFastLineSeries;
+    serTraceC: TFastLineSeries;
     pnlAPPLeft: TPanel;
     rgCableMode: TRadioGroup;
     rgAPPDrive: TRadioGroup;
@@ -158,7 +196,25 @@ type
     lblAPPTime: TLabel;
     gpAPP: TGridPanel;
     chtAPPTime: TChart;
+    serSite1: TFastLineSeries;
+    serSite2: TFastLineSeries;
+    serSite3: TFastLineSeries;
+    serSite4: TFastLineSeries;
+    serSite5: TFastLineSeries;
+    serSite6: TFastLineSeries;
+    serSite7: TFastLineSeries;
+    serSite8: TFastLineSeries;
+    serTimeCursor: TLineSeries;
     chtAPPSpace: TChart;
+    serSnap1: TFastLineSeries;
+    serSnap2: TFastLineSeries;
+    serSnap3: TFastLineSeries;
+    serSnap4: TFastLineSeries;
+    serSnap5: TFastLineSeries;
+    serSnap6: TFastLineSeries;
+    serSnap7: TFastLineSeries;
+    serSnap8: TFastLineSeries;
+    serLiveProfile: TFastLineSeries;
     pnlAPPView: TPanel;
     pnlAPPViewTools: TPanel;
     rgAPPView: TRadioGroup;
@@ -223,6 +279,11 @@ type
     procedure btnClearRefClick(Sender: TObject);
     procedure btnClearISIClick(Sender: TObject);
     procedure btnClearAPPClick(Sender: TObject);
+    { chart events, assigned to every chart in Unit1.dfm }
+    procedure ChartMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure ChartDblClick(Sender: TObject);
+    procedure ChartZoomed(Sender: TObject);
+    procedure ChartUnzoomed(Sender: TObject);
   private
     FFmt: TFormatSettings;
     FAPG: TAPGResult;
@@ -237,8 +298,6 @@ type
     FSpaceCacheKey: string;     // view|yaw|pitch|width|height|run of the cache
     FCableRunId: Integer;       // incremented by every APP run
     FHeatRect: TRect;
-    FLiveProfile: TFastLineSeries;
-    FTimeMarker: TLineSeries;
     FRefInterval, FRefThreshold, FRefPeak: TDoubleArray;
     FRefBaseline: Double;
     FISIJin, FISIValue: TDoubleArray;
@@ -247,7 +306,11 @@ type
     FSyncing: Boolean;
     FCharts: array of TChart;
     FActiveTarget: TControl;
+    { design-time series of Unit1.dfm grouped for loops }
     FRefExSeries: array[0..2] of TFastLineSeries;
+    FTraceSeries: array[0..2] of TFastLineSeries;
+    FSiteSeries: array[0..C_MAX_SITES - 1] of TFastLineSeries;
+    FSnapSeries: array[0..C_MAX_SITES - 1] of TFastLineSeries;
     FLogFile: string;
     FLastErrorText: string;
     FLastErrorTick: Cardinal;
@@ -262,7 +325,6 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure AppException(Sender: TObject; E: Exception);
     procedure AppendLog(const ALevel, AMsg: string);
-    procedure LoadEquationImages;
     procedure PlotPhase(const AParams: THHParams);
     function SheetForControl(Sender: TObject): Integer;
     function SheetForActiveTab: Integer;
@@ -276,8 +338,6 @@ type
     procedure InitModelEditor;
     procedure InitAPGStore;
     procedure RebuildAPGEditor;
-    procedure InitRefEditor;
-    procedure InitISIEditor;
     procedure InitAPPEditor;
     procedure SetupEditor(AEditor: TValueListEditor);
     procedure AddParam(AEditor: TValueListEditor; const AKey: string;
@@ -287,24 +347,11 @@ type
     function ReadModelParams: THHParams;
     function SelectedMethod: TIntegrator;
     function FloatText(const AValue: Double; const ADigits: Integer = 3): string;
-    { chart styling }
-    procedure SetupChart(AChart: TChart; const ATitle, AXTitle, AYTitle: string;
-      AGroup: Integer);
-    procedure StyleAxis(AAxis: TChartAxis);
-    procedure SetRightAxisColor(AChart: TChart; AColor: TColor);
-    function AddLine(AChart: TChart; const ATitle: string; AColor: TColor;
-      AOnRightAxis: Boolean = False): TFastLineSeries;
-    function AddMarkedLine(AChart: TChart; const ATitle: string;
-      AColor: TColor; AOnRightAxis: Boolean = False): TLineSeries;
-    function AddPoints(AChart: TChart; const ATitle: string;
-      AColor: TColor): TPointSeries;
+    { charts (titles, axes, legends and series are designed in Unit1.dfm) }
+    procedure RegisterChart(AChart: TChart; AGroup: Integer);
     procedure FinishChart(AChart: TChart);
     procedure ClearChart(AChart: TChart);
     { chart interaction }
-    procedure ChartMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure ChartDblClick(Sender: TObject);
-    procedure ChartZoomed(Sender: TObject);
-    procedure ChartUnzoomed(Sender: TObject);
     procedure SpaceTimeMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SetActiveTarget(AControl: TControl);
@@ -371,7 +418,8 @@ const
   C_LOG_NAME = 'HHSimulator_error.log';
 
 const
-  { Okabe-Ito palette (TColor is $00BBGGRR) }
+  { Okabe-Ito palette (TColor is $00BBGGRR); the same values are the series
+    colours stored in Unit1.dfm }
   C_BLACK = TColor($00000000);
   C_BLUE = TColor($00B27200);        // #0072B2
   C_VERMILLION = TColor($00005ED5);  // #D55E00
@@ -548,84 +596,62 @@ begin
   InitModelEditor;
   InitAPGStore;
   RebuildAPGEditor;
-  InitRefEditor;
-  InitISIEditor;
   InitAPPEditor;
+  // vleRef and vleISI keep the default rows designed in Unit1.dfm
 
-  SetupChart(chtVm, 'Membrane potential and stimulus', 't (ms)', 'Vm (mV)',
-    C_GROUP_APG);
-  chtVm.RightAxis.Title.Caption := 'Jin (uA/cm2)';
-  SetRightAxisColor(chtVm, C_STIM);
-  SetupChart(chtCurrents, 'Ionic current densities (inward positive, HH sign)',
-    't (ms)', 'JNa, JK (uA/cm2)', C_GROUP_APG);
-  chtCurrents.RightAxis.Title.Caption := 'JL (uA/cm2)';
-  SetRightAxisColor(chtCurrents, C_GREEN);
-  SetupChart(chtGates, 'Gating variables', 't (ms)', 'm, h, n (-)',
-    C_GROUP_APG);
-  SetupChart(chtConductance, 'Ionic conductances', 't (ms)', 'g (mS/cm2)',
-    C_GROUP_APG);
-  SetupChart(chtRefThreshold, 'Test-pulse threshold after a conditioning AP',
-    'Interval between pulse onsets (ms)', '|J2| threshold (uA/cm2)',
-    C_GROUP_NONE);
-  chtRefThreshold.RightAxis.Title.Caption := 'Peak Vm of 2nd AP (mV)';
-  SetRightAxisColor(chtRefThreshold, C_VERMILLION);
-  SetupChart(chtRefExample, 'Paired-pulse response at the selected interval',
-    't (ms)', 'Vm (mV)', C_GROUP_NONE);
-  // The example chart keeps three permanent series (only their points are
-  // replaced). Freeing and re-creating a different number of series while
-  // legend check boxes are shown caused an access violation (ISS-020).
-  FRefExSeries[0] := AddLine(chtRefExample, 'Conditioning pulse only', C_STIM);
-  FRefExSeries[1] := AddLine(chtRefExample, 'Test pulse J2 = J1', C_BLUE);
-  FRefExSeries[2] := AddLine(chtRefExample, 'Test pulse J2 = 1.05 x threshold',
-    C_VERMILLION);
-  SetupChart(chtPhaseM, 'Na activation m vs Vm', 'Vm (mV)', 'm (-)',
-    C_GROUP_NONE);
-  SetupChart(chtPhaseH, 'Na inactivation h vs Vm', 'Vm (mV)', 'h (-)',
-    C_GROUP_NONE);
-  SetupChart(chtPhaseN, 'K activation n vs Vm', 'Vm (mV)', 'n (-)',
-    C_GROUP_NONE);
-  SetupChart(chtTau, 'Gate time constants tau_x = 1/(alpha_x + beta_x)',
-    'Vm (mV)', 'tau (ms), log scale', C_GROUP_NONE);
-  chtTau.LeftAxis.Logarithmic := True;
-  SetupChart(chtISI, 'Inter-pulse interval programmed by the Jin level',
-    '|Jin| (uA/cm2)', 'Inter-pulse interval (ms)', C_GROUP_NONE);
-  chtISI.RightAxis.Title.Caption := 'Firing frequency (Hz)';
-  SetRightAxisColor(chtISI, C_VERMILLION);
-  SetupChart(chtISITraces, 'Spike trains for three Jin levels', 't (ms)',
-    'Vm (mV)', C_GROUP_NONE);
-  SetupChart(chtAPPTime, 'Vm(t) at recording sites along the axon', 't (ms)',
-    'Vm (mV)', C_GROUP_NONE);
-  SetupChart(chtAPPSpace, 'Vm(x) spatial profile', 'x (mm)', 'Vm (mV)',
-    C_GROUP_NONE);
+  // Titles, axes, legends, colours and series of every chart are designed
+  // in Unit1.dfm; here the charts only join the zoom/export logic.
+  RegisterChart(chtVm, C_GROUP_APG);
+  RegisterChart(chtCurrents, C_GROUP_APG);
+  RegisterChart(chtGates, C_GROUP_APG);
+  RegisterChart(chtConductance, C_GROUP_APG);
+  RegisterChart(chtPhaseM, C_GROUP_NONE);
+  RegisterChart(chtPhaseH, C_GROUP_NONE);
+  RegisterChart(chtPhaseN, C_GROUP_NONE);
+  RegisterChart(chtTau, C_GROUP_NONE);
+  RegisterChart(chtRefThreshold, C_GROUP_NONE);
+  RegisterChart(chtRefExample, C_GROUP_NONE);
+  RegisterChart(chtISI, C_GROUP_NONE);
+  RegisterChart(chtISITraces, C_GROUP_NONE);
+  RegisterChart(chtAPPTime, C_GROUP_NONE);
+  RegisterChart(chtAPPSpace, C_GROUP_NONE);
+  // gaps (no AP at an interval or Jin level) are not bridged by a line
+  serRefThr.TreatNulls := tnDontPaint;
+  serRefPeak.TreatNulls := tnDontPaint;
+  serISI.TreatNulls := tnDontPaint;
+  serFreq.TreatNulls := tnDontPaint;
+  // series used in loops; the example chart keeps three permanent series,
+  // freeing and re-creating series while legend check boxes are shown
+  // caused an access violation (ISS-020)
+  FRefExSeries[0] := serRefEx1;
+  FRefExSeries[1] := serRefEx2;
+  FRefExSeries[2] := serRefEx3;
+  FTraceSeries[0] := serTraceA;
+  FTraceSeries[1] := serTraceB;
+  FTraceSeries[2] := serTraceC;
+  FSiteSeries[0] := serSite1;
+  FSiteSeries[1] := serSite2;
+  FSiteSeries[2] := serSite3;
+  FSiteSeries[3] := serSite4;
+  FSiteSeries[4] := serSite5;
+  FSiteSeries[5] := serSite6;
+  FSiteSeries[6] := serSite7;
+  FSiteSeries[7] := serSite8;
+  FSnapSeries[0] := serSnap1;
+  FSnapSeries[1] := serSnap2;
+  FSnapSeries[2] := serSnap3;
+  FSnapSeries[3] := serSnap4;
+  FSnapSeries[4] := serSnap5;
+  FSnapSeries[5] := serSnap6;
+  FSnapSeries[6] := serSnap7;
+  FSnapSeries[7] := serSnap8;
 
   pbSpaceTime.OnMouseMove := SpaceTimeMouseMove;
   rgAPPViewClick(nil);
   tbViewChange(nil);
   tbRefIntervalChange(nil);
-
-  memModelInfo.Lines.Text :=
-    'Hodgkin-Huxley membrane (lecturer week-9 notation, HH 1952 sign):' + sLineBreak +
-    '  Cm dv/dt = Jin - (JNa + JK + JL)' + sLineBreak +
-    '  JNa = gNa0 m^3 h (v - VNa),  JK = gK0 n^4 (v - VK),  JL = gL0 (v - VL)' + sLineBreak +
-    '  dx/dt = -x (alpha_x + beta_x) + alpha_x,   x = m, h, n' + sLineBreak +
-    '  alpha_m = 0.1(v+25)/(exp(0.1v+2.5)-1),  beta_m = 4 exp(v/18)' + sLineBreak +
-    '  alpha_h = 0.07 exp(v/20),               beta_h = 1/(exp(0.1v+3)+1)' + sLineBreak +
-    '  alpha_n = 0.01(v+10)/(exp(0.1v+1)-1),   beta_n = 0.125 exp(v/80)' + sLineBreak +
-    '  Output alignment: Vm = -(v + 70) mV' + sLineBreak +
-    '  Depolarization is negative v; Jin < 0 depolarizes the membrane.' + sLineBreak +
-    '  Rates are multiplied by phi = 3^((T - 6.3)/10).' + sLineBreak + sLineBreak +
-    'Cable (APP): dv/dt = d2v/dx2 / ((ro+ri) cm) + (Jin - Jion)/Cm' + sLineBreak +
-    '  ri = Ri/(pi a^2),  cm = Cm 2 pi a' + sLineBreak +
-    '  Explicit scheme stable for r = k/((ro+ri) cm h^2) <= 0.5' + sLineBreak +
-    '  Lengths are entered in mm (x, h, axon and stimulated length).' + sLineBreak +
-    sLineBreak +
-    'Derivations: buttons "Sheet 1" to "Sheet 6" on the left open the sheets.' + sLineBreak +
-    sLineBreak +
-    'Chart interaction:' + sLineBreak +
-    '  drag right-down = zoom box, drag left-up or double-click = reset,' + sLineBreak +
-    '  right-drag = pan, wheel = zoom at cursor, Shift + wheel = time axis,' + sLineBreak +
-    '  click a legend check box to hide/show a series, F5 = run active tab.';
-  LoadEquationImages;
+  // tab 6: the rendered equations (imgEquations, imgNomenclature) and the
+  // plain-text summary (memModelInfo, hidden) are designed in Unit1.dfm
 
   PageControl1.ActivePage := tsAPG;
   SetStatus('Ready. Units: ms, mV, uA/cm2, mS/cm2, uF/cm2.');
@@ -802,71 +828,12 @@ begin
   end;
 end;
 
-procedure TForm1.LoadEquationImages;
-
-  function LoadPng(const AName: string; AImage: TImage): Boolean;
-  var
-    LStream: TResourceStream;
-    LPng: TPngImage;
-  begin
-    Result := False;
-    if FindResource(HInstance, PChar(AName), RT_RCDATA) = 0 then
-      Exit;
-    LStream := TResourceStream.Create(HInstance, AName, RT_RCDATA);
-    try
-      LPng := TPngImage.Create;
-      try
-        LPng.LoadFromStream(LStream);
-        AImage.Picture.Assign(LPng);
-        Result := True;
-      finally
-        LPng.Free;
-      end;
-    finally
-      LStream.Free;
-    end;
-  end;
-
-var
-  LOk: Boolean;
-begin
-  // Equations are rendered with LaTeX and linked as RCDATA (Equations.rc).
-  // If the resource is missing the plain-text summary is shown instead.
-  try
-    LOk := LoadPng('EQUATIONS_PNG', imgEquations) and
-      LoadPng('NOMENCLATURE_PNG', imgNomenclature);
-  except
-    on E: Exception do
-    begin
-      AppendLog('WARN', 'Equation images not loaded: ' + E.Message);
-      LOk := False;
-    end;
-  end;
-  if LOk then
-  begin
-    imgEquations.SetBounds(12, 12, imgEquations.Picture.Width,
-      imgEquations.Picture.Height);
-    imgNomenclature.SetBounds(12, imgEquations.Top + imgEquations.Height + 24,
-      imgNomenclature.Picture.Width, imgNomenclature.Picture.Height);
-    memModelInfo.Visible := False;
-    sbEquations.Visible := True;
-  end
-  else
-  begin
-    sbEquations.Visible := False;
-    memModelInfo.Visible := True;
-  end;
-end;
-
 { Parameter editors (TValueListEditor, Key = Value) }
 
 procedure TForm1.SetupEditor(AEditor: TValueListEditor);
 begin
+  // column titles and widths are designed in Unit1.dfm
   AEditor.Strings.Clear;
-  AEditor.TitleCaptions.Clear;
-  AEditor.TitleCaptions.Add('Parameter');
-  AEditor.TitleCaptions.Add('Value');
-  AEditor.ColWidths[0] := 200;
 end;
 
 procedure TForm1.AddParam(AEditor: TValueListEditor; const AKey: string;
@@ -952,32 +919,6 @@ begin
   finally
     vleAPG.Strings.EndUpdate;
   end;
-end;
-
-procedure TForm1.InitRefEditor;
-begin
-  SetupEditor(vleRef);
-  AddParam(vleRef, K_RJ1, -40.0);
-  AddParam(vleRef, K_RPW, 0.5);
-  AddParam(vleRef, K_RI0, 1.0);
-  AddParam(vleRef, K_RI1, 30.0);
-  AddParam(vleRef, K_RIS, 0.5);
-  AddParam(vleRef, K_RJMAX, 500.0);
-  AddParam(vleRef, K_DT, 0.01);
-end;
-
-procedure TForm1.InitISIEditor;
-begin
-  SetupEditor(vleISI);
-  AddParam(vleISI, K_IJ0, 0.0);
-  AddParam(vleISI, K_IJ1, -100.0);
-  AddParam(vleISI, K_IJS, 1.0);
-  AddParam(vleISI, K_ITR, 200.0);
-  AddParam(vleISI, K_IDIS, 50.0);
-  AddParam(vleISI, K_DT, 0.01);
-  AddParam(vleISI, K_ITA, -7.0);
-  AddParam(vleISI, K_ITB, -20.0);
-  AddParam(vleISI, K_ITC, -40.0);
 end;
 
 procedure TForm1.InitAPPEditor;
@@ -1088,111 +1029,18 @@ end;
 
 { Chart styling (series are created at run time; the .dfm only holds charts) }
 
-procedure TForm1.StyleAxis(AAxis: TChartAxis);
-begin
-  AAxis.Title.Font.Name := 'Segoe UI';
-  AAxis.Title.Font.Size := 9;
-  AAxis.Title.Font.Color := C_TEXT;
-  AAxis.LabelsFont.Name := 'Segoe UI';
-  AAxis.LabelsFont.Size := 8;
-  AAxis.LabelsFont.Color := C_LABEL;
-  AAxis.Grid.Color := C_GRID;
-  AAxis.Grid.Style := psSolid;
-end;
-
-procedure TForm1.SetRightAxisColor(AChart: TChart; AColor: TColor);
-begin
-  // a dual-axis chart colours the right axis like the series it carries
-  AChart.RightAxis.Title.Font.Color := AColor;
-  AChart.RightAxis.LabelsFont.Color := AColor;
-  AChart.RightAxis.Grid.Visible := False;
-end;
-
-procedure TForm1.SetupChart(AChart: TChart; const ATitle, AXTitle,
-  AYTitle: string; AGroup: Integer);
+procedure TForm1.RegisterChart(AChart: TChart; AGroup: Integer);
 var
   LCount: Integer;
 begin
+  // Look and series of the chart come from Unit1.dfm (2D, title, axis
+  // titles, legend check boxes, Okabe-Ito colours, OnZoom/OnMouseMove...).
+  // Registration adds it to the zoom, export and synchronisation logic.
   LCount := Length(FCharts);
   SetLength(FCharts, LCount + 1);
   FCharts[LCount] := AChart;
   AChart.Tag := AGroup;
-
-  AChart.View3D := False;
-  AChart.Color := clWhite;
-  AChart.Gradient.Visible := False;
-  AChart.BevelOuter := bvNone;
-  AChart.BackWall.Color := clWhite;
-  AChart.Title.Text.Clear;
-  AChart.Title.Text.Add(ATitle);
-  AChart.Title.Font.Name := 'Segoe UI';
-  AChart.Title.Font.Size := 10;
-  AChart.Title.Font.Style := [fsBold];
-  AChart.Title.Font.Color := C_TEXT;
-  AChart.BottomAxis.Title.Caption := AXTitle;
-  AChart.LeftAxis.Title.Caption := AYTitle;
-  StyleAxis(AChart.BottomAxis);
-  StyleAxis(AChart.LeftAxis);
-  StyleAxis(AChart.RightAxis);
-  AChart.Legend.Alignment := laBottom;
-  AChart.Legend.LegendStyle := lsSeries;
-  AChart.Legend.CheckBoxes := True;
-  AChart.Legend.Frame.Visible := False;
-  AChart.Legend.Font.Name := 'Segoe UI';
-  AChart.Legend.Font.Size := 9;
-  AChart.Legend.Font.Color := C_TEXT;
-  AChart.Zoom.Allow := True;
   AChart.Zoom.Pen.Color := C_BLUE;
-  AChart.Cursor := crCross;
-  AChart.OnMouseMove := ChartMouseMove;
-  AChart.OnDblClick := ChartDblClick;
-  AChart.OnZoom := ChartZoomed;
-  AChart.OnScroll := ChartZoomed;
-  AChart.OnUndoZoom := ChartUnzoomed;
-end;
-
-function TForm1.AddLine(AChart: TChart; const ATitle: string; AColor: TColor;
-  AOnRightAxis: Boolean): TFastLineSeries;
-begin
-  Result := TFastLineSeries.Create(AChart);
-  Result.ParentChart := AChart;
-  Result.Title := ATitle;
-  Result.SeriesColor := AColor;
-  Result.LinePen.Width := C_WIDTH_FEW;
-  if AOnRightAxis then
-    Result.VertAxis := aRightAxis;
-end;
-
-function TForm1.AddMarkedLine(AChart: TChart; const ATitle: string;
-  AColor: TColor; AOnRightAxis: Boolean): TLineSeries;
-begin
-  Result := TLineSeries.Create(AChart);
-  Result.ParentChart := AChart;
-  Result.Title := ATitle;
-  Result.SeriesColor := AColor;
-  Result.Pointer.Visible := True;
-  Result.Pointer.Style := psCircle;
-  Result.Pointer.HorizSize := 3;
-  Result.Pointer.VertSize := 3;
-  Result.TreatNulls := tnDontPaint;
-  if AOnRightAxis then
-    Result.VertAxis := aRightAxis;
-end;
-
-function TForm1.AddPoints(AChart: TChart; const ATitle: string;
-  AColor: TColor): TPointSeries;
-begin
-  // scatter series: one small borderless dot per sample
-  Result := TPointSeries.Create(AChart);
-  Result.ParentChart := AChart;
-  Result.Title := ATitle;
-  Result.SeriesColor := AColor;
-  Result.ColorEachPoint := False;
-  Result.Pointer.Visible := True;
-  Result.Pointer.Style := psCircle;
-  Result.Pointer.HorizSize := 2;
-  Result.Pointer.VertSize := 2;
-  Result.Pointer.Pen.Visible := False;
 end;
 
 procedure TForm1.FinishChart(AChart: TChart);
@@ -1232,22 +1080,18 @@ begin
   end;
   AChart.Legend.Visible := False;
   AChart.Legend.Visible := LShown > 1;
-  AChart.Legend.CheckBoxes := True;
   ResetChart(AChart);
   AChart.Invalidate;
 end;
 
 procedure TForm1.ClearChart(AChart: TChart);
+var
+  LIdx: Integer;
 begin
-  if AChart = chtAPPSpace then
-    FLiveProfile := nil;
-  if AChart = chtAPPTime then
-    FTimeMarker := nil;
-  // legend check boxes are switched off while the series list changes and
-  // switched on again in FinishChart (defensive, see ISS-020)
-  AChart.Legend.CheckBoxes := False;
-  while AChart.SeriesCount > 0 do
-    AChart.Series[0].Free;
+  // the series are designed on the form and kept for the life of the
+  // program; clearing removes their points only (see also ISS-020)
+  for LIdx := 0 to AChart.SeriesCount - 1 do
+    AChart.Series[LIdx].Clear;
 end;
 
 { Chart interaction: active target, read-out, zoom, synchronisation, export }
@@ -1609,41 +1453,30 @@ end;
 
 procedure TForm1.PlotAPG;
 var
-  LVm, LJin, LNa, LK, LL, LM, LH, LN, LgNa, LgK: TFastLineSeries;
   LIdx, LStride: Integer;
 begin
+  // series of the four APG charts are designed in Unit1.dfm; JL (about
+  // +/-25 uA/cm2) is on the right axis because it would be invisible next
+  // to JNa and JK (about +/-800 uA/cm2), Jin is on the right axis of chtVm
   ClearChart(chtVm);
   ClearChart(chtCurrents);
   ClearChart(chtGates);
   ClearChart(chtConductance);
-  LVm := AddLine(chtVm, 'Vm', C_BLACK);
-  LJin := AddLine(chtVm, 'Jin (right axis)', C_STIM, True);
-  LNa := AddLine(chtCurrents, 'JNa', C_VERMILLION);
-  LK := AddLine(chtCurrents, 'JK', C_BLUE);
-  // JL (about +/-25 uA/cm2) would be invisible next to JNa/JK (about
-  // +/-800 uA/cm2), so it gets its own right axis; Jin is already in chtVm.
-  LL := AddLine(chtCurrents, 'JL (right axis)', C_GREEN, True);
-  LM := AddLine(chtGates, 'm (Na activation)', C_VERMILLION);
-  LH := AddLine(chtGates, 'h (Na inactivation)', C_ORANGE);
-  LN := AddLine(chtGates, 'n (K activation)', C_BLUE);
-  LgNa := AddLine(chtConductance, 'gNa = gNa0 m^3 h', C_VERMILLION);
-  LgK := AddLine(chtConductance, 'gK = gK0 n^4', C_BLUE);
-
   // at most about 8000 points per series keeps TeeChart responsive
   LStride := Max(1, FAPG.Count div 8000);
   LIdx := 0;
   while LIdx < FAPG.Count do
   begin
-    LVm.AddXY(FAPG.T[LIdx], FAPG.Vm[LIdx]);
-    LJin.AddXY(FAPG.T[LIdx], FAPG.Jin[LIdx]);
-    LNa.AddXY(FAPG.T[LIdx], FAPG.JNa[LIdx]);
-    LK.AddXY(FAPG.T[LIdx], FAPG.JK[LIdx]);
-    LL.AddXY(FAPG.T[LIdx], FAPG.JL[LIdx]);
-    LM.AddXY(FAPG.T[LIdx], FAPG.M[LIdx]);
-    LH.AddXY(FAPG.T[LIdx], FAPG.H[LIdx]);
-    LN.AddXY(FAPG.T[LIdx], FAPG.N[LIdx]);
-    LgNa.AddXY(FAPG.T[LIdx], FAPG.GNa[LIdx]);
-    LgK.AddXY(FAPG.T[LIdx], FAPG.GK[LIdx]);
+    serVm.AddXY(FAPG.T[LIdx], FAPG.Vm[LIdx]);
+    serJin.AddXY(FAPG.T[LIdx], FAPG.Jin[LIdx]);
+    serJNa.AddXY(FAPG.T[LIdx], FAPG.JNa[LIdx]);
+    serJK.AddXY(FAPG.T[LIdx], FAPG.JK[LIdx]);
+    serJL.AddXY(FAPG.T[LIdx], FAPG.JL[LIdx]);
+    serM.AddXY(FAPG.T[LIdx], FAPG.M[LIdx]);
+    serH.AddXY(FAPG.T[LIdx], FAPG.H[LIdx]);
+    serN.AddXY(FAPG.T[LIdx], FAPG.N[LIdx]);
+    serGNa.AddXY(FAPG.T[LIdx], FAPG.GNa[LIdx]);
+    serGK.AddXY(FAPG.T[LIdx], FAPG.GK[LIdx]);
     Inc(LIdx, LStride);
   end;
   FinishChart(chtVm);
@@ -1658,8 +1491,6 @@ const
   C_VM_TO = 50.0;
   C_VM_STEP = 0.5;
 var
-  LTrajM, LTrajH, LTrajN: TPointSeries;
-  LInfM, LInfH, LInfN, LTauM, LTauH, LTauN: TFastLineSeries;
   LIdx, LStride, LCount: Integer;
   LPhi, LVm, LV: Double;
   LRates: THHRates;
@@ -1673,23 +1504,14 @@ begin
   ClearChart(chtPhaseH);
   ClearChart(chtPhaseN);
   ClearChart(chtTau);
-  LTrajM := AddPoints(chtPhaseM, 'm trajectory (simulation)', C_VERMILLION);
-  LInfM := AddLine(chtPhaseM, 'm_inf(Vm) steady state', C_STIM);
-  LTrajH := AddPoints(chtPhaseH, 'h trajectory (simulation)', C_ORANGE);
-  LInfH := AddLine(chtPhaseH, 'h_inf(Vm) steady state', C_STIM);
-  LTrajN := AddPoints(chtPhaseN, 'n trajectory (simulation)', C_BLUE);
-  LInfN := AddLine(chtPhaseN, 'n_inf(Vm) steady state', C_STIM);
-  LTauM := AddLine(chtTau, 'tau_m', C_VERMILLION);
-  LTauH := AddLine(chtTau, 'tau_h', C_ORANGE);
-  LTauN := AddLine(chtTau, 'tau_n', C_BLUE);
 
   LStride := Max(1, FAPG.Count div 4000);
   LIdx := 0;
   while LIdx < FAPG.Count do
   begin
-    LTrajM.AddXY(FAPG.Vm[LIdx], FAPG.M[LIdx]);
-    LTrajH.AddXY(FAPG.Vm[LIdx], FAPG.H[LIdx]);
-    LTrajN.AddXY(FAPG.Vm[LIdx], FAPG.N[LIdx]);
+    serTrajM.AddXY(FAPG.Vm[LIdx], FAPG.M[LIdx]);
+    serTrajH.AddXY(FAPG.Vm[LIdx], FAPG.H[LIdx]);
+    serTrajN.AddXY(FAPG.Vm[LIdx], FAPG.N[LIdx]);
     Inc(LIdx, LStride);
   end;
 
@@ -1700,12 +1522,12 @@ begin
     LVm := C_VM_FROM + LIdx * C_VM_STEP;
     LV := V_REST_ABS - LVm;            // HH displacement: v = -(Vm + 70)
     LRates := ComputeRates(LV, LPhi);
-    LInfM.AddXY(LVm, LRates.Am / (LRates.Am + LRates.Bm));
-    LInfH.AddXY(LVm, LRates.Ah / (LRates.Ah + LRates.Bh));
-    LInfN.AddXY(LVm, LRates.An / (LRates.An + LRates.Bn));
-    LTauM.AddXY(LVm, 1.0 / (LRates.Am + LRates.Bm));
-    LTauH.AddXY(LVm, 1.0 / (LRates.Ah + LRates.Bh));
-    LTauN.AddXY(LVm, 1.0 / (LRates.An + LRates.Bn));
+    serInfM.AddXY(LVm, LRates.Am / (LRates.Am + LRates.Bm));
+    serInfH.AddXY(LVm, LRates.Ah / (LRates.Ah + LRates.Bh));
+    serInfN.AddXY(LVm, LRates.An / (LRates.An + LRates.Bn));
+    serTauM.AddXY(LVm, 1.0 / (LRates.Am + LRates.Bm));
+    serTauH.AddXY(LVm, 1.0 / (LRates.Ah + LRates.Bh));
+    serTauN.AddXY(LVm, 1.0 / (LRates.An + LRates.Bn));
   end;
   FinishChart(chtPhaseM);
   FinishChart(chtPhaseH);
@@ -1837,7 +1659,6 @@ var
   LParams: THHParams;
   LJ1, LWidth, LI0, LI1, LStep, LJMax, LDt, LPeak, LSign: Double;
   LCount, LIdx, LAbsIdx, LRelIdx: Integer;
-  LThr, LBase, LPk: TLineSeries;
   LLines: TStrings;
 begin
   if FBusy then
@@ -1886,28 +1707,21 @@ begin
     end;
 
     ClearChart(chtRefThreshold);
-    LThr := AddMarkedLine(chtRefThreshold, 'Threshold of test pulse |J2|',
-      C_BLUE);
-    LBase := AddMarkedLine(chtRefThreshold, 'Rested single-pulse threshold',
-      C_STIM);
-    LBase.Pointer.Visible := False;
-    LPk := AddMarkedLine(chtRefThreshold,
-      'Peak of 2nd AP for J2 = J1 (right axis)', C_VERMILLION, True);
     for LIdx := 0 to LCount - 1 do
     begin
       if IsNan(FRefThreshold[LIdx]) then
-        LThr.AddNullXY(FRefInterval[LIdx], 0)
+        serRefThr.AddNullXY(FRefInterval[LIdx], 0)
       else
-        LThr.AddXY(FRefInterval[LIdx], FRefThreshold[LIdx]);
+        serRefThr.AddXY(FRefInterval[LIdx], FRefThreshold[LIdx]);
       if IsNan(FRefPeak[LIdx]) then
-        LPk.AddNullXY(FRefInterval[LIdx], 0)
+        serRefPeak.AddNullXY(FRefInterval[LIdx], 0)
       else
-        LPk.AddXY(FRefInterval[LIdx], FRefPeak[LIdx]);
+        serRefPeak.AddXY(FRefInterval[LIdx], FRefPeak[LIdx]);
     end;
     if not IsNan(FRefBaseline) then
     begin
-      LBase.AddXY(FRefInterval[0], FRefBaseline);
-      LBase.AddXY(FRefInterval[LCount - 1], FRefBaseline);
+      serRefBase.AddXY(FRefInterval[0], FRefBaseline);
+      serRefBase.AddXY(FRefInterval[LCount - 1], FRefBaseline);
     end;
     FinishChart(chtRefThreshold);
 
@@ -2096,7 +1910,6 @@ var
   LParams: THHParams;
   LJ0, LJ1, LJStep, LTRun, LTDis, LDt, LJ, LISI: Double;
   LCount, LIdx, LSpikes, LRheo, LRep, LBlock, LK: Integer;
-  LISISeries, LFreq: TLineSeries;
   LStim: TStimulus;
   LResult: TAPGResult;
   LLines: TStrings;
@@ -2144,19 +1957,16 @@ begin
     end;
 
     ClearChart(chtISI);
-    LISISeries := AddMarkedLine(chtISI, 'Steady inter-pulse interval', C_BLUE);
-    LFreq := AddMarkedLine(chtISI, 'Firing frequency (right axis)',
-      C_VERMILLION, True);
     for LIdx := 0 to LCount - 1 do
       if IsNan(FISIValue[LIdx]) then
       begin
-        LISISeries.AddNullXY(Abs(FISIJin[LIdx]), 0);
-        LFreq.AddNullXY(Abs(FISIJin[LIdx]), 0);
+        serISI.AddNullXY(Abs(FISIJin[LIdx]), 0);
+        serFreq.AddNullXY(Abs(FISIJin[LIdx]), 0);
       end
       else
       begin
-        LISISeries.AddXY(Abs(FISIJin[LIdx]), FISIValue[LIdx]);
-        LFreq.AddXY(Abs(FISIJin[LIdx]), 1000.0 / FISIValue[LIdx]);
+        serISI.AddXY(Abs(FISIJin[LIdx]), FISIValue[LIdx]);
+        serFreq.AddXY(Abs(FISIJin[LIdx]), 1000.0 / FISIValue[LIdx]);
       end;
     FinishChart(chtISI);
 
@@ -2174,8 +1984,8 @@ begin
       LStim.TOff := LTRun + 1.0;
       SimulateAPG(LParams, LStim, LDt, Min(LTRun, 100.0), SelectedMethod,
         LResult);
-      LSeries := AddLine(chtISITraces, Format('Jin = %s uA/cm2',
-        [FloatText(LTraceJ[LK], 1)]), OrderedLineColor(LK, 3));
+      LSeries := FTraceSeries[LK];
+      LSeries.Title := Format('Jin = %s uA/cm2', [FloatText(LTraceJ[LK], 1)]);
       LIdx := 0;
       while LIdx < LResult.Count do
       begin
@@ -2288,7 +2098,7 @@ begin
     LCable.StimDur := ParamValue(vleAPP, K_CDUR);
     LCable.StimLengthCm := ParamValue(vleAPP, K_CSL) / C_MM_PER_CM;
     LCable.GmPassive := ParamValue(vleAPP, K_CGM);
-    LSites := EnsureRange(ParamInt(vleAPP, K_CSITES), 2, 8);
+    LSites := EnsureRange(ParamInt(vleAPP, K_CSITES), 2, C_MAX_SITES);
     LCable.PulseCount := ParamInt(vleAPP, K_CNP);
     LCable.PulseInterval := ParamValue(vleAPP, K_CPI);
     if rgCableMode.ItemIndex = C_MODE_PASSIVE then
@@ -2353,38 +2163,40 @@ var
 begin
   ClearChart(chtAPPTime);
   ClearChart(chtAPPSpace);
-  // a coarse grid cannot have more distinct recording sites than nodes
+  // a coarse grid cannot have more distinct recording sites than nodes;
+  // the form holds C_MAX_SITES site and snapshot series, unused ones hide
   ASites := Min(ASites, FCable.NNodes);
+  for LIdx := 0 to C_MAX_SITES - 1 do
+  begin
+    FSiteSeries[LIdx].Active := LIdx < ASites;
+    FSiteSeries[LIdx].ShowInLegend := LIdx < ASites;
+    FSnapSeries[LIdx].Active := LIdx < ASites;
+    FSnapSeries[LIdx].ShowInLegend := LIdx < ASites;
+  end;
   // Vm(t) at evenly spaced recording sites, coloured by position
   for LIdx := 0 to ASites - 1 do
   begin
     LNode := Round(LIdx * (FCable.NNodes - 1) / (ASites - 1));
-    LSeries := AddLine(chtAPPTime, Format('x = %s mm',
-      [FloatText(FCable.X[LNode] * C_MM_PER_CM, 2)]),
-      OrderedLineColor(LIdx, ASites));
+    LSeries := FSiteSeries[LIdx];
+    LSeries.Title := Format('x = %s mm',
+      [FloatText(FCable.X[LNode] * C_MM_PER_CM, 2)]);
+    LSeries.SeriesColor := OrderedLineColor(LIdx, ASites);
     for LK := 0 to FCable.NSaved - 1 do
       LSeries.AddXY(FCable.T[LK], FCable.Vm[LK][LNode]);
   end;
-  // time cursor (vertical line), excluded from the legend
-  FTimeMarker := TLineSeries.Create(chtAPPTime);
-  FTimeMarker.ParentChart := chtAPPTime;
-  FTimeMarker.Title := 'time cursor';
-  FTimeMarker.SeriesColor := C_STIM;
-  FTimeMarker.ShowInLegend := False;
-  FTimeMarker.Pointer.Visible := False;
+  // serTimeCursor (vertical line, not in the legend) is set in UpdateAPPFrame
   FinishChart(chtAPPTime);
 
   // Vm(x) at evenly spaced instants (thin, coloured by time) + live profile
   for LIdx := 1 to ASites do
   begin
     LFrame := Round(LIdx * (FCable.NSaved - 1) / (ASites + 1));
-    LSeries := AddLine(chtAPPSpace, Format('t = %s ms',
-      [FloatText(FCable.T[LFrame], 2)]), OrderedLineColor(LIdx - 1, ASites));
+    LSeries := FSnapSeries[LIdx - 1];
+    LSeries.Title := Format('t = %s ms', [FloatText(FCable.T[LFrame], 2)]);
+    LSeries.SeriesColor := OrderedLineColor(LIdx - 1, ASites);
     for LK := 0 to FCable.NNodes - 1 do
       LSeries.AddXY(FCable.X[LK] * C_MM_PER_CM, FCable.Vm[LFrame][LK]);
   end;
-  FLiveProfile := AddLine(chtAPPSpace, 'time slider', C_BLACK);
-  FLiveProfile.Tag := C_TAG_EMPH;
   FinishChart(chtAPPSpace);
 end;
 
@@ -2455,26 +2267,20 @@ begin
   FAPPFrame := EnsureRange(tbAPPTime.Position, 0, FCable.NSaved - 1);
   LTime := FCable.T[FAPPFrame];
   lblAPPTime.Caption := Format('t = %s ms', [FloatText(LTime, 2)]);
-  if FLiveProfile <> nil then
-  begin
-    FLiveProfile.BeginUpdate;
-    try
-      FLiveProfile.Clear;
-      for LIdx := 0 to FCable.NNodes - 1 do
-        FLiveProfile.AddXY(FCable.X[LIdx] * C_MM_PER_CM,
-          FCable.Vm[FAPPFrame][LIdx]);
-      FLiveProfile.Title := Format('time slider: t = %s ms',
-        [FloatText(LTime, 2)]);
-    finally
-      FLiveProfile.EndUpdate;
-    end;
+  serLiveProfile.BeginUpdate;
+  try
+    serLiveProfile.Clear;
+    for LIdx := 0 to FCable.NNodes - 1 do
+      serLiveProfile.AddXY(FCable.X[LIdx] * C_MM_PER_CM,
+        FCable.Vm[FAPPFrame][LIdx]);
+    serLiveProfile.Title := Format('time slider: t = %s ms',
+      [FloatText(LTime, 2)]);
+  finally
+    serLiveProfile.EndUpdate;
   end;
-  if FTimeMarker <> nil then
-  begin
-    FTimeMarker.Clear;
-    FTimeMarker.AddXY(LTime, C_VM_LO - 10.0);
-    FTimeMarker.AddXY(LTime, C_VM_HI + 10.0);
-  end;
+  serTimeCursor.Clear;
+  serTimeCursor.AddXY(LTime, C_VM_LO - 10.0);
+  serTimeCursor.AddXY(LTime, C_VM_HI + 10.0);
   RefreshSpaceTime;
 end;
 
@@ -3126,8 +2932,6 @@ begin
 end;
 
 procedure TForm1.btnClearRefClick(Sender: TObject);
-var
-  LIdx: Integer;
 begin
   tmrRefDebounce.Enabled := False;
   SetLength(FRefInterval, 0);
@@ -3135,9 +2939,7 @@ begin
   SetLength(FRefPeak, 0);
   FRefBaseline := NaN;
   ClearChart(chtRefThreshold);
-  // the example chart keeps its three permanent series (ISS-020)
-  for LIdx := Low(FRefExSeries) to High(FRefExSeries) do
-    FRefExSeries[LIdx].Clear;
+  ClearChart(chtRefExample);
   memRef.Clear;
   SetReadout('');
   SetStatus('Tab 3 cleared.');

@@ -36,6 +36,7 @@ confirmation** (requires the lecturer or the student).
 | ISS-032 | A1 / UI              | Tab 5 memo repeated nodes on the 6-node lecturer grid                                      | Resolved           |
 | ISS-033 | A1 / CI              | Python references ran in CI without any assertion                                          | Resolved           |
 | ISS-034 | CI                   | Node 20 removed from GitHub-hosted runners; checkout@v4 / setup-python@v5 outdated          | Resolved           |
+| ISS-035 | A1 / UI              | Charts, series and parameter rows were created at run time, invisible in the Form Designer | Resolved           |
 
 ---
 
@@ -478,3 +479,19 @@ confirmation** (requires the lecturer or the student).
   file tools may not write `.github/workflows/`, so the student copies the
   new workflow file into place before the first push.
 
+### ISS-035 - Visual design created at run time
+- The lecturer checks the form in the Delphi Form Designer before the
+  program is run. Up to UI v4.2 the charts were bare `TChart` objects in
+  `Unit1.dfm`: titles, axes, legends, colours and every series were set or
+  created in `FormCreate` and the plot routines, the parameter tables were
+  filled in code, and the equations of tab 6 were loaded from resources.
+- **Resolution (UI v4.3):** `design10.py` rewrote the IDE-saved form: all
+  chart properties and 48 series as design-time objects, events bound in
+  the form, parameter rows, memo text and equation pictures stored in the
+  form. Only TeeChart properties that appear in DFM files saved by recent
+  Delphi versions (senior projects) or that the old code already set were
+  used. If the IDE reports an unknown property when opening the form,
+  choose Ignore, save, and report the property name.
+- Remaining run-time parts: data of the series, titles that depend on a
+  run (tab 5), colours of a changed number of recording sites, and the
+  heat map / 3D views drawn on `pbSpaceTime`.
