@@ -6,6 +6,53 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 ## [Unreleased]
 
+### 2026-11-09 - Assignment 2: Lagrangian and Hamiltonian Mechanics (sessions 11-13)
+
+#### Added
+
+- `Assignment 2_.../Program/`: my Delphi 13 program (spherical pendulum,
+  Lagrange and Hamilton). `PendulumModel.pas` is the numerical unit without
+  UI code (Lagrange and Hamilton right-hand sides, RK4, energy, conical rate,
+  exact planar period); `Unit1` is the main form with a preset box, the
+  parameter table, a result memo and four charts designed in the form
+  (position of both methods, velocity, momentum, path seen from above);
+  `Unit2` shows the LaTeX-rendered equation sheet (equations used by the
+  program highlighted in yellow), opened with the Equations button or F1.
+  `Project1.dpr` and `Project1.dproj` list the three units.
+- `Program/Verification/TestPendulum.dpr` and `TestPendulum_output.txt`:
+  FPC test of `PendulumModel.pas` (planar periods, conical pendulum,
+  Lagrange vs Hamilton, conservation of H and p_phi, turning angle, length
+  variation); `--csv DIR` writes the presets used for the report figures.
+- `.github/workflows/a2-model-regression.yml`: compiles the test with Free
+  Pascal 3.2.2, compares it with the golden output and checks the exit code.
+- Report (16 pages): Chapter I (Lagrangian, Hamilton's principle,
+  Euler-Lagrange, Hamiltonian, coordinates, RK4), Chapter II (proof of
+  Problem 1, energies and both equations of motion of Problem 2, from the
+  equations of motion to the position, program code, execution analysis,
+  discussion), Chapter III, IEEE references. Sources in `Report/source/`.
+- `Assignment 2_.../README.md`, `docs/img/` (light and dark images).
+- Issue entries ISS-036 to ISS-048.
+
+#### Changed
+
+- Section 2.1 of my report: the dotted theta of Problem 1 had a second dot
+  (ISS-039).
+- Report conventions as I edited them in Word: "Equation (n)" and combined
+  citations "[2][3]".
+- Root `README.md`: Assignment 2 row, badge and CI table.
+- `.gitignore`: lecturer's assignment sheet in the A2 folder, Python caches
+  and report build intermediates.
+- All Markdown files now describe my work in the first person.
+- Section 2.2 of my report: the derivations are complete again, step by step
+  from the known quantities (variation and fundamental lemma in both
+  directions, momentum of a distance and of an angle, virtual work, each
+  velocity component and square, each partial derivative, the Legendre
+  transform, the equivalence of both methods, dH/dt = 0 and the special
+  cases), with the corrected concepts of ISS-047 (ISS-048).
+- Report prose: first-line paragraph indent as in my Word version (set by
+  `build_report.py`), and most colons and semicolons replaced by full
+  sentences.
+
 ### 2026-11-05 - Assignment 1 (session 10): design-time form, compact report listings, demo handout
 
 #### Changed
@@ -18,7 +65,7 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
   events (`OnZoom`, `OnMouseMove`, ...) bound in the form; default rows of
   the five parameter tables; the model summary memo; the rendered
   equations of tab 6 (`imgEquations`, `imgNomenclature`, PNG stored in the
-  form). The student's own layout changes in the form were kept.
+  form). My own layout changes in the form were kept.
 - `Unit1.pas`: `SetupChart`, `StyleAxis`, `SetRightAxisColor`, `AddLine`,
   `AddMarkedLine`, `AddPoints`, `InitRefEditor`, `InitISIEditor` and
   `LoadEquationImages` removed; `RegisterChart` only joins a chart to the
@@ -110,7 +157,7 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 #### Report
 
-- `Report/..._rev.docx`: revision of the student's edited report. Only the
+- `Report/..._rev.docx`: revision of my edited report. Only the
   listed paragraphs were changed: slide coefficient (Section 1.4),
   Crank-Nicolson note (1.5), tab list (2.2.1), relation to the slide and
   Crank-Nicolson extension (2.2.3, Equations (2.21a) and (2.21b)), cable
@@ -122,7 +169,7 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 #### Added
 
 - `Report/5023231017_..._Assignment 1_HH Model.docx`: complete report
-  (cover and Section 2.1 kept from the student's file; Chapter I theory with
+  (cover and Section 2.1 kept from my file; Chapter I theory with
   Figures 1.1-1.4; Chapter II with full Delphi routines per problem, the
   Problem 2 derivation, execution analysis with Figures 2.1-2.9 and Tables
   2.1-2.5, discussion; Chapter III; IEEE references [1]-[11]). Equations used
@@ -240,7 +287,7 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
   `RcCompile` item for `Equations.rc`.
 - The toolbar now uses aligned buttons, an elided "Active chart" label, a
   right-aligned help text and the Exit button.
-- ISS-010 and ISS-015 resolved: the student's first Delphi 13 CE build
+- ISS-010 and ISS-015 resolved: my first Delphi 13 CE build
   compiled and ran.
 
 ### 2026-11-01 - Repository (session 4): files written to the local tree
@@ -373,5 +420,5 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 - Write the files into the local `Program` folder (blocked, ISS-009) and add
   `HHModel.pas` to `Project1.dproj`.
-- First Delphi 13 build and screenshots by the student (ISS-010).
+- First Delphi 13 build and screenshots (my task) (ISS-010).
 - Report (`Report/*.docx`) after real program output is available.

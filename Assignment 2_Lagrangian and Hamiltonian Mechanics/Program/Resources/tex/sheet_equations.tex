@@ -1,0 +1,74 @@
+% Equation sheet of the Assignment 2 simulator (shown by Unit2.pas).
+% Build: pdflatex sheet_equations.tex, then pdftoppm -r 130 -png.
+\documentclass[border=12pt,varwidth=17cm]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{mathptmx}
+\definecolor{hl}{HTML}{FFF2A8}
+\definecolor{ink}{HTML}{1A1A1A}
+\newcommand{\used}[1]{\colorbox{hl}{$\displaystyle #1$}}
+\setlength{\parindent}{0pt}
+\begin{document}
+\color{ink}
+{\large\textbf{Spherical pendulum: equations of motion (Problem 2)}}\\[2pt]
+{\small Yellow = equations used by the program. $\theta$ is measured from the upward $z$ axis, so the bob hangs at $\theta=\pi$; $\alpha=\pi-\theta$.}
+
+\medskip
+\textbf{1. Position of the bob} (rigid link, $r=l$, $\dot r=0$)
+\[
+x=l\sin\theta\cos\varphi,\qquad y=l\sin\theta\sin\varphi,\qquad z=l\cos\theta
+\]
+
+\textbf{2. Energies and Lagrangian}
+\[
+\used{T=\tfrac12 ml^2\left(\dot\theta^2+\sin^2\theta\,\dot\varphi^2\right)},\qquad
+\used{V=mgz=mgl\cos\theta},\qquad L=T-V
+\]
+
+\textbf{3. Lagrangian method} \;$\dfrac{d}{dt}\dfrac{\partial L}{\partial\dot q}-\dfrac{\partial L}{\partial q}=0$, \;$q=\theta,\varphi$
+\[
+\theta:\ ml^2\ddot\theta-ml^2\sin\theta\cos\theta\,\dot\varphi^2-mgl\sin\theta=0
+\qquad
+\varphi:\ \frac{d}{dt}\left(ml^2\sin^2\theta\,\dot\varphi\right)=0
+\]
+\[
+\used{\ddot\theta=\sin\theta\cos\theta\,\dot\varphi^2+\frac{g}{l}\sin\theta},\qquad
+\used{\ddot\varphi=-2\,\frac{\cos\theta}{\sin\theta}\,\dot\theta\dot\varphi}
+\]
+State (position and velocity): $\mathbf y=[\theta,\ \dot\theta,\ \varphi,\ \dot\varphi]^T$
+
+\medskip
+\textbf{4. Hamiltonian method} \;$p=\dfrac{\partial L}{\partial\dot q}$, \;$H=\sum p\dot q-L$
+\[
+\used{p_\theta=ml^2\dot\theta,\quad p_\varphi=ml^2\sin^2\theta\,\dot\varphi},\qquad
+\used{H=\frac{p_\theta^2}{2ml^2}+\frac{p_\varphi^2}{2ml^2\sin^2\theta}+mgl\cos\theta=T+V}
+\]
+\[
+\used{\dot\theta=\frac{p_\theta}{ml^2}},\quad
+\used{\dot\varphi=\frac{p_\varphi}{ml^2\sin^2\theta}},\quad
+\used{\dot p_\theta=\frac{p_\varphi^2\cos\theta}{ml^2\sin^3\theta}+mgl\sin\theta},\quad
+\used{\dot p_\varphi=0}
+\]
+State (position and momentum): $\mathbf z=[\theta,\ p_\theta,\ \varphi,\ p_\varphi]^T$; \;$H$ and $p_\varphi$ stay constant.
+
+\medskip
+\textbf{5. Integration} (position from the equations of motion, classical RK4, step $\Delta t$)
+\[
+\used{\mathbf y_{k+1}=\mathbf y_k+\frac{\Delta t}{6}\left(\mathbf K_1+2\mathbf K_2+2\mathbf K_3+\mathbf K_4\right)},\quad
+\mathbf K_1=\mathbf f(\mathbf y_k),\ \mathbf K_2=\mathbf f\!\left(\mathbf y_k+\tfrac{\Delta t}{2}\mathbf K_1\right),\ \mathbf K_3=\mathbf f\!\left(\mathbf y_k+\tfrac{\Delta t}{2}\mathbf K_2\right),\ \mathbf K_4=\mathbf f(\mathbf y_k+\Delta t\,\mathbf K_3)
+\]
+
+\textbf{6. Checks shown in the result panel}
+\[
+\text{planar: }T_p=4\sqrt{\tfrac{l}{g}}\,K\!\left(\sin\tfrac{\alpha_0}{2}\right)\ \left(\approx 2\pi\sqrt{\tfrac{l}{g}}\ \text{for small }\alpha_0\right),\qquad
+\text{conical: }\Omega=\sqrt{\frac{g}{l\cos\alpha_0}}
+\]
+
+\smallskip
+{\small
+\begin{tabular}{@{}llll@{}}
+$m$ & mass of the bob (kg) & $\theta$ & polar angle from the upward $z$ axis (rad)\\
+$l$ & length of the link (m) & $\varphi$ & azimuth in the $xy$ plane (rad)\\
+$g$ & gravitational acceleration (m/s$^2$) & $p_\theta,\ p_\varphi$ & generalized momenta (kg\,m$^2$/s)\\
+\end{tabular}}
+\end{document}

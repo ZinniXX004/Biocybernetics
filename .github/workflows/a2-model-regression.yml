@@ -1,0 +1,72 @@
+# Regression test for the numerical unit of Assignment 2 (PendulumModel.pas).
+#
+# The VCL form needs Windows and RAD Studio, so CI compiles only the
+# UI-independent unit with Free Pascal in Delphi mode, runs the console test
+# (exit code = number of failed checks) and compares its output with the
+# committed golden file.
+
+name: A2 pendulum model regression
+
+on:
+  push:
+    paths:
+      - "Assignment 2_Lagrangian and Hamiltonian Mechanics/Program/PendulumModel.pas"
+      - "Assignment 2_Lagrangian and Hamiltonian Mechanics/Program/Verification/**"
+      - ".github/workflows/a2-model-regression.yml"
+  pull_request:
+    paths:
+      - "Assignment 2_Lagrangian and Hamiltonian Mechanics/Program/PendulumModel.pas"
+      - "Assignment 2_Lagrangian and Hamiltonian Mechanics/Program/Verification/**"
+      - ".github/workflows/a2-model-regression.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: a2-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fpc-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+        working-directory: "Assignment 2_Lagrangian and Hamiltonian Mechanics/Program/Verification"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install Free Pascal 3.2.2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fp-compiler fp-units-base
+          fpc -iV
+
+      - name: Build the test
+        run: fpc -O2 -Fu.. -FU. -FE. TestPendulum.dpr
+
+      - name: Run the checks
+        run: |
+          set -o pipefail
+          ./TestPendulum | tee actual.txt
+
+      - name: Compare with golden output
+        run: diff -u --strip-trailing-cr TestPendulum_output.txt actual.txt
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "### Assignment 2 pendulum model"
+            echo
+            if [ -f actual.txt ]; then
+              echo '```'
+              cat actual.txt
+              echo '```'
+            else
+              echo "The test did not run (see the failed step)."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

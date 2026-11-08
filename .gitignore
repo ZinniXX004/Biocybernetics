@@ -85,3 +85,16 @@ desktop.ini
 
 # Lecturer handout of the final project (third-party material)
 /gasal 2627_*.pdf
+
+# Assignment sheets handed out by the lecturer (third-party material)
+/Assignment 2_Lagrangian and Hamiltonian Mechanics/*.pdf
+
+# Python caches and report build intermediates
+__pycache__/
+.ruff_cache/
+**/Verification/TestPendulum
+**/Report/source/data/
+**/Report/source/unpacked/
+**/Report/source/b/
+**/Report/source/body.docx
+**/Report/source/full.md

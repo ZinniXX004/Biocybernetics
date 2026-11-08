@@ -3,40 +3,53 @@
 Problems found while studying the references, implementing, and maintaining
 the Biocybernetics assignments. Status values: **Open**, **Resolved**,
 **Mitigated** (worked around, root cause outside this repository), **Needs
-confirmation** (requires the lecturer or the student).
+confirmation** (requires the lecturer or my own check).
 
-| ID      | Area                 | Summary                                                                                   | Status             |
-| ------- | -------------------- | ----------------------------------------------------------------------------------------- | ------------------ |
-| ISS-001 | A1 / lecturer slides | "Integration step: 10 sec" printed in `HH Simulation.pdf`                                 | Resolved           |
-| ISS-002 | A1 / lecturer slides | `alpha_m` numerator printed as `0.1(v+2.5)` in `HH model.pdf`                             | Resolved           |
+| ID      | Area                 | Summary                                                                                     | Status             |
+| ------- | -------------------- | ------------------------------------------------------------------------------------------- | ------------------ |
+| ISS-001 | A1 / lecturer slides | "Integration step: 10 sec" printed in `HH Simulation.pdf`                                   | Resolved           |
+| ISS-002 | A1 / lecturer slides | `alpha_m` numerator printed as `0.1(v+2.5)` in `HH model.pdf`                               | Resolved           |
 | ISS-003 | A1 / lecturer slides | PDE coefficient: slide is correct (`[(ro+ri)Cm]^-1`, Cm per length); earlier note withdrawn | Corrected          |
-| ISS-004 | A1 / lecturer code   | Propagation code uses `vm[0,i]` in the `gm` term                                          | Needs confirmation |
-| ISS-005 | A1 / senior code     | `+1e-9` added to rate denominators                                                        | Resolved           |
-| ISS-006 | A1 / senior code     | APP implemented as pure diffusion of the APG output                                       | Resolved           |
-| ISS-007 | A1 / numerics        | Lecturer RK4 is not a coupled RK4                                                         | Resolved           |
-| ISS-008 | Repository           | No `.gitignore`; copyrighted material untracked in the repo root                          | Resolved           |
-| ISS-009 | Environment          | Writes to `C:\Users\Sem 7\Biocybernetics` denied by Windows                               | Resolved           |
-| ISS-010 | A1 / build           | First Delphi 13 CE build: compiled and ran (TeeChart available)                           | Resolved           |
-| ISS-011 | A1 / report          | Haghiri et al. (2021) DOI and pages verified from the PDF                                 | Resolved           |
-| ISS-012 | A1 / numerics        | Explicit FTCS cable scheme is conditionally stable                                        | Mitigated          |
-| ISS-013 | A1 / numerics        | Sealed-end boundary raises the spike peak at the last node                                | Mitigated          |
-| ISS-014 | A1 / UI              | JL and Jin invisible on the shared current axis (about 30x smaller)                       | Resolved           |
-| ISS-015 | A1 / UI              | TeeChart-specific calls of UI v2 compiled in the real build                                | Resolved           |
-| ISS-016 | A1 / code style      | `delphi-standards` prefixes applied to `Unit1.pas` only, not yet to `HHModel.pas`         | Open               |
-| ISS-017 | A1 / papers          | Internal inconsistencies found in both assigned papers (to be cited carefully)            | Mitigated          |
-| ISS-018 | Repository           | Assigned IEEE papers stored in the assignment folder must not be pushed                   | Resolved           |
-| ISS-019 | A1 / UI              | Plain mouse wheel over a chart raised EInvalidCast                                         | Resolved (retest)  |
-| ISS-020 | A1 / UI              | Access violation and permanently black chart when the refractory slider reached 2.0 ms     | Mitigated (retest) |
-| ISS-021 | A1 / scope           | Gate-vs-Vm plots of the senior program (m, h, n vs Vm) missing                             | Resolved           |
-| ISS-022 | A1 / limitations     | Documented limitations of the simulator (numerics, detection, UI)                         | Documented         |
-| ISS-028 | A1 / UI              | Stale legend entries after a new run (tab 5)                                               | Fixed (retest)     |
-| ISS-029 | A1 / scope           | One wave only; lecturer's passive cable driven by the APG output                           | Resolved           |
-| ISS-030 | A1 / numerics        | Crank-Nicolson option for the cable PDE                                                    | Resolved           |
-| ISS-031 | A1 / scope           | ABE and C-F converter of the lecturer's simulator; lecturer constants                     | Documented         |
-| ISS-032 | A1 / UI              | Tab 5 memo repeated nodes on the 6-node lecturer grid                                      | Resolved           |
-| ISS-033 | A1 / CI              | Python references ran in CI without any assertion                                          | Resolved           |
+| ISS-004 | A1 / lecturer code   | Propagation code uses `vm[0,i]` in the `gm` term                                            | Needs confirmation |
+| ISS-005 | A1 / senior code     | `+1e-9` added to rate denominators                                                          | Resolved           |
+| ISS-006 | A1 / senior code     | APP implemented as pure diffusion of the APG output                                         | Resolved           |
+| ISS-007 | A1 / numerics        | Lecturer RK4 is not a coupled RK4                                                           | Resolved           |
+| ISS-008 | Repository           | No `.gitignore`; copyrighted material untracked in the repo root                            | Resolved           |
+| ISS-009 | Environment          | Writes to `C:\Users\Sem 7\Biocybernetics` denied by Windows                                 | Resolved           |
+| ISS-010 | A1 / build           | First Delphi 13 CE build: compiled and ran (TeeChart available)                             | Resolved           |
+| ISS-011 | A1 / report          | Haghiri et al. (2021) DOI and pages verified from the PDF                                   | Resolved           |
+| ISS-012 | A1 / numerics        | Explicit FTCS cable scheme is conditionally stable                                          | Mitigated          |
+| ISS-013 | A1 / numerics        | Sealed-end boundary raises the spike peak at the last node                                  | Mitigated          |
+| ISS-014 | A1 / UI              | JL and Jin invisible on the shared current axis (about 30x smaller)                         | Resolved           |
+| ISS-015 | A1 / UI              | TeeChart-specific calls of UI v2 compiled in the real build                                 | Resolved           |
+| ISS-016 | A1 / code style      | `delphi-standards` prefixes applied to `Unit1.pas` only, not yet to `HHModel.pas`           | Open               |
+| ISS-017 | A1 / papers          | Internal inconsistencies found in both assigned papers (to be cited carefully)              | Mitigated          |
+| ISS-018 | Repository           | Assigned IEEE papers stored in the assignment folder must not be pushed                     | Resolved           |
+| ISS-019 | A1 / UI              | Plain mouse wheel over a chart raised EInvalidCast                                          | Resolved (retest)  |
+| ISS-020 | A1 / UI              | Access violation and permanently black chart when the refractory slider reached 2.0 ms      | Mitigated (retest) |
+| ISS-021 | A1 / scope           | Gate-vs-Vm plots of the senior program (m, h, n vs Vm) missing                              | Resolved           |
+| ISS-022 | A1 / limitations     | Documented limitations of the simulator (numerics, detection, UI)                           | Documented         |
+| ISS-028 | A1 / UI              | Stale legend entries after a new run (tab 5)                                                | Fixed (retest)     |
+| ISS-029 | A1 / scope           | One wave only; lecturer's passive cable driven by the APG output                            | Resolved           |
+| ISS-030 | A1 / numerics        | Crank-Nicolson option for the cable PDE                                                     | Resolved           |
+| ISS-031 | A1 / scope           | ABE and C-F converter of the lecturer's simulator; lecturer constants                       | Documented         |
+| ISS-032 | A1 / UI              | Tab 5 memo repeated nodes on the 6-node lecturer grid                                       | Resolved           |
+| ISS-033 | A1 / CI              | Python references ran in CI without any assertion                                           | Resolved           |
 | ISS-034 | CI                   | Node 20 removed from GitHub-hosted runners; checkout@v4 / setup-python@v5 outdated          | Resolved           |
-| ISS-035 | A1 / UI              | Charts, series and parameter rows were created at run time, invisible in the Form Designer | Resolved           |
+| ISS-035 | A1 / UI              | Charts, series and parameter rows were created at run time, invisible in the Form Designer  | Resolved           |
+| ISS-036 | A2 / lecturer slides | Lagrange's life dates printed as 1756-1813 (born 1736)                                      | Documented         |
+| ISS-037 | A2 / lecturer slides | "H is conserved" and H = T + V stated without their conditions                              | Documented         |
+| ISS-038 | A2 / assignment      | Spherical coordinates written "r, phi, z"; theta from +z puts the hanging bob at pi         | Mitigated          |
+| ISS-039 | A2 / report          | Section 2.1: dotted theta of Problem 1 carried a second dot                                 | Resolved           |
+| ISS-040 | A2 / senior report   | Senior A2 report: m thetadot fits a distance, not an angle; no variational proof            | Documented         |
+| ISS-041 | FP / senior code     | Shoulder-joint motion equation: precedence, pole singularity patched, degrees               | Documented         |
+| ISS-042 | FP / senior reports  | Rotational kinetic energy counted twice; I_o = 7ml^2/12 in one revision                     | Documented         |
+| ISS-043 | FP / senior code     | PID output accumulated every step; Ki adapted with a fixed rate                             | Documented         |
+| ISS-044 | A3 / lecturer slides | Discrete PID Model I: K_i z instead of K_i z^2 (integral delayed by one sample)             | Needs confirmation |
+| ISS-045 | A2 / numerics        | RK4 is not symplectic; 0 \* cot(theta) at the pole for planar motion                        | Mitigated          |
+| ISS-046 | A2 / report build    | Cover logo (EMF) had no content type in my first build                                      | Resolved           |
+| ISS-047 | A2 / report          | My first draft: I = ml^2 in Problem 1, rdot kept before r = l, 27 pages, Python checks      | Resolved           |
+| ISS-048 | A2 / report          | My second draft shortened the derivations too much                                          | Resolved           |
 
 ---
 
@@ -122,7 +135,8 @@ confirmation** (requires the lecturer or the student).
 - **Resolution:** root `.gitignore` versions only own work.
 
 ### ISS-009 - Write access denied on the local folder
-- **Update 2026-11-01 (session 3):** the student allow-listed
+
+- **Update 2026-11-01 (session 3):** I allow-listed
   `C:\Program Files\WindowsApps\Claude_4.4212.0.0_x64__pzs8sxrjxfjjc\Claude.exe`
   in Controlled Folder Access. Writes are still denied, both through the
   bridge file commit and through the shell. Either the write is performed by
@@ -136,17 +150,17 @@ confirmation** (requires the lecturer or the student).
   showed only inherited `BUILTIN\Users:(RX)`, i.e. read/execute without
   write. The folder sits directly under `C:\Users` (outside the user
   profile), so it inherits the restrictive `C:\Users` ACL.
-- **Resolution:** the student added explicit `(OI)(CI)(F)` entries for
+- **Resolution:** I added explicit `(OI)(CI)(F)` entries for
   `Everyone` and `BUILTIN\Users` on the folder. Writes now succeed, and all
   session 1-3 files were written into the repository tree.
 - **Follow-up (optional hardening):** `Everyone:(F)` is broader than needed.
-  Replace it with Modify rights for the student's account only, then re-test
+  Replace it with Modify rights for my account only, then re-test
   write access.
 
 - **Symptom:** `device_commit_files` returned "Windows denied access ... If
   Controlled Folder Access is on, add this app ..."; shell writes return
   `Permission denied`. The folder can still be read.
-- **Action for the student:** Windows Security -> Virus & threat protection ->
+- **My action:** Windows Security -> Virus & threat protection ->
   Ransomware protection -> Controlled folder access -> "Allow an app through
   Controlled folder access" -> add the Claude desktop app. Alternatively,
   check that the folder is not read-only.
@@ -213,6 +227,7 @@ confirmation** (requires the lecturer or the student).
   should be done in one pass together with a `TestHH` regression run.
 
 ### ISS-017 - Inconsistencies inside the assigned papers
+
 - Amini et al. (2005): the Methods section specifies a 150 nA stimulus, the
   caption of Fig. 4 says 100 nA. `DeltaP = P0 - P1` is said to be positive for
   a phase delay, but a delay gives P1 > P0 (negative); the Results text uses
@@ -229,6 +244,7 @@ confirmation** (requires the lecturer or the student).
   draft instead of being repeated as facts.
 
 ### ISS-018 - Assigned papers inside the repository tree
+
 - Both PDFs are stored in `Assignment 1_HH Model/`. Their footer reads
   "Personal use is permitted, but republication/redistribution requires IEEE
   permission".
@@ -237,6 +253,7 @@ confirmation** (requires the lecturer or the student).
   `Assignment N/References/`.
 
 ### ISS-019 - EInvalidCast on a plain mouse wheel over a chart
+
 - **Report (2026-11-01, first real run):** turning the wheel without Ctrl over a
   chart raised `EInvalidCast: Invalid class typecast` (debugger first-chance
   notification).
@@ -244,8 +261,8 @@ confirmation** (requires the lecturer or the student).
   plain wheel was left to TeeChart's own wheel scrolling. That scrolling
   fires `OnScroll`, and the chart event handlers cast the sender with
   `Sender as TChart`. The most likely cause is that TeeChart passes a sender
-  that is not the chart for wheel-initiated scrolls *(inference: the call
-  stack was not captured)*.
+  that is not the chart for wheel-initiated scrolls _(inference: the call
+  stack was not captured)_.
 - **Fix (UI v3):** `TForm1.MouseWheelHandler` overrides the form-level
   wheel routing that VCL uses for every child control. A wheel over a chart
   is consumed there and zooms at the cursor (Shift + wheel: time axis only),
@@ -254,6 +271,7 @@ confirmation** (requires the lecturer or the student).
   updated. **Retest required.**
 
 ### ISS-020 - Access violation in the refractory example at 2.0 ms
+
 - **Report:** moving the refractory track bar to 2.0 ms raised
   `access violation ... read of address 0x00000040`. Afterwards the example
   chart stayed black, even after a new sweep.
@@ -264,7 +282,7 @@ confirmation** (requires the lecturer or the student).
   series (8 ms) to two (no threshold trace), and the series were freed and
   re-created while legend check boxes were shown. A nil read at offset 0x40
   during painting, which leaves a permanently black chart, fits the legend
-  still referencing a freed series *(inference: no call stack yet)*.
+  still referencing a freed series _(inference: no call stack yet)_.
 - **Mitigation (UI v3):** the example chart owns three permanent series.
   Only their points are replaced, and the third series is deactivated (and
   its legend title explains why) inside the absolute refractory period.
@@ -272,10 +290,11 @@ confirmation** (requires the lecturer or the student).
   is rebuilt and `FinishChart` switches them on again. `Application.OnException`
   writes any remaining exception to `HHSimulator_error.log` (next to the exe)
   and shows a dialog at most once per 2 s for the same error.
-- **If it recurs:** press *Break* in the debugger notification and copy the
+- **If it recurs:** press _Break_ in the debugger notification and copy the
   Call Stack window, or send the log file.
 
 ### ISS-021 - Missing gate-vs-Vm plots
+
 - The senior program plots m, h and n against Vm. UI v2 offered this only as
   a check box on the gating chart.
 - **Resolution:** new tab "2. Gating Phase Plots" with m, h and n against Vm
@@ -284,6 +303,7 @@ confirmation** (requires the lecturer or the student).
   gate behind x_inf. The check box was removed.
 
 ### ISS-022 - Known limitations (documented, not defects)
+
 1. Explicit FTCS cable scheme: stable only for r = D k / h^2 <= 0.5 (ISS-012).
    The run is refused otherwise; the Crank-Nicolson option has no such limit
    (ISS-030).
@@ -317,6 +337,7 @@ confirmation** (requires the lecturer or the student).
     folder must be writable.
 
 ### ISS-023 - Axon length 0-6 cm here, 0-2 mm in the lecturer and senior programs
+
 - **Observation (user, session 6):** the APP x axis runs from 0 to 6 cm,
   while the lecturer's and the senior's programs show 0 to 2 mm.
 - **Analysis:** deliberate, and not a change of the equations. The cable PDE
@@ -338,6 +359,7 @@ confirmation** (requires the lecturer or the student).
   is the validated one. The report states both.
 
 ### ISS-024 - Sheet windows: points to confirm on the first Delphi build
+
 1. The sheet PNG (130 dpi, 998 px wide) is shown unscaled by `TImage`. On a
    display scaled to 150 % it looks smaller than the form text; Copy and
    Save use the full resolution. A zoom option can be added if needed.
@@ -349,6 +371,7 @@ confirmation** (requires the lecturer or the student).
    project; the PNG files are linked into the executable at build time.
 
 ### ISS-025 - 3D mesh: resolution and drawing order
+
 - The mesh is sub-sampled to at most 46 x-lines and 91 t-lines (last node
   and frame always included) to keep GDI drawing fast; detail between lines
   is visible in the heat map, which keeps full resolution.
@@ -358,6 +381,7 @@ confirmation** (requires the lecturer or the student).
   limited to 0..80 deg; checked visually with `mesh_preview.py`.
 
 ### ISS-026 - Flicker of the 3D space-time views during animation
+
 - **Observation (user, session 7):** the 3D waterfall and 3D mesh flicker
   when Play runs or the time slider moves; it is hard to tell the moving
   profile from the static surface.
@@ -376,8 +400,8 @@ confirmation** (requires the lecturer or the student).
 - **Retest:** Play with each view; drag yaw and pitch (the surface is
   rebuilt while dragging, which is expected to be fast but is not cached).
 
-
 ### ISS-027 - Report figures from older program versions
+
 - Figures 2.1, 2.3, 2.5, 2.6 and 2.8(a) were captured with UI v2/v3 (old
   caption "Hodgkin-Huxley Neuron Simulator - Biocybernetics Assignment 1");
   the numerical results are unchanged since then (HHModel.pas not modified).
@@ -388,6 +412,7 @@ confirmation** (requires the lecturer or the student).
   shows the spacing, LibreOffice collapses it (preview only).
 
 ### ISS-028 - Stale legend entries after a new APP run
+
 - **Observation (user, session 8):** after switching to the lecturer
   preset, the curves were new but the legends still listed
   "x = 12.00 mm ... 60.00 mm" and "t = 1.72 ... 10.28 ms" of the squid run.
@@ -402,6 +427,7 @@ confirmation** (requires the lecturer or the student).
   run, then lecturer run, and compare the legends.
 
 ### ISS-029 - One wave only in tab 5; lecturer's APP setting
+
 - **Observation (user, session 8):** the lecturer's and the senior's plots
   show several waves; tab 5 showed one, and the lecturer directs the
   passive cable (slide "Partial Differential Equation Solution").
@@ -420,6 +446,7 @@ confirmation** (requires the lecturer or the student).
   correct. The time slider shows any instant.
 
 ### ISS-030 - Crank-Nicolson scheme
+
 - The lecturer's propagation code contains a Crank-Nicolson line, written
   inside the explicit loop with values of level n+1 that are not yet
   computed (a transcription that only approximates the scheme). The senior
@@ -432,6 +459,7 @@ confirmation** (requires the lecturer or the student).
   k = 0.0025 ms: 12.25 m/s).
 
 ### ISS-031 - ABE and C-F converter of the lecturer's simulator
+
 - The lecturer's HH-Sim 1 has tabs for anode break excitation (ABE) and the
   current-to-frequency (C-F) converter. Neither is asked in Problems 1-4.
 - C-F converter: identical to tab 4 (constant Jin, steady frequency); the
@@ -448,6 +476,7 @@ confirmation** (requires the lecturer or the student).
   instead, ISS-029); dx = 0.4 mm (used by the lecturer preset).
 
 ### ISS-032 - Repeated rows in the tab 5 memo on a coarse grid
+
 - Seen in the Figure 2.10 screenshot (lecturer preset, 6 nodes): the peak
   table listed x = 0.00, 0.00, 0.40, 0.80, 0.80, 0.80, 1.20, ... because
   `ReportCable` prints 11 rows at `Round(i (N - 1) / 10)`, and Delphi's
@@ -459,6 +488,7 @@ confirmation** (requires the lecturer or the student).
   removed. Figure 2.10 has to be captured again.
 
 ### ISS-033 - Python references ran in CI without any assertion
+
 - The workflow executed `hh_reference_apg.py` and `hh_reference_app.py`,
   which only print. A wrong result would still pass; only a crash failed
   the step, so the "independent cross-check" was not enforced.
@@ -470,16 +500,18 @@ confirmation** (requires the lecturer or the student).
   A mutated golden file (ISI 14.90, peak -9.9) is reported as 2 failures.
 
 ### ISS-034 - Node 20 removed from GitHub-hosted runners
+
 - GitHub announced on 2026-09-23 that Node 20 is no longer available on
   hosted runners and the `ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION` opt-out
   was removed. The workflow used `actions/checkout@v4` and
   `actions/setup-python@v5` (Node 20 releases).
 - **Resolution:** bumped to `actions/checkout@v6` and
   `actions/setup-python@v6`; validated with actionlint 1.7.7. The remote
-  file tools may not write `.github/workflows/`, so the student copies the
+  file tools may not write `.github/workflows/`, so I copy the
   new workflow file into place before the first push.
 
 ### ISS-035 - Visual design created at run time
+
 - The lecturer checks the form in the Delphi Form Designer before the
   program is run. Up to UI v4.2 the charts were bare `TChart` objects in
   `Unit1.dfm`: titles, axes, legends, colours and every series were set or
@@ -495,3 +527,159 @@ confirmation** (requires the lecturer or the student).
 - Remaining run-time parts: data of the series, titles that depend on a
   run (tab 5), colours of a changed number of recording sites, and the
   heat map / 3D views drawn on `pbSpaceTime`.
+
+### ISS-036 - Life dates of Lagrange on the lecture slide
+
+- **Source:** `Materials/Lagrangian and Hamiltonian Mechanics.pdf`, slide 2:
+  "Joseph-Louis Lagrange ... 1756-1813".
+- **Analysis:** Lagrange was born in Turin on 25 January 1736 and died in
+  Paris on 10 April 1813. The dates of Hamilton (1805-1865) are correct.
+- **Action:** I do not repeat the dates in my report.
+
+### ISS-037 - "The Hamiltonian is a conserved quantity" without conditions
+
+- **Source:** same slides, table "Differences" (row 5) and slide "Hamiltonian
+  formulation" (`H = m v^2 - (T - V) = T + V`).
+- **Analysis:** `H = sum p q' - L` equals `T + V` only if the constraints do
+  not change with time, and H is conserved only if L has no explicit time
+  dependence. Both conditions hold for the pendulum of Problem 2.
+- **Action:** I state the conditions in one sentence in Section 1.3.
+
+### ISS-038 - Coordinate names and angle convention of the assignment sheet
+
+- **Source:** `lagrangian-Hamiltonian Assignment#2.pdf`, Problem 2(a):
+  "spherical polar coordinates r, phi, z".
+- **Analysis:** the spherical coordinates of the figure are `(r, theta, phi)`;
+  `z` belongs to the cylindrical set `(rho, phi, z)`. In the figure theta is
+  measured from the upward z axis, so the bob hangs at theta = pi and the
+  gravity term of the theta equation is positive.
+- **Mitigation:** I keep the figure's convention, state where the bob hangs
+  and give the familiar form in `alpha = pi - theta` (Section 2.2.3).
+
+### ISS-039 - Double dot in the problem statement (Section 2.1)
+
+- **Analysis:** the Word accent "dot" of Problem 1(a) and 1(b) was applied to
+  a theta that already carried a dot, so it read like a second derivative.
+- **Resolution:** the build script replaced the two base characters by a
+  plain theta; the rest of Section 2.1 is unchanged.
+
+### ISS-040 - Senior report of the same assignment (2025), reference only
+
+- **Source:** `Biocyber/Lisa Katarina_5023221057_LAGRANGIAN-HAMILTONIAN
+ASSIGNMENT.docx` (not redistributed).
+- **Analysis:** the report writes `L = 1/2 m thetadot^2 - V` and
+  `p = m thetadot`. This is correct if theta is a distance (the lecture uses
+  x the same way), but for an angle `m thetadot^2` has the unit kg/s^2 and
+  the moment of inertia is needed. Problem 1 does not say which, so I write
+  `T = 1/2 M thetadot^2` with M = m for a distance and M = I for an angle.
+  Further points: Hamilton's principle is not used (the proof asked in
+  Problem 1 is missing), r is treated as a coordinate although `rdot^2` is
+  missing in T, and H contains `p_r/(2m)` (not squared).
+- **What I reused:** nothing directly; the final theta and phi equations of
+  that report agree with mine.
+
+### ISS-041 - Senior Final Project motion equation (shoulder joint)
+
+- **Source:** `BACEM/5023211023_Mu'afa Ali Syakir (2)/..._Program FP/Shoulder
+Joint/Unit1.pas`, `motioneq` (lines 128-132); the same procedure is in the
+  FP programs of Revelyno R. T. and Adlan A. (not redistributed).
+- **Analysis:**
+  1. By operator precedence only the gravity term is divided by the
+     inertia; damping, stiffness, active torque and the centrifugal term
+     are not.
+  2. Passive torques enter with a positive sign and are only restoring
+     because negative values are typed into the edit fields.
+  3. The rest posture lies on the pole of the spherical coordinates
+     (theta = 0), where phi is undefined; the constant 0.3726 added to the
+     denominator hides the singularity but changes the dynamics.
+  4. Constants 3.52 kg and 0.313 m are hard-coded and differ from the report.
+  5. `phi := 30` (degrees) is used inside trigonometric functions (radians).
+  6. The Runge-Kutta-Nystroem update is correct and reusable (the report
+     writes the last divisor as 4 instead of 3).
+- **Consequence for my FP:** one planar pendulum per anatomical plane in the
+  angle from the hanging position, passive and active torques as generalized
+  forces with their physical sign, parameters from BW and BH.
+
+### ISS-042 - Kinetic energy in the senior FP reports
+
+- **Analysis:** `Ek = 1/2 m v^2 + 1/2 I thetadot^2` with `I = I_O` counts the
+  rotation twice; for a rigid segment either `1/2 m v_G^2 + 1/2 I_G omega^2`
+  or `1/2 I_O omega^2`. One revision (`Revisi_Adlan Arisyi`) uses
+  `I_O = 7 m l^2/12`; for a uniform rod about its end `I_O = m l^2/3`.
+- **Action:** for my FP.
+
+### ISS-043 - PID and parameter adaptation in the senior FP programs
+
+- **Analysis:** `pid := pidbef + (Kp e + Ki h sum(e) + Kd (-thetadot))` adds
+  the full positional PID output to the previous output at every step (an
+  extra integrator). In the adaptation `p := p - eta dV/dp`, Ki uses a fixed
+  0.01 instead of the learning rate. The lecture slide of the adaptive PID
+  (Control Eng. 2, p. 63) contains the learning rate eta; the FP handout
+  writes `p = p - dV/dp` without it.
+- **Action:** for Assignment 3 and my FP.
+
+### ISS-044 - Discrete PID "Model I" on the controller slide
+
+- **Source:** `Materials/control eng in biomedical application 1_
+Controller.pdf`, p. 42 (Model I), also p. 43 (Model II).
+- **Analysis:** with `U/E = Kp + Kd (z-1)/z + Ki z/(z-1)` (p. 41) the common
+  denominator `z(z-1)` gives the numerator `Kp z(z-1) + Kd (z-1)^2 + Ki z^2`;
+  the slide writes `Ki z`. With the slide's own integrator the difference
+  equation is `u[n] = u[n-1] + (Kp+Kd+Ki) e[n] - (Kp+2Kd) e[n-1] + Kd e[n-2]`;
+  the slide's version delays the integral term by one sample. I checked the
+  expansion by hand. The Ziegler-Nichols tables of `PID ZN METHOD.pdf` are
+  consistent (`Ki = Kp/Ti`, `Kd = Kp Td`).
+- **Action:** I will confirm this with the lecturer before Assignment 3.
+
+### ISS-045 - Numerical details of the A2 program
+
+- RK4 is not symplectic, so H drifts slowly; my program reports the drift
+  (4e-10 m g l over 20 s at a 1 ms step).
+- For planar motion (`phidot = 0`, `p_phi = 0`) the terms with `cot(theta)`
+  and `1/sin^3(theta)` are 0 times a value that is infinite when the bob
+  passes the vertical axis. `PendulumModel.pas` sets these terms to zero
+  when phidot (or p_phi) is exactly zero. Start angles on the axis
+  (alpha0 = 0 or 180 deg) are refused by the form.
+
+### ISS-046 - Missing content type for the EMF logo (report build)
+
+- **Analysis:** the cover image of my template is an EMF file, and the first
+  A2 build registered only PNG in `[Content_Types].xml`; Word reports such a
+  package as damaged. Found before delivery (python-docx refused the file).
+- **Resolution:** `build_report.py` registers a content type for every media
+  extension in the package.
+
+### ISS-047 - Corrections to my first A2 report draft
+
+- **Problem 1:** the draft used `I = m l^2` ("bob on a link") from Problem 2,
+  although Problem 1 has no length. I now write the general inertia M of
+  the coordinate (M = m for a distance, as in the lecture; M = I for an
+  angle), so `p = M thetadot` and `pdot = F` give F = m a or torque =
+  I alpha.
+- **Problem 2(a):** the draft derived the velocity with a free r and set
+  r = l afterwards, which left `rdot` terms in the derivation. I now set
+  r = l and rdot = 0 from the start.
+- **Problem 2(b):** I added Section 2.2.5, which explains that the equations
+  of motion give accelerations (Lagrange) or rates (Hamilton) and that the
+  position follows from integrating them (numerically with RK4).
+- **Length:** 27 pages reduced to 14 (shorter theory, four figures, one
+  results table).
+- **Verification:** the Python scripts (SymPy and an RK4 simulation) were
+  replaced by the Delphi program in `Program/` and an FPC test of its
+  numerical unit in CI.
+
+### ISS-048 - Derivations of my second A2 draft too short
+
+- **Problem:** while shortening the report I also shortened the derivations,
+  so most blocks went straight to the highlighted result without the steps
+  in between.
+- **Fix:** I restored the full step-by-step derivations of my first draft
+  (each step from a known quantity and a named rule: Taylor expansion,
+  integration by parts, fundamental lemma, chain and product rule,
+  Legendre transform), keeping the corrections of ISS-047. The equation
+  numbers of the results are unchanged, so the code comments still match.
+- **Format:** prose paragraphs keep my first-line indent (1 cm) and use full
+  sentences instead of most colons and semicolons. Multi-line derivations
+  are written as one full equation per row, because a row that starts with
+  "=" is shown as a missing operand in LibreOffice.
+- **Result:** 16 pages instead of 14.

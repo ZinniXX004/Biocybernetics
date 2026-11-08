@@ -11,7 +11,8 @@
 [![Class](https://img.shields.io/badge/class-Q%20%28English%29-00838F)](#about)
 [![Delphi](https://img.shields.io/badge/RAD%20Studio-Delphi%2013%20Florence%20CE-B71C1C)](#tech-stack)
 [![A1 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml)
-[![Assignments](https://img.shields.io/badge/assignments-1%20of%205%20done-2E7D32)](#assignments)
+[![A2 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a2-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a2-model-regression.yml)
+[![Assignments](https://img.shields.io/badge/assignments-2%20of%205%20done-2E7D32)](#assignments)
 
 [About](#about) ·
 [Assignments](#assignments) ·
@@ -41,7 +42,7 @@ Simulation programs and reports for **Biocybernetics (EB234701), Class Q**, Depa
 | #   | Topic                                                                                                                                                                        | Program                                       | Report                                      | Status                                                   |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------- | -------------------------------------------------------- |
 | 1   | [**Hodgkin-Huxley Neuron Model**](Assignment%201_HH%20Model/): action potential generation (RK4), refractory period, C-F converter, cable propagation (FTCS, Crank-Nicolson) | [Program](Assignment%201_HH%20Model/Program/) | [Report](Assignment%201_HH%20Model/Report/) | ![done](https://img.shields.io/badge/-submitted-2E7D32)  |
-| 2   | Lagrangian and Hamiltonian Mechanics                                                                                                                                         |                                               |                                             | ![planned](https://img.shields.io/badge/-planned-9E9E9E) |
+| 2   | [**Lagrangian and Hamiltonian Mechanics**](Assignment%202_Lagrangian%20and%20Hamiltonian%20Mechanics/): Hamilton's principle, spherical pendulum with the Lagrangian and the Hamiltonian method (RK4) | [Program](Assignment%202_Lagrangian%20and%20Hamiltonian%20Mechanics/Program/) | [Report](Assignment%202_Lagrangian%20and%20Hamiltonian%20Mechanics/Report/) | ![done](https://img.shields.io/badge/-done-2E7D32)       |
 | 3   | Preliminary: PID parameter determination (Ziegler-Nichols)                                                                                                                   |                                               |                                             | ![planned](https://img.shields.io/badge/-planned-9E9E9E) |
 | 4   | MPC experimental step                                                                                                                                                        |                                               |                                             | ![planned](https://img.shields.io/badge/-planned-9E9E9E) |
 | 5   | System identification by model parameter identification                                                                                                                      |                                               |                                             | ![planned](https://img.shields.io/badge/-planned-9E9E9E) |
@@ -92,6 +93,8 @@ Six tabs, six derivation windows with the implemented equations highlighted, CSV
 Biocybernetics/
 ├── .github/workflows/        CI workflows (one per assignment)
 ├── Assignment 1_HH Model/    program, data, report and README of Assignment 1
+├── Assignment 2_Lagrangian and Hamiltonian Mechanics/
+│                             program, report and README of Assignment 2
 ├── docs/                     images of this README and the script that builds them
 ├── CHANGELOG.md              dated record of every change
 ├── ISSUES.md                 problems found and how they were resolved
@@ -117,6 +120,7 @@ flowchart LR
 | Workflow                                                               | Checks                                                                                                |
 | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | [`a1-model-regression.yml`](.github/workflows/a1-model-regression.yml) | Assignment 1: HH membrane (RK4), refractory sweep, C-F curve, cable (FTCS, Crank-Nicolson, APG drive) |
+| [`a2-model-regression.yml`](.github/workflows/a2-model-regression.yml) | Assignment 2: pendulum core (Lagrange vs Hamilton, planar periods, conical pendulum, H and p_phi)     |
 
 Run history: [Actions](https://github.com/ZinniXX004/Biocybernetics/actions).
 

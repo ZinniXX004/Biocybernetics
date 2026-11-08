@@ -1,0 +1,17 @@
+C1 alpha0=10.0 l=1.00 period=2.009893 exact=2.009893 small-angle=2.006067 Ediff=0.000000000000
+[PASS] C1 period relative error = 9.1550965E-10
+C2 alpha0=90.0 l=1.00 period=2.367842 exact=2.367842 small-angle=2.006067 Ediff=0.000000000000
+[PASS] C2 period relative error = 1.0956911E-9
+C3 Omega=3.365652 alpha range=30.000000000..30.000000000 phi(end)=33.6565
+[PASS] C3 alpha deviation (deg) = 3.5527137E-15
+C4 alpha range=13.71948..60.00000 cubic=13.71947 p_phi=0.7500 E0=-4.5300 theta period=1.0774
+C4 max|thetaL-thetaH|=0.000000002302 Eerr L=0.000000000405 Eerr H=0.000000000242 p_phi err=0.000000000799
+[PASS] C4 Lagrange vs Hamilton (rad) = 2.3015314E-9
+[PASS] C4 energy error Lagrange = 4.0482774E-10
+[PASS] C4 energy error Hamilton = 2.4199014E-10
+[PASS] C4 p_phi error = 7.9939901E-10
+[PASS] C4 turning angle vs cubic (deg) = 0.000010644081
+C5 alpha0=10.0 l=0.50 period=1.421209 exact=1.421209 small-angle=1.418503 Ediff=0.000000000000
+C5 alpha0=10.0 l=2.00 period=2.842417 exact=2.842417 small-angle=2.837007 Ediff=0.000000000000
+[PASS] C5 period ratio l=2 / l=0.5 (expected 2) = 2
+0 failure(s)
