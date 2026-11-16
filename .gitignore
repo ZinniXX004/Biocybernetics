@@ -88,6 +88,9 @@ desktop.ini
 
 # Assignment sheets handed out by the lecturer (third-party material)
 /Assignment 2_Lagrangian and Hamiltonian Mechanics/*.pdf
+# problem sheet of Assignment 3 (lecturer material)
+/Assignment 3_Preliminary/*.pdf
+/Assignment 3_Preliminary/*.docx
 
 # Python caches and report build intermediates
 __pycache__/

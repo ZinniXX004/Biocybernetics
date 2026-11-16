@@ -38,7 +38,7 @@
 | ------------ | ----------------------------------------------------------------------------- |
 | **Course**   | Biocybernetics (EB234701), Class Q, Department of Biomedical Engineering, ITS |
 | **Student**  | Jeremia Christ Immanuel Manalu (5023231017)                                   |
-| **Lecturer** | Dr. Achmad Arifin, S.T., M.Eng.                                               |
+| **Lecturer** | Course lecturer                                                               |
 | **Program**  | `HHSimulator`, UI v4.3: six tabs, six derivation windows, CSV and PNG export  |
 | **Model**    | Hodgkin and Huxley (1952), squid giant axon, original sign convention         |
 | **Status**   | Submitted on MyITS Classroom; the program and the report are maintained here  |
@@ -377,7 +377,7 @@ Open points and design decisions are tracked in the repository [issue log](../IS
 
 [1] A. L. Hodgkin and A. F. Huxley, "A quantitative description of membrane current and its application to conduction and excitation in nerve," _J. Physiol._, vol. 117, no. 4, pp. 500-544, 1952, doi: [10.1113/jphysiol.1952.sp004764](https://doi.org/10.1113/jphysiol.1952.sp004764).
 
-[2] A. Arifin, "Hodgkin-Huxley Neuron Model" and "Hodgkin-Huxley Neuron Model Simulation," lecture notes, Biocybernetics, Dept. Biomedical Engineering, ITS, 2026.
+[2] Course lecturer, "Hodgkin-Huxley Neuron Model" and "Hodgkin-Huxley Neuron Model Simulation," lecture notes, Biocybernetics, Dept. Biomedical Engineering, ITS, 2026.
 
 [3] B. Amini, A. Bidani, J. B. Zwischenberger, and J. W. Clark Jr., "A model of the pacemaking neuron of the respiratory central pattern generator," _IEEE Trans. Neural Syst. Rehabil. Eng._, vol. 13, no. 2, pp. 120-124, 2005, doi: [10.1109/TNSRE.2005.847379](https://doi.org/10.1109/TNSRE.2005.847379).
 

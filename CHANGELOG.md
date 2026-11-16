@@ -6,6 +6,252 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 ## [Unreleased]
 
+### 2026-11-16 - Assignment 3: Ziegler-Nichols PID (session 5, report final, release)
+
+#### Added
+
+- `Report/source/docx_fix.py` and `fix_report.py`: changes to a report that
+  was already edited in Word, without touching the rest of the document.
+  `build_report.py` uses the same code-frame function.
+
+#### Changed
+
+- Report (my version with the screenshots and my own edits, 33 pages):
+  every code listing from Section 2.2 on sits in a table of one column and
+  one row; the main-program lines of Section 2.1 quote `Unit1.pas` with
+  their line numbers (the earlier lines used shortened names).
+- `build_report.py`: the line numbers quoted in Section 2.1 are taken from
+  `Unit1.pas`, and the build stops when a quote is not found.
+- ISS-069 to ISS-071 confirmed by my retest of UI v3.
+
+#### Fixed
+
+- References chapter filled with the eight IEEE entries (ISS-076).
+
+#### Overwritten or kept
+
+- Overwritten: the A3 report, `build_report.py`, `report_part3.md`. My
+  Word version before this change is kept outside the repository. My
+  edits of the report text and the screenshots are unchanged.
+
+### 2026-11-16 - Assignment 3: Ziegler-Nichols PID (session 4, report for UI v3)
+
+#### Changed
+
+- Report rebuilt from the sources for UI v3 (30 pages). Section 2.2.5: a
+  paragraph on the robustness of the form (separate impulse and step
+  charts with fixed legends, error log, chart navigation, panel colours)
+  and the listing of `TForm1.AppException`; every Unit1 listing carries
+  the line numbers of the current file.
+- Section 2.3.1 and the screenshot placeholders: Figure 2.2 and Figure 2.3
+  now show both charts of the first tab for plant 1 and plant 2 (before:
+  step response and impulse response of plant 1 only); Figures 2.4, 2.8
+  and 2.9 describe the UI v3 window.
+- Figures 2.10 to 2.13 and Tables 2.1 to 2.5 are unchanged: they come from
+  `ZNModel.pas`, whose results did not change (`TestZN` output identical).
+
+#### Overwritten or kept
+
+- Overwritten: the A3 report, `report_part2.md`, `report_part3.md`. The
+  previous versions are kept outside the repository.
+
+### 2026-11-16 - Final Project: shoulder joint model (session 2, core, tests, form)
+
+#### Added
+
+- `Final Project/Program/ShoulderModel.pas`: numerical core without user
+  interface. Arm from BW, BH and five segment tables (Equations 1.1 to 1.4),
+  motion equation from the Lagrangian (Equation 1.8), RKN step of the lecture
+  (Equation 1.12), passive release test with the measurement of wn and zeta
+  and the iteration of C and k (Equations 1.9 to 1.11), positional PID of
+  the lecture (Equation 1.14), RMSE and settling time (Equation 1.15), grid
+  search of the gains, per-cycle and per-sample adaptation (Equations 1.16
+  and 1.17), optional torque limit.
+- `Final Project/Program/Verification/TestShoulder.dpr` with eleven cases,
+  golden output `TestShoulder_output.txt` (0 failures) and `crosscheck.py`,
+  an independent Python version with classic RK4 (15 checks pass).
+- `.github/workflows/fp-model-regression.yml`: Free Pascal build, golden
+  comparison and Python cross-check.
+- `Resources/tex/sheet_equations.tex` and the rendered sheet: arm model,
+  Lagrangian derivation, passive test, RKN, PID and adaptation, used
+  equations in yellow.
+- `Unit1.pas` / `Unit1.dfm` (four tabs, every chart, series, legend and
+  default value designed in the form), `Unit2.pas` / `Unit2.dfm` (equation
+  sheet) and `ArmView.pas` (OpenGL arm). Gradient buttons with hover and
+  pressed states, EXIT and CLEAR, input checks, warnings and a global error
+  handler. Not yet compiled in Delphi 13.
+
+#### Changed
+
+- Literature targets of the passive test confirmed as far as the open
+  sources allow: frontal k 30 Nm/rad, sagittal k 17.4 Nm/rad, damping ratio
+  0.76 in both planes (ISS-068).
+- Measurement of the damping ratio from the two extrema after the release
+  (ISS-073).
+
+### 2026-11-15 - Assignment 3: Ziegler-Nichols PID (session 3, UI v3)
+
+#### Fixed
+
+- Access violation and a frozen chart after the first Impulse Response run
+  (ISS-069): tab 1 now has separate impulse and step charts with fixed
+  legends; legends are no longer changed at run time in any tab.
+- Unexpected errors are written to `ZNTuning_error.log` and the same error
+  is shown at most once every 2 s (ISS-069).
+- Wheel zoom at the cursor, double click for the full view, full view after
+  every run (ISS-070).
+- Equation window: wheel and touchpad scrolling, drag, Ctrl + wheel or
+  pinch zoom (ISS-071).
+- Delphi hints H2077 and H2443 (ISS-072).
+
+#### Changed
+
+- Panel headers coloured by role: blue for actions, green for editable
+  inputs, red to orange for messages and warnings, teal for computed
+  results, slate for help, indigo for the closed-loop performance.
+- Fonts: Segoe UI Semibold for the title, panel headers and the stability
+  line, Consolas for every number field and the log.
+- The message log is a `TRichEdit`: warnings in bold orange, errors in bold
+  red.
+- The header subtitle keeps the text I set in the Form Designer (name and
+  student number only).
+
+#### Overwritten or kept
+
+- Overwritten: `Unit1.pas`, `Unit1.dfm`, `Unit2.pas`, `Unit2.dfm`,
+  `ZNModel.pas`. The copies saved by the IDE before this change are kept
+  outside the repository; the empty `lblSubtitleClick` handler that the IDE
+  had added was not carried over.
+
+### 2026-11-15 - Final Project: shoulder joint model (session 1, study)
+
+#### Added
+
+- Study of the FP handout, my Biomodelling wrist FP, the senior shoulder
+  programs and the lecture material on PID and adaptive PID. Findings are
+  logged as ISS-063 to ISS-067.
+- Design decisions for the FP. Dempster segment weights as the default
+  (other investigators selectable in the program), a sinusoidal reference
+  that follows the lecturer screenshot with editable amplitude and
+  frequency (0.25 Hz default, 0.1, 0.5 and 1.0 Hz as further speeds),
+  passive C and k found by an automatic iteration towards targets taken
+  from shoulder impedance studies, and one program with one tab per
+  problem.
+
+#### Fixed
+
+- `.github/workflows/a3-model-regression.yml` watched the A2 workflow file
+  in its path filter (ISS-062).
+
+### 2026-11-14 - Assignment 3: Ziegler-Nichols PID (session 2, UI v2)
+
+#### Fixed
+
+- `Unit1.dfm` could not be loaded: `ItemIndex` of the two radio groups was
+  written before their font (ISS-061); both now use the property order of
+  Delphi, and the form generator writes the same order.
+- Delphi 13 build warnings W1036 (`LY`, two places) and hint H2269
+  (`MouseWheelHandler`) (ISS-058).
+
+#### Changed
+
+- `Unit1.pas` / `Unit1.dfm` rebuilt as UI v2 (ISS-059): header with
+  Equations, Export CSV, Export PNG, CLEAR and EXIT; simulation settings and
+  a message log on the left; tabs Plant Model and RK4, ZN Method 1, ZN
+  Method 2 with Plant 1 / Plant 2 buttons, P / PI / PID radio buttons,
+  editable R, L, Ku, Pu, Kp, Ki, Kd, Test Ku, performance fields and three
+  separate charts per ZN tab. Gradient buttons with hover and pressed
+  states and gradient card headers, painted by a TPanel interposer.
+  Input checks, warnings and a global exception handler.
+- `ZNModel.pas`: `SimulateImpulse` added, `SimulatePLoop` public, peak
+  value MP and Max Value in the results, equation mentions without
+  brackets.
+- `Program/Verification/TestZN.dpr`: case C9 (impulse response); golden
+  output extended (0 failures).
+- Report: code in the answer boxes of Section 2.1, equation mentions
+  written as "Equation 2.1", Section 2.2.2 with the impulse response,
+  Section 2.2.5 with the Unit1 routines of UI v2 (UI lines omitted),
+  Section 2.3.1 rewritten for the tabs, nine screenshot placeholders,
+  data figures renumbered to Figures 2.10 to 2.13.
+- `Assignment 3_Preliminary/README.md`: program section for the tabs.
+
+#### Overwritten or kept
+
+- Overwritten: `Unit1.pas`, `Unit1.dfm`, `ZNModel.pas`, `TestZN.dpr`,
+  `TestZN_output.txt`, the A3 report and its sources.
+- Moved out of the repository: `Report/source/fig/fig2_8.png` and
+  `fig2_9.png` (old numbering) to the ignored `Claude outputs` folder.
+
+### 2026-11-14 - Assignment 3: Ziegler-Nichols PID (session 1)
+
+#### Analysed
+
+- Problem sheet, the ZN slides (Method 1 reaction curve and table, Method 2
+  critical gain and table), the controller slides (RK-Nystrom, PID forms,
+  program example) and earlier student PID programs (reference only).
+- Plant 1 `1/(s^2+0.5s+1)`: tangent at the inflection point gives
+  R = 0.7115, L = 0.4559 s, T = 1.4054 s (analytic and RK4).
+- Plant 2 `(2s+1)/(s^2+1.5s+1)`: realised as `z'' = -1.5z' - z + x`,
+  `y = z + 2z'`; the largest slope is at t = 0, so L = 0 without delay.
+- Neither plant has a finite critical gain under P control; the Ku of a
+  sampled simulation is 1/dt for both plants (ISS-051).
+- ZN PI gains destabilise plant 1 for both methods; P and PID are stable
+  (ISS-054).
+
+#### Decided
+
+- Adjustable input dead time theta, default 0.1 s (ISS-051).
+- Input held constant over one RK step (ISS-052); tangent from the RK state
+  (ISS-053); derivative term without kick at t = 0 (ISS-056).
+
+#### Added
+
+- `Assignment 3_Preliminary/Program/ZNModel.pas`: numerical unit without UI
+  (plant functions, RK4-Nystrom step, dead-time buffer, ZN Method 1 with
+  the tangent, Method 2 with the analytic phase crossover and a simulated
+  bisection, gain tables, closed-loop PID with overshoot, rise and settling
+  time, steady-state error, IAE, ISE and a stability test).
+- `Unit1.pas` / `Unit1.dfm`: main form (template `Form1` kept): plant and
+  method radio groups, parameter table, buttons, gain table, result memo,
+  status bar and four charts with all series, titles, axis titles and
+  legends designed in the form (Okabe-Ito colours). CSV and PNG export,
+  input checks, no crash on unstable loops, chart wheel guard (ISS-019).
+- `Unit2.pas` / `Unit2.dfm`: equation window, LaTeX sheet stored in the
+  form as `TPngImage`, implemented equations highlighted
+  (`Resources/tex/sheet_equations.tex`, `Resources/sheet_equations.png`).
+- `Program/Verification/TestZN.dpr` and golden `TestZN_output.txt`
+  (cases C1 to C8, 0 failures with FPC 3.2.2).
+- `.github/workflows/a3-model-regression.yml` (checkout@v6, actionlint
+  clean).
+- Report: Chapter I, Sections 2.2 to 2.4, Chapter III and IEEE references
+  written into my template (cover and Section 2.1 unchanged); sources and
+  build scripts in `Report/source/` (`report_part1-3.md`, `figs.py`,
+  `build_report.py`, `schemafix.py`, CSV data from `TestZN --csv`).
+- `Assignment 3_Preliminary/README.md` and `docs/img/zn-overview-*.png`.
+
+#### Changed
+
+- `ISSUES.md`: ISS-049 to ISS-057; personal names replaced by anonymous
+  labels (ISS-055).
+- `README.md` (root): Featured section with one block per finished
+  assignment (A2 and A3 added), A1 status "done", A3 row, badge and CI row,
+  lecturer row anonymous.
+- `Assignment 1_HH Model/README.md`, `Assignment 2_.../README.md`: lecturer
+  row and reference [2] anonymous.
+- `.gitignore`: the problem sheet of Assignment 3 (`*.pdf`, `*.docx` in the
+  assignment folder) is lecturer material and is not versioned.
+- `Assignment 3_Preliminary/Program/Project1.dpr` and `Project1.dproj`:
+  `ZNModel.pas` and `Unit2.pas` (form `FormEquations`) registered.
+
+#### Overwritten or kept
+
+- Overwritten: template `Unit1.pas`, `Unit1.dfm` and `Project1.dpr` of
+  Assignment 3 (empty form), and the A3 report template (Chapter I to the
+  references were left over from Assignment 2). A copy of the template is
+  kept in `Report/drafts/Template_original_before_A3_report.docx`.
+- Kept: `Project1.res`, `Project1.dproj.local`, the problem sheet. Nothing
+  deleted.
+
 ### 2026-11-09 - Assignment 2: Lagrangian and Hamiltonian Mechanics (sessions 11-13)
 
 #### Added

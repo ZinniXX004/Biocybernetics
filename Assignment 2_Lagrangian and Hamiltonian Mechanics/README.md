@@ -36,7 +36,7 @@
 | ------------ | ----------------------------------------------------------------------------- |
 | **Course**   | Biocybernetics (EB234701), Class Q, Department of Biomedical Engineering, ITS |
 | **Student**  | Jeremia Christ Immanuel Manalu (5023231017)                                   |
-| **Lecturer** | Dr. Achmad Arifin, S.T., M.Eng.                                               |
+| **Lecturer** | Course lecturer                                                               |
 | **Task**     | Two derivation problems; I added a short simulation program                   |
 | **Program**  | `Project1`: four charts, four presets, equation window (F1)                   |
 

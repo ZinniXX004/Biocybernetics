@@ -1,0 +1,94 @@
+% Equation sheet of the Assignment 3 program (shown by Unit2.pas).
+% Build: pdflatex sheet_equations.tex, then pdftoppm -r 130 -png.
+\documentclass[border=12pt,varwidth=17cm]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\definecolor{hl}{HTML}{FFF2A8}
+\definecolor{ink}{HTML}{1A1A1A}
+\newcommand{\used}[1]{\colorbox{hl}{$\displaystyle #1$}}
+\setlength{\parindent}{0pt}
+\begin{document}
+\color{ink}
+{\large\textbf{Ziegler-Nichols PID parameter determination: equations}}\\[2pt]
+{\small Yellow = equations used by the program. Numbers in brackets refer to the report.}
+
+\medskip
+\textbf{1. Plant models} (problem sheet) and transfer functions
+\[
+\used{\ddot y=-0.5\,\dot y-y+x}\ \ (1.1)\qquad
+\ddot y=-1.5\,\dot y-y+2\dot x+x\ \ (1.2)
+\]
+\[
+G_1(s)=\frac{1}{s^2+0.5s+1}\ \ (\zeta=0.25,\ \omega_n=1),\qquad
+G_2(s)=\frac{2s+1}{s^2+1.5s+1}\ \ (\zeta=0.75,\ \text{zero at } s=-0.5)
+\]
+Plant 2 without the derivative of the input (controllable canonical form):
+\[
+\used{\ddot z=-1.5\,\dot z-z+x}\ \ (1.7),\qquad \used{y=z+2\dot z}\ \ (1.8),\qquad
+\dot y=\dot z+2\ddot z
+\]
+Dead time (modelling assumption; $\theta=0$ gives the plant of the sheet):
+\[
+\used{x(t)=u(t-\theta)}\ \ (1.9),\qquad G(s)\,e^{-\theta s}
+\]
+
+\textbf{2. Integration} (Runge-Kutta-Nystroem, step $\Delta t$, input $x$ held over the step)
+\[
+\used{k_1=\tfrac{\Delta t}{2}f(y,\dot y,x),\ \
+k_2=\tfrac{\Delta t}{2}f\!\left(y+\tfrac{\Delta t}{2}(\dot y+\tfrac{k_1}{2}),\dot y+k_1,x\right),\ \
+k_3=\tfrac{\Delta t}{2}f\!\left(y+\tfrac{\Delta t}{2}(\dot y+\tfrac{k_1}{2}),\dot y+k_2,x\right)}
+\]
+\[
+\used{k_4=\tfrac{\Delta t}{2}f\!\left(y+\Delta t(\dot y+k_3),\dot y+2k_3,x\right)},\quad
+\used{y_{n+1}=y_n+\Delta t\left(\dot y_n+\tfrac{k_1+k_2+k_3}{3}\right)},\quad
+\used{\dot y_{n+1}=\dot y_n+\tfrac{k_1+2k_2+2k_3+k_4}{3}}
+\]
+
+\textbf{3. ZN Method 1} (open-loop step of height $x_0$, model $Ke^{-Ls}/(Ts+1)$)
+\[
+\used{R=\frac{\dot y(t_m)}{x_0}=\frac{\max_t \dot y(t)}{x_0}},\quad
+\used{L=t_m-\frac{y(t_m)}{R\,x_0}},\quad
+\used{K=\frac{y(\infty)}{x_0}},\quad
+\used{T=\frac{K}{R}}\qquad (1.13)
+\]
+\[
+\used{\text{P: }K_p=\frac{1}{RL}},\quad
+\used{\text{PI: }K_p=\frac{0.9}{RL},\ K_i=\frac{0.27}{RL^2}},\quad
+\used{\text{PID: }K_p=\frac{1.2}{RL},\ K_i=\frac{0.6}{RL^2},\ K_d=\frac{0.6}{R}}
+\]
+Plant 2 with $\theta=0$: $\dot y(0)=2$ right after the step is the largest slope, so $L=0$ and Method 1 does not apply.
+
+\medskip
+\textbf{4. ZN Method 2} (P control, raise $K_p$ to the edge of stability)
+\[
+\used{\angle G(j\omega_u)-\omega_u\theta=-\pi},\quad
+\used{K_u=\frac{1}{|G(j\omega_u)|}},\quad
+\used{P_u=\frac{2\pi}{\omega_u}}\qquad (1.14)
+\]
+\[
+\used{\text{P: }K_p=0.5K_u},\quad
+\used{\text{PI: }K_p=0.45K_u,\ K_i=\frac{0.54K_u}{P_u}},\quad
+\used{\text{PID: }K_p=0.6K_u,\ K_i=\frac{1.2K_u}{P_u},\ K_d=0.075K_uP_u}
+\]
+Without dead time: $s^2+0.5s+(1+K_p)=0$ and $s^2+(1.5+2K_p)s+(1+K_p)=0$ are stable for every $K_p>-1$, so $K_u$ does not exist.
+
+\medskip
+\textbf{5. Controller} (positional PID of the lecture, sample $\Delta t$)
+\[
+\used{e_n=r-y_n},\quad
+\used{I_n=I_{n-1}+e_n\Delta t},\quad
+\used{D_n=\frac{e_n-e_{n-1}}{\Delta t}},\quad
+\used{u_n=K_pe_n+K_iI_n+K_dD_n}\qquad (1.11)
+\]
+
+\textbf{6. Performance}
+\[
+\text{OS}=\frac{y_{\max}-y_\infty}{y_\infty}\cdot100\,\%,\quad
+e_{ss}=r-y_\infty,\quad
+\text{IAE}=\int_0^{t_f}|e|\,dt,\quad
+\text{ISE}=\int_0^{t_f}e^2\,dt,\quad
+t_r: 10\,\%\to90\,\%,\ \ t_s: \pm2\,\%
+\]
+\end{document}

@@ -1,0 +1,69 @@
+C1 plant 1 step, 10 s: max |y_RK4 - y_exact| = 1.09E-14
+[PASS] C1 RK4 error = 1.0880186E-14
+C2 plant 1, theta = 0: t* = 1.3610 (exact 1.3613), y* = 0.6440, R = 0.7115 (exact 0.7115), L = 0.4559 (exact 0.4559), T = 1.4061, K = 1.0005, overshoot = 44.36 %
+[PASS] C2 |R - R_exact| = 4.2206395E-8
+[PASS] C2 |L - L_exact| (s) = 5.3693805E-8
+[PASS] C2 Method 1 valid = 1
+C3 plant 2, theta = 0: largest slope R = 2.0000 at t = 0.0000 s, y there = 0.0000, overshoot = 35.89 %
+[PASS] C3 slope at t = 0 (expected 2) = 2
+[PASS] C3 Method 1 rejected (L = 0) = 0
+[PASS] C4 plant 1 no phase crossover at theta = 0 = 0
+C4 plant 1: simulated Ku = 1000.48 (dt = 1 ms), 100.12 (dt = 10 ms); Ku dt = 1.0005, 1.0012; Pu = 0.1986 s, 0.6253 s
+[PASS] C4 plant 1 Ku ratio dt 1 ms / 10 ms (about 10) = 9.9925695
+[PASS] C4 plant 1 Method 2 rejected = 0
+[PASS] C4 plant 2 no phase crossover at theta = 0 = 0
+C4 plant 2: simulated Ku = 1000.00 (dt = 1 ms), 100.00 (dt = 10 ms); Ku dt = 1.0000, 1.0000; Pu = 0.0020 s, 0.0200 s
+[PASS] C4 plant 2 Ku ratio dt 1 ms / 10 ms (about 10) = 9.9999542
+[PASS] C4 plant 2 Method 2 rejected = 0
+C5 plant 1, theta = 0.1 s: R = 0.7115, L = 0.5559 s, T = 1.4062 s, K = 1.0005
+C5 plant 1, theta = 0.1 s: Ku = 5.0495, Pu = 2.5865 s, wu = 2.4293 rad/s; simulated Ku = 5.0270, Pu = 2.5915 s
+[PASS] C5 plant 1 Method 1 valid = 1
+[PASS] C5 plant 1 Method 2 valid = 1
+[PASS] C5 plant 1 |Ku_sim/Ku - 1| = 0.0044650176
+[PASS] C5 plant 1 |Pu_sim/Pu - 1| = 0.0019374522
+C5 plant 2, theta = 0.1 s: R = 2.0000, L = 0.1000 s, T = 0.5000 s, K = 1.0000
+C5 plant 2, theta = 0.1 s: Ku = 8.1609, Pu = 0.3850 s, wu = 16.3216 rad/s; simulated Ku = 8.1218, Pu = 0.3868 s
+[PASS] C5 plant 2 Method 1 valid = 1
+[PASS] C5 plant 2 Method 2 valid = 1
+[PASS] C5 plant 2 |Ku_sim/Ku - 1| = 0.0047919905
+[PASS] C5 plant 2 |Pu_sim/Pu - 1| = 0.0048146405
+[PASS] C5 plant 1 L shifted by theta (0.4561 + 0.1) = 0.55592449
+[PASS] C5 plant 2 L = theta = 0.1
+C6 plant 1 M1 P: Kp = 2.5281, Ki = 0.0000, Kd = 0.0000, OS = 78.8 %, tr = 0.581 s, ts = -1.00 s, ess = 0.2731, IAE = 9.1720, ISE = 3.5942
+[PASS] C6 plant 1 M1 P stability as expected = 1
+C6 plant 1 M1 PI: Kp = 2.2753, Ki = 1.2278, Kd = 0.0000, unstable (growing oscillation)
+[PASS] C6 plant 1 M1 PI stability as expected = 0
+C6 plant 1 M1 PID: Kp = 3.0337, Ki = 2.7285, Kd = 0.8433, OS = 63.9 %, tr = 0.606 s, ts = 21.66 s, ess = 0.0041, IAE = 3.4598, ISE = 1.3597
+[PASS] C6 plant 1 M1 PID stability as expected = 1
+C6 plant 1 M2 P: Kp = 2.5248, Ki = 0.0000, Kd = 0.0000, OS = 78.7 %, tr = 0.581 s, ts = -1.00 s, ess = 0.2731, IAE = 9.1775, ISE = 3.5966
+[PASS] C6 plant 1 M2 P stability as expected = 1
+C6 plant 1 M2 PI: Kp = 2.2723, Ki = 1.0542, Kd = 0.0000, unstable (growing oscillation)
+[PASS] C6 plant 1 M2 PI stability as expected = 0
+C6 plant 1 M2 PID: Kp = 3.0297, Ki = 2.3427, Kd = 0.9795, OS = 51.1 %, tr = 0.642 s, ts = 12.07 s, ess = 0.0000, IAE = 2.1205, ISE = 0.9189
+[PASS] C6 plant 1 M2 PID stability as expected = 1
+C6 plant 2 M1 P: Kp = 5.0000, Ki = 0.0000, Kd = 0.0000, OS = 61.8 %, tr = 0.070 s, ts = 2.87 s, ess = 0.1667, IAE = 5.0298, ISE = 0.9433
+[PASS] C6 plant 2 M1 P stability as expected = 1
+C6 plant 2 M1 PI: Kp = 4.5000, Ki = 13.5000, Kd = 0.0000, OS = 71.1 %, tr = 0.081 s, ts = 1.74 s, ess = 0.0000, IAE = 0.3865, ISE = 0.2205
+[PASS] C6 plant 2 M1 PI stability as expected = 1
+C6 plant 2 M1 PID: Kp = 6.0000, Ki = 30.0000, Kd = 0.3000, OS = 74.4 %, tr = 0.058 s, ts = 0.98 s, ess = 0.0000, IAE = 0.2918, ISE = 0.1883
+[PASS] C6 plant 2 M1 PID stability as expected = 1
+C6 plant 2 M2 P: Kp = 4.0804, Ki = 0.0000, Kd = 0.0000, OS = 45.6 %, tr = 0.083 s, ts = 3.19 s, ess = 0.1968, IAE = 5.8794, ISE = 1.2464
+[PASS] C6 plant 2 M2 P stability as expected = 1
+C6 plant 2 M2 PI: Kp = 3.6724, Ki = 11.4476, Kd = 0.0000, OS = 55.8 %, tr = 0.097 s, ts = 1.40 s, ess = 0.0000, IAE = 0.3418, ISE = 0.1981
+[PASS] C6 plant 2 M2 PI stability as expected = 1
+C6 plant 2 M2 PID: Kp = 4.8965, Ki = 25.4390, Kd = 0.2356, OS = 60.8 %, tr = 0.069 s, ts = 1.01 s, ess = 0.0000, IAE = 0.3200, ISE = 0.1934
+[PASS] C6 plant 2 M2 PID stability as expected = 1
+C7 plant 1 theta = 0.05 s: L = 0.5059, R = 0.7115, Ku = 10.0456, Pu = 1.9023; PID M1 OS = 62.5 %, ts = 19.32 s; PID M2 OS = 65.1 %, ts = 11.38 s
+C7 plant 1 theta = 0.10 s: L = 0.5559, R = 0.7115, Ku = 5.0495, Pu = 2.5865; PID M1 OS = 63.9 %, ts = 21.66 s; PID M2 OS = 51.1 %, ts = 12.07 s
+C7 plant 1 theta = 0.20 s: L = 0.6559, R = 0.7115, Ku = 2.5573, Pu = 3.4145; PID M1 OS = 62.5 %, ts = 28.01 s; PID M2 OS = 29.9 %, ts = 13.16 s
+C7 plant 2 theta = 0.05 s: L = 0.0500, R = 2.0000, Ku = 16.0202, Pu = 0.1961; PID M1 OS = 83.6 %, ts = 0.49 s; PID M2 OS = 66.3 %, ts = 0.51 s
+C7 plant 2 theta = 0.10 s: L = 0.1000, R = 2.0000, Ku = 8.1609, Pu = 0.3850; PID M1 OS = 74.4 %, ts = 0.98 s; PID M2 OS = 60.8 %, ts = 1.01 s
+C7 plant 2 theta = 0.20 s: L = 0.2000, R = 2.0000, Ku = 4.2250, Pu = 0.7436; PID M1 OS = 59.7 %, ts = 1.97 s; PID M2 OS = 52.1 %, ts = 2.04 s
+[PASS] C7 sweep completed = 3
+C8 plant 1 threshold rule: L = t(y=0.25) = 0.7710 s, T = t(y=1) - L = 1.1130 s, R = 1/T = 0.8985
+C8 plant 2 without 2x': overshoot = 2.84 %; with 2x': overshoot = 35.89 %
+C9 plant 1 impulse: peak = 0.7115 at t = 1.3620 s, max |y - g| = 4.99E-04
+[PASS] C9 plant 1 impulse vs exact (pulse of one step) = 0.00049908081
+C9 plant 2 impulse: peak = 1.9990 at t = 0.0010 s
+[PASS] C9 plant 2 impulse starts near g(0+) = 2 = 1.9990002
+0 failure(s)

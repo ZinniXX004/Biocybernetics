@@ -50,6 +50,34 @@ confirmation** (requires the lecturer or my own check).
 | ISS-046 | A2 / report build    | Cover logo (EMF) had no content type in my first build                                      | Resolved           |
 | ISS-047 | A2 / report          | My first draft: I = ml^2 in Problem 1, rdot kept before r = l, 27 pages, Python checks      | Resolved           |
 | ISS-048 | A2 / report          | My second draft shortened the derivations too much                                          | Resolved           |
+| ISS-049 | A3 / lecturer slides | ZN Method 1 assumes an aperiodic S-shaped curve; plant 1 overshoots 44.4 %                  | Resolved           |
+| ISS-050 | A3 / senior code     | Plant 2: `xdot` held at 0 by all seniors (zero of `2s+1` removed); L = 0 for the true plant | Resolved           |
+| ISS-051 | A3 / theory          | No finite Ku for either plant under P control; simulated Ku is a dt artefact                | Mitigated          |
+| ISS-052 | A3 / lecturer code   | RK program passes `x2+0.5*dt` into the input argument of `difeq`                            | Resolved           |
+| ISS-053 | A3 / senior code     | L and T taken from 0.25 or 0.1-0.2 thresholds instead of the inflection tangent             | Resolved           |
+| ISS-054 | A3 / theory          | ZN PI gains destabilise plant 1 (lightly damped); P and PID stay stable                     | Documented         |
+| ISS-055 | Repository           | Names of seniors, a classmate and the lecturer removed from tracked Markdown                | Mitigated          |
+| ISS-056 | A3 / code            | Derivative term: previous error starts at the first error (no kick at t = 0)                | Resolved           |
+| ISS-057 | A3 / report build    | Superscripts t^*, 0^+ and a triple dot not shown by LibreOffice; long equations cut         | Resolved           |
+| ISS-058 | A3 / build           | Delphi 13: W1036 `LY` might not have been initialized (x2), H2269 MouseWheelHandler visibility | Resolved           |
+| ISS-059 | A3 / UI              | First UI showed all results at once; inputs of the earlier programs (Ku, Pu, Kp, Ki, Kd, R, L) not editable | Resolved           |
+| ISS-060 | A3 / numerics        | Impulse test of the lecture is a pulse of area dt; my impulse uses area x0                  | Documented         |
+| ISS-061 | A3 / form file       | Opening Unit1.dfm: rgZN1Ctrl.Font.Color, List index out of bounds (2) (ItemIndex before Font) | Resolved           |
+| ISS-062 | Repository / CI      | A3 workflow watched the A2 workflow file in its path filter                                  | Resolved           |
+| ISS-063 | FP / own earlier work | Wrist FP of Biomodelling: PID output never enters the motion equation                       | Documented         |
+| ISS-064 | FP / handout tables  | Fischer column incomplete for the arm; uniform rod puts the COM 20% further out than Dempster | Documented         |
+| ISS-065 | FP / handout figure  | Reference read off the lecturer screenshot; its RMSE 0.819 deg is above the 0.75 deg criterion | Needs confirmation |
+| ISS-066 | FP / adaptation      | Exact dV/dp needs the plant sensitivity; gradient approximation lets Kp only grow           | Open               |
+| ISS-067 | FP / senior programs | Shared target template, kinematic shortcut in one revision, RMSE of 2 to 3 deg in another   | Documented         |
+| ISS-068 | FP / passive targets | No study gives relaxed shoulder C and k at the hanging-arm posture per anatomical axis      | Documented (support only) |
+| ISS-069 | A3 / UI              | Access violation (read of address 0x40) on the first Impulse Response click; tab 1 chart froze | Resolved           |
+| ISS-070 | A3 / UI              | Charts could not be zoomed with the wheel; no way back to the full view after a zoom        | Resolved           |
+| ISS-071 | A3 / UI              | Equation window could not be scrolled with the wheel or touchpad, or dragged                | Resolved           |
+| ISS-072 | A3 / build           | Delphi 13 hints H2077 (`LY` never used) and H2443 (inline `Point`, `System.Types` missing)  | Resolved           |
+| ISS-073 | FP / numerics        | Damping ratio measured from the release amplitude was biased by the sin(theta) nonlinearity | Resolved           |
+| ISS-074 | FP / design          | Gain choice of Problem 3 and the meaning of the settling time for a sine reference          | Documented         |
+| ISS-075 | Repository           | Two parallel sessions append to ISSUES.md and CHANGELOG.md                                  | Mitigated          |
+| ISS-076 | A3 / report build    | References chapter printed the word REFS instead of the list (placeholder name mismatch)    | Resolved           |
 
 ---
 
@@ -89,7 +117,7 @@ confirmation** (requires the lecturer or my own check).
 
 ### ISS-004 - `vm[0,i]` in the lecturer's propagation code
 
-- **Source:** `Biocyber/Materi Pak Arifin/Propagation model computation.docx`:
+- **Source:** lecturer material `Propagation model computation.docx` (not redistributed):
   `... -(k*gm*vm[0,i]/cm);`
 - **Analysis:** The membrane term of node `j` should use `vm[j,i]`. Using node
   0 makes every node leak according to the first node's voltage. This is
@@ -565,8 +593,7 @@ confirmation** (requires the lecturer or my own check).
 
 ### ISS-040 - Senior report of the same assignment (2025), reference only
 
-- **Source:** `Biocyber/Lisa Katarina_5023221057_LAGRANGIAN-HAMILTONIAN
-ASSIGNMENT.docx` (not redistributed).
+- **Source:** A2 report of Senior D (2025, not redistributed).
 - **Analysis:** the report writes `L = 1/2 m thetadot^2 - V` and
   `p = m thetadot`. This is correct if theta is a distance (the lecture uses
   x the same way), but for an angle `m thetadot^2` has the unit kg/s^2 and
@@ -580,9 +607,9 @@ ASSIGNMENT.docx` (not redistributed).
 
 ### ISS-041 - Senior Final Project motion equation (shoulder joint)
 
-- **Source:** `BACEM/5023211023_Mu'afa Ali Syakir (2)/..._Program FP/Shoulder
-Joint/Unit1.pas`, `motioneq` (lines 128-132); the same procedure is in the
-  FP programs of Revelyno R. T. and Adlan A. (not redistributed).
+- **Source:** FP program of Senior A (shoulder joint, `Unit1.pas`,
+  `motioneq`, lines 128-132); the same procedure is in the FP programs of
+  Senior B and Senior C (not redistributed).
 - **Analysis:**
   1. By operator precedence only the gravity term is divided by the
      inertia; damping, stiffness, active torque and the centrifugal term
@@ -604,7 +631,7 @@ Joint/Unit1.pas`, `motioneq` (lines 128-132); the same procedure is in the
 
 - **Analysis:** `Ek = 1/2 m v^2 + 1/2 I thetadot^2` with `I = I_O` counts the
   rotation twice; for a rigid segment either `1/2 m v_G^2 + 1/2 I_G omega^2`
-  or `1/2 I_O omega^2`. One revision (`Revisi_Adlan Arisyi`) uses
+  or `1/2 I_O omega^2`. One revision (Senior C) uses
   `I_O = 7 m l^2/12`; for a uniform rod about its end `I_O = m l^2/3`.
 - **Action:** for my FP.
 
@@ -683,3 +710,478 @@ Controller.pdf`, p. 42 (Model I), also p. 43 (Model II).
   are written as one full equation per row, because a row that starts with
   "=" is shown as a missing operand in LibreOffice.
 - **Result:** 16 pages instead of 14.
+
+### ISS-049 - ZN Method 1 applied to an oscillatory plant
+
+- **Source:** `Materials/PID ZN METHOD.pdf`, p. 2 (reaction curve of
+  `G(s) = K e^(-L s)/(T s + 1)`, slope `R = K/T`) and p. 3 (P: `Kp = 1/RL`,
+  PI: `Kp = 0.9/RL`, `Ki = 0.27/RL^2`, PID: `Kp = 1.2/RL`, `Ki = 0.6/RL^2`,
+  `Kd = 0.6/R`). The table equals the classical `Kp = 1.2 T/(K L)`,
+  `Ti = 2L`, `Td = 0.5L` with `Ki = Kp/Ti`, `Kd = Kp Td`; R is the maximum
+  slope per unit step amplitude.
+- **Analysis:** plant 1 is `G1(s) = 1/(s^2 + 0.5 s + 1)` with `wn = 1 rad/s`
+  and `zeta = 0.25`, so the step response overshoots by
+  `exp(-pi zeta/sqrt(1-zeta^2)) = 44.4 %`. The reaction-curve model assumes
+  an aperiodic (S-shaped) response. The tangent construction is still
+  defined: the inflection point lies at `wd t* = arccos(zeta)`, giving
+  `t* = 1.3614 s`, `y* = 0.6442`, `R = wn exp(-zeta wn t*) = 0.7116 1/s`,
+  `L = t* - y*/R = 0.4561 s`, `T = 1/R = 1.4053 s` (`L/T = 0.32`). My
+  RK4 check (dt = 1 ms) gives R = 0.7115, L = 0.4559 s.
+- **Action:** I will use the exact tangent construction and state in the
+  report that the FOPDT fit of plant 1 is poor (the oscillation is not
+  captured), so the resulting gains are a starting point.
+
+### ISS-050 - The `2 x'` term of plant 2
+
+- **Source:** problem sheet, Equation (2): `y'' = -1.5 y' - y + 2 x' + x`.
+- **Senior code:** the PID programs of five seniors (A to E) and the report
+  of a classmate all pass `xdot = 0`
+  for the whole run. That simulates `1/(s^2 + 1.5 s + 1)`, not the given
+  plant `G2(s) = (2s + 1)/(s^2 + 1.5 s + 1)`.
+- **Analysis:** numerical differentiation of a step input gives a single
+  spike of height `1/dt`, which is not a usable derivative. I will use the
+  controllable canonical realisation `z'' = -1.5 z' - z + x`,
+  `y = z + 2 z'`, which needs no derivative of the input and keeps the
+  "second-order differential equation" form of the problem. With the zero
+  the step response has `y'(0+) = 2` and `y''(0+) = -2`, so the slope is
+  largest at `t = 0+`. There is no inflection point and the tangent passes
+  through the origin, so `L = 0` and the Method 1 formulas divide by zero.
+  RK4 check: R = 1.999 at t = 0, overshoot 35.9 %.
+- **Action:** decision on how to make Method 1 defined for plant 2 is
+  linked to ISS-051.
+
+### ISS-051 - Critical gain Ku for second-order plants
+
+- **Source:** `Materials/PID ZN METHOD.pdf`, p. 4 (increase Ku until the
+  closed loop is marginally stable, measure Pu) and p. 5 (P: `0.5 Ku`,
+  PI: `0.45 Ku`, `0.54 Ku/Pu`, PID: `0.6 Ku`, `1.2 Ku/Pu`, `0.075 Ku Pu`).
+- **Analysis:** with `u = Kp e` the characteristic equations are
+  `s^2 + 0.5 s + (1 + Kp) = 0` (plant 1) and
+  `s^2 + (1.5 + 2 Kp) s + (1 + Kp) = 0` (plant 2). Both have positive
+  coefficients for every `Kp > -1`, so the loop never becomes marginally
+  stable. Plant 2 even becomes more damped as Kp grows. In a sampled
+  simulation the loop does go unstable, but only because of the zero-order
+  hold of the step dt. The simulated critical gain is Ku = 1000 for
+  dt = 1 ms and Ku = 100 for dt = 10 ms for both plants (`Ku dt = 1.000`),
+  confirmed by the eigenvalues of the one-step map of the sampled loop.
+  Pu is 0.199 s / 0.625 s for plant 1 and exactly two steps for plant 2.
+  These are numerical artefacts, not plant properties. (My first quick
+  estimate, `0.33/dt` and `0.5/dt`, came from a growth test whose windows
+  were shorter than one period of plant 1; the program uses a run of at
+  least 40 s for this test.)
+- **Senior code:** Seniors A, B and D read Ku from an edit box (default 1)
+  and take Pu from the peaks of a damped response. Senior C (revision)
+  reads Ku from a scroll bar.
+- **Decision (2026-11-14):** I add an adjustable transport delay (dead time)
+  theta at the plant input, default 0.1 s, as a stated modelling assumption
+  (for example the electromechanical delay between stimulus and muscle
+  force in FES). The program also runs theta = 0 and reports there that
+  Ku does not exist. A sampled controller period was rejected because it
+  leaves L = 0 for plant 2. With a delay of 0.1 s the analytic values are Ku = 5.050,
+  Pu = 2.587 s (plant 1) and Ku = 8.161, Pu = 0.385 s (plant 2).
+
+### ISS-052 - Input argument shifted by dt/2 in the lecturer RK program
+
+- **Source:** `Materials/control eng in biomedical application 1_
+  Controller.pdf`, p. 20 (Runge-Kutta-Nystrom form for `y'' = f(x, y, y')`,
+  where x is the independent variable) and p. 44 (program example
+  `difeq(y2+0.5*dt*(y2dot+0.5*k1), y2dot+k1, x2+0.5*dt)`).
+- **Analysis:** in `difeq` the third argument is the plant input, not time,
+  so `x2 + 0.5*dt` changes the input by `dt/2` inside the stages (a bias of
+  0.05 % of a unit step at dt = 1 ms). Two senior programs (A and B) copied this.
+- **Action:** I keep the Nystrom stage structure of p. 20 and p. 44 but hold
+  the input constant over one step (zero-order hold).
+
+### ISS-053 - How the seniors measured L and T
+
+- **Senior code:** Seniors A and B and a classmate take L as the time when y
+  first exceeds 0.25 and T as the time from there until y reaches 1.
+  Senior C (first version) takes L inside the band 0.1 < y < 0.2 and T at
+  63.2 % of the final value. None of them draws the tangent at the
+  inflection point of p. 2.
+- **Action:** I will find the inflection point from the maximum of `y'`
+  (taken from the RK4 state, not from a finite difference) and draw the
+  tangent on the chart.
+
+### ISS-054 - ZN PI controller on plant 1
+
+- **Check:** closed-loop RK4 runs (dt = 1 ms, positional PID of the
+  controller slides, p. 45) with theta = 0.1 s. Plant 1, Method 1:
+  R = 0.7115, L = 0.5559 s; Method 2: Ku = 5.050, Pu = 2.587 s.
+- **Result:** P (Kp about 2.5) is stable with a steady-state error of
+  `1/(1+Kp) = 0.286`. PID is stable (overshoot 63 % for Method 1, 51 % for
+  Method 2, no steady-state error). PI is unstable for both methods: the
+  oscillation grows without bound. Without delay the Method 1 PI loop
+  `s^3 + 0.5 s^2 + (1 + Kp) s + Ki` has roots `-0.008 +/- 1.94j`, so it is
+  only just stable. Plant 2 is stable with every ZN controller.
+- **Analysis:** the ZN tables target an aperiodic process and a quarter
+  decay ratio. Plant 1 has a resonance (zeta = 0.25). PI adds about 90
+  degrees of phase lag at low frequency and no damping, so the resonant
+  pair moves into the right half plane. The derivative term of PID adds
+  the damping that is missing.
+- **Action:** the program detects divergence (output bound and a growing
+  oscillation envelope), stops the run and marks the controller as
+  unstable instead of crashing. The report discusses it as a limitation of
+  ZN tuning.
+
+### ISS-055 - Personal names in tracked Markdown
+
+- **Problem:** `ISSUES.md` named senior students and the lecturer (folder
+  paths and program authors), and three READMEs named the lecturer.
+- **Fix:** seniors are now Senior A to E, a classmate is "a classmate",
+  the lecturer is "the course lecturer" (READMEs, issue entries, the A1
+  README reference [2]).
+- **Remaining:** earlier commits on GitHub still contain the names, and the
+  report sources of A1 and A2 (`Report/source/*.md`, `.docx`, `.pdf`) cite
+  the lecture notes with the lecturer's name, as IEEE requires for the
+  submitted reports. Rewriting the Git history is my decision, not done.
+
+### ISS-056 - Derivative kick of the PID law at t = 0
+
+- **Source:** controller slides, p. 45 (`eold := e; e := r - y;
+  de := (e - eold)/dt`). If `e` starts at 0, the first step gives
+  `de = r/dt` and the controller output jumps to `Kd r/dt` (843 for the
+  plant 1 PID of Method 1 at dt = 1 ms) for one sample.
+- **Decision:** I keep the derivative on the error, as in the slides, but
+  start `e_old` at the first error, so the derivative term begins at zero.
+  The setpoint is treated as present before the controller starts. This
+  keeps the controller-output chart readable and does not change the
+  stability of any loop.
+
+### ISS-057 - Equation rendering in my first A3 report build
+
+- **Problem:** in the LibreOffice preview the inline symbols `t^*`, `y^*`,
+  `0^+` and `\dddot z` were shown as a wrong glyph or dropped, and
+  Equation (1.15) was cut at the right margin.
+- **Fix:** I write `t_m`, `y_m` (time and value of the largest slope),
+  `(0)` with the words "right after the step", and `\dot{\ddot z}`; long
+  equations are split into rows, one full equation per row (as for A2,
+  ISS-048). The equation window of the program uses the same notation.
+
+### ISS-058 - Warnings of the first Delphi 13 build of A3
+
+- **Found in:** my first build in Delphi 13 CE (Win32): `ZNModel.pas(323)` and
+  `ZNModel.pas(672)` W1036 "Variable 'LY' might not have been initialized",
+  `Unit1.pas(99)` H2269 "Overriding virtual method
+  'TForm1.MouseWheelHandler' has lower visibility (protected) than base
+  class 'TForm' (public)".
+- **Cause:** in `SimulateOpenLoop` and `SimulateClosedLoop` the last output
+  `LY` is read after the loop. The loop always runs at least once, but the
+  compiler cannot prove it. `MouseWheelHandler` is public in `TForm`.
+- **Fix:** `LY := 0.0` before each loop (also in `SimulatePLoop`), and
+  `MouseWheelHandler` moved to the public section. Free Pascal reported
+  neither case, so the Delphi build log is the reference for warnings.
+
+### ISS-059 - Layout of the first A3 program
+
+- **Problem:** the first version ran both methods at once and showed four
+  charts with many series, and only the simulation settings could be
+  edited. The earlier programs of this course, which the lecturer has seen
+  at the demos, use one action per button (impulse response, step
+  response, Method 1, Method 2), one chart per result, and edit fields for
+  Ku, Pu, Kp, Ki, Kd and the results R, L, MP, %MP.
+- **Fix (UI v2):** three tabs (Plant Model and RK4 for Problems 1 and 2, ZN
+  Method 1, ZN Method 2), the names of the earlier programs with a short
+  explanation in brackets, separate charts with few series (legend lists
+  only series with points), editable R, L, Ku, Pu, Kp, Ki, Kd, a Test Ku
+  button, CLEAR and EXIT, a message log, warnings and input checks.
+  Buttons and card headers are TPanels designed in the form and painted by
+  an interposer class (gradient, hover, pressed), so no custom component
+  has to be installed in Delphi CE.
+
+### ISS-060 - Impulse input
+
+- **Source:** controller slides, p. 44: `x := 1` during the first step, then
+  `x := 0`, a pulse of area dt (0.001 at dt = 1 ms), so the response is
+  1000 times smaller than the impulse response g(t).
+- **Decision:** `SimulateImpulse` applies `x0/dt` during one step (area x0).
+  With dt = 1 ms the result differs from the exact g(t) of plant 1 by less
+  than 5e-4 (test case C9). The peak of g(t) for plant 1 is 0.7115 at
+  1.362 s, the slope R and the time t_m of the Method 1 tangent.
+
+### ISS-061 - Form of UI v2 could not be opened
+
+- **Found in:** opening Project1 in Delphi 13 after UI v2: "Error reading
+  rgZN1Ctrl.Font.Color: List index out of bounds (2). TList is empty."
+- **Cause:** my form generator wrote `ItemIndex = 2` before the `Font`
+  properties of both radio groups. While the form is read, the radio
+  buttons do not exist yet (they are made from `Items.Strings`). The font
+  change that followed tried to update the selected button with index 2
+  in an empty list. Delphi itself writes the font before `ItemIndex` and
+  `Items.Strings`, which avoids this.
+- **Fix:** both radio groups now use the Delphi order (geometry, `Color`,
+  `Font`, `ItemIndex`, `Items.Strings`, `Parent*`, `TabOrder`, event); the
+  redundant `Columns = 1` was removed. The generator writes the same order,
+  so a regenerated form is identical.
+- **Lesson:** a property that refers to a list item (`ItemIndex`) must
+  follow every property that can repaint the control, and a form
+  generator must copy the property order of a form saved by Delphi, not
+  only its property names.
+- **Note:** an earlier repair of the same error removed the `Font` lines of
+  both radio groups instead. I replaced that copy with the Delphi-order
+  version, which keeps the intended font. "Ignore" in the error dialog is
+  not safe, because the IDE may drop components when it saves the form.
+
+### ISS-062 - A3 workflow watched the A2 workflow file
+
+The path filter of `.github/workflows/a3-model-regression.yml` listed
+`a2-model-regression.yml` (copied from the A2 workflow). A change to the A3
+workflow alone would not have started the A3 job. I found this while
+reading the workflows for the Final Project and pointed both filters to
+`a3-model-regression.yml`. The A1 and A2 workflows were already correct.
+
+### ISS-063 - Wrist FP of Biomodelling, control loop outside the dynamics
+
+My Biomodelling Final Project (wrist joint, Semester 5) integrates a free
+pendulum as the target angle and then moves the "realized" angle with
+`reald := reald + Kp e + Ti sum(e dt) + Td de/dt`. This is a kinematic filter.
+No joint torque enters the motion equation, so the program does not show
+torque control at all. Further points in the same program are listed here
+so that none of them returns in the shoulder model.
+
+1. The chart named "Torque" plots de/dt.
+2. The fields named Ti and Td are used directly as the gains Ki and Kd.
+3. The RMSE squares the mean of the two axis errors, so errors of opposite
+   sign cancel. Each axis needs its own RMSE.
+4. The stiffness term is not divided by the inertia while gravity is
+   (mixed units in one acceleration).
+5. Mass `0.006 BW + 0.054` (a regression for the hand), BW = 60 kg,
+   BH = 160 cm and l = 0.517 m are hard-coded and not consistent.
+6. The physics runs inside a 10 ms `TTimer`, so simulated time depends on
+   the user interface.
+
+For the shoulder model I reuse only the OpenGL set-up, the arm drawing, the
+camera controls and the Runge-Kutta-Nystroem step (identical to the lecture
+slide). The numerical core is new and has no UI dependency.
+
+### ISS-064 - Anthropometric tables of the FP handout
+
+The Fischer column of the segment weight table has no values for the lower
+arm and the hand, so it cannot give the mass of the whole arm. The length
+table has one source only (upper arm 17.20, lower arm 15.70, hand 5.75 per
+cent of BH). For BW = 74 kg and BH = 171 cm the Dempster values give
+m = 5.0 % of BW = 3.70 kg and l = 0.6609 m. The handout asks for a uniform
+rod, so the centre of mass sits at l/2 = 0.330 m. The composite centre of
+mass from the Dempster COM table is 0.276 m from the shoulder, so the
+uniform rod overestimates the gravity moment by about 20 per cent. I keep
+the handout assumption in the model and discuss the difference in the
+report. The choice of table scales m, the inertia, the torques and the
+gains by the same factor (up to 24 per cent between Clauser and
+Braune-Fischer). It does not change the passive kinematics when C and k
+scale with it.
+
+### ISS-065 - Reference trajectory and RMSE of the lecturer screenshot
+
+The handout shows the lecturer program with a flexion target close to
+30 sin(2 pi 0.25 t) deg and an abduction target close to 10 cos(2 pi 0.25 t)
+deg, both over about 3.5 s. These values are my reading of the figure, not
+numbers given in the text. The RMSE shown there (0.819 deg) is above the
+0.75 deg criterion of Problem 4, most likely because the start transient is
+included. My program will report the RMSE over the whole run and after the
+settling time, and will state which one is compared with the criterion.
+I will confirm the intended reference with the lecturer.
+
+### ISS-066 - Gradient of the adaptation rule
+
+The handout writes `p = p - dV/dp` with `V = 1/2 sum(e^2)`. The exact
+gradient is `dV/dp = -sum(e dy/dp)`, and dy/dp needs the sensitivity of the
+arm to the torque, which the controller does not know. I use the usual
+gradient approximation (MIT rule) with a positive plant sensitivity, which
+gives `dV/dKp = -e e`, `dV/dKi = -e int(e)` and `dV/dKd = -e de/dt`. With
+this form Kp can only grow, because `-eta (-e^2)` is never negative. The
+rule therefore needs a small learning rate eta (written on the lecture
+slide, missing in the handout), upper bounds on the gains and a stop rule.
+The values will be documented with the results.
+
+### ISS-067 - Senior Final Project programs, further points
+
+All four senior shoulder programs use the same target `30 cos(2 pi 0.1 t)`
+(15 deg for the combined movement), which suggests one shared template. One
+revised program replaces the joint angle by the PID output
+(`rotangle := pidteta`), the same kinematic shortcut as ISS-063. Another
+program has the correct structure (passive torque with its physical sign,
+gravity divided by the inertia), but C = 3 and k = 1 were chosen by trial
+and its report gives an RMSE of about 2 deg (sagittal) and 3 deg (frontal),
+which misses the criterion. In the adaptation of the programs that adapt,
+`dV/dKd` uses the joint velocity instead of the error derivative. These
+programs remain a reference only and are not redistributed.
+
+### ISS-068 - Literature targets for the passive identification
+
+The passive test releases the arm from 30 deg without active torque. The
+iteration changes C and k until the natural frequency and the damping ratio
+of the simulated response match target values. I did not find a study that
+reports relaxed shoulder stiffness and damping with the arm hanging, for
+flexion and abduction separately. The closest sources are these.
+
+1. Chang, Hunt, Atkins and Lee (ICRA 2021) report stiffness, damping and
+   inertia for four directions (pitch and yaw, both signs) under low
+   activation, at about 45 deg abduction with the elbow flexed. Their
+   values give damping ratios between about 0.5 and 0.9.
+2. Hwang and co-workers report relaxed stiffness in horizontal flexion and
+   extension, 17.4 Nm/rad at 45 deg flexion and lower values at higher
+   flexion. The venue of this paper is not yet confirmed.
+3. Zhang and co-workers (J Orthop Res 2000) found a nearly constant damping
+   ratio of the shoulder about the abduction axis over contraction levels.
+   The numbers are in the full text, which I have not read yet.
+
+Session 1 prototype targets are k = 17.4 Nm/rad with a damping ratio of
+0.69 (sagittal) and k = 22.5 Nm/rad with a damping ratio of 0.70 (frontal).
+The iteration reaches them in three steps (C = 5.47 Nms/rad, k = 17.27
+Nm/rad sagittal, C = 6.01 Nms/rad, k = 22.37 Nm/rad frontal). The
+mapping of pitch and yaw to my two planes, the posture transfer and
+whether the measured stiffness already contains gravity are open. C is
+larger than the measured damping because my straight arm has about three
+times the inertia of the flexed-elbow arm in that study, and the damping
+ratio is the matched quantity.
+
+### ISS-069 - Access violation in the Plant Model and RK4 tab
+
+- **Report (first run of UI v2):** pressing Plant 1 or Plant 2 under
+  Impulse Response raised "access violation at 0x00cb8d07: read of
+  address 0x00000040". Afterwards the chart of the tab reacted only after
+  several clicks, could not be zoomed or panned, and its legend check boxes
+  did nothing.
+- **Analysis:** the tab had one chart for both responses. After every run
+  `UpdateLegend` hid the series without points (`ShowInLegend := False`)
+  while the legend showed check boxes; the impulse run hid three of the
+  five series. The ZN tabs, where every series always receives points so
+  the legend never changes, did not fail. The same address and symptoms
+  (a nil read at offset 0x40 while painting, a chart that stays broken)
+  appeared in Assignment 1 when series behind a check-box legend changed
+  (ISS-020). The cause is therefore the legend keeping items of series it
+  no longer shows _(inference: no call stack was captured; the TeeChart
+  source is not available)_. Every further paint raised the error again,
+  and every error opened a dialog, which explains the unresponsive chart.
+- **Fix (UI v3):** the tab has two charts, Runge Kutta Output (impulse
+  response and its peak) above and the step response with the tangent
+  below, so each chart only holds series it always shows. The legends are
+  fixed in the form and never changed at run time (`UpdateLegend`
+  removed in every tab). `Application.OnException` appends each unexpected
+  error to `ZNTuning_error.log` next to the exe and shows the same error at
+  most once every 2 s.
+- **If it recurs:** press _Break_ in the debugger notification, copy the
+  Call Stack window, and send it with `ZNTuning_error.log`.
+- **Retest (2026-11-16):** Impulse Response and Step Response for both
+  plants, legend check boxes and zoom work without an error.
+
+### ISS-070 - Chart navigation
+
+- **Report:** the charts could not be zoomed with the mouse wheel.
+- **Analysis:** UI v2 swallowed the wheel over a chart to avoid the
+  EInvalidCast of TeeChart's wheel scrolling (ISS-019) but did not zoom.
+  The drag zoom of TeeChart was available, but nothing in the window said
+  so, and a new run kept the old zoom.
+- **Fix (UI v3):** the wheel zooms at the cursor (Shift + wheel: time axis
+  only), a drag to the lower right zooms into a box, a right drag pans and
+  a double click restores the full view. Every new run starts with the full
+  view. The help card of tab 1 and the first log lines explain the mouse
+  actions.
+
+### ISS-071 - Equation window could not be scrolled
+
+- **Report:** the equation window opened, but the sheet could not be moved
+  with the mouse or the touchpad.
+- **Analysis:** a `TScrollBox` does not scroll with the wheel by itself,
+  and the image had no drag handling, so only the scroll bars worked.
+- **Fix (UI v3):** `TFormEquations.MouseWheelHandler` scrolls with the
+  wheel or a two-finger swipe (Shift: sideways), a left drag moves the
+  sheet, Ctrl + wheel or a pinch zooms between 50 % and 250 %, and a double
+  click returns to 100 %. A line at the bottom of the window lists these
+  actions and shows the zoom.
+
+### ISS-072 - Delphi hints after the UI v2 build
+
+- **H2077** `ZNModel.pas`: the start value of `LY` in `SimulatePLoop`, added
+  for ISS-058, is overwritten in the first pass of the loop and never read
+  after it. Removed; the other two start values are still needed.
+- **H2443** `Unit1.pas`: the inline function `Point` lives in
+  `System.Types`, which was not in the uses list. Added to `Unit1.pas` and
+  `Unit2.pas`. Results of `TestZN` are unchanged (0 failures, identical
+  output).
+
+### ISS-068 (update, session 2) - Literature targets after reading the sources
+
+I read the open full text of Chang and co-workers (ICRA 2021,
+doi 10.1109/ICRA48506.2021.9561776) and of Hwang and co-workers (IEEE Trans.
+Biomed. Eng. 71(10), 2833 to 2841, 2024), and the parts of Zhang and
+co-workers (J Orthop Res 18(1), 94 to 100, 2000) that are quoted openly.
+
+1. Zhang and co-workers measured about the glenohumeral abduction axis in
+   the scapular plane, starting at 45 deg abduction, and give a relaxed
+   stiffness of about 30 Nm/rad that rises to about 180 Nm/rad with
+   contraction, while the damping ratio stays almost constant. This is the
+   frontal target (k_lit = 30 Nm/rad).
+2. Hwang and co-workers report relaxed stiffness in the horizontal
+   flexion-extension direction for 15 postures at 45, 67.5 and 90 deg
+   flexion. The mean of the 45 deg level, 17.4 Nm/rad, is the closest value
+   to a hanging arm and is my sagittal target. The direction is not the
+   sagittal axis of my model, so this value is a proxy.
+3. Chang and co-workers do not map pitch and yaw to anatomical axes. Their
+   arm was not supported against gravity (about 45 deg abduction, elbow at
+   90 deg, EMG below 5 % MVC). From their stiffness, damping and inertia the
+   damping ratio of the four directions is 0.70, 0.97, 0.86 and 0.52, mean
+   0.76. I use 0.76 in both planes.
+
+No source measured a relaxed hanging arm, and none states whether the
+gravity stiffness is inside the reported value. The report states that these
+studies support the order of magnitude of C and k only and do not validate
+the numbers of my model. With the targets above the iteration gives
+C = 6.0487 Nms/rad and k = 17.4001 Nm/rad (sagittal) and C = 7.2298 Nms/rad
+and k = 30.0001 Nm/rad (frontal) in three runs each. C is larger than the
+measured damping because my straight arm has three to five times the inertia
+of the flexed-elbow arms of those studies, and the damping ratio is the
+matched quantity.
+
+### ISS-073 - Damping ratio from the release amplitude
+
+The first version of `MeasureFreeResponse` used the release amplitude x0
+(30 deg) and the first excursion x1 for the logarithmic decrement. The first
+swing from 30 deg is not yet in the linear range of sin(theta), so the
+measured damping ratio was about 0.2 % too high and the identified C and k
+missed the linear targets by up to 0.3 %. The Python cross-check found it,
+because it computes wn and zeta of the identified C and k with the linear
+formulas. The measurement now uses the two extrema after the release, x1
+and x2, and the period between the first and the third crossing of the rest
+angle. After the change the iteration returns k = k_lit within 1e-5 and
+zeta within 1e-6. Test case C4 checks the measurement on an exact damped
+oscillation.
+
+### ISS-074 - Gain choice of Problem 3 and the settling time
+
+Higher gains always lower the RMSE, so "low RMSE" alone does not pick a gain
+set. The grid search (Kp 2 to 40, Ki 0 to 40, Kd 0.1 to 1, 140 sets per
+plane) keeps the sets with RMSE below 0.75 deg whose error settles inside the
+0.75 deg band, and chooses the one with the smallest peak torque. Result
+(Dempster arm, 0.25 Hz, 8 s) Kp = 10, Ki = 40, Kd = 0.1 (sagittal, RMSE 0.40
+deg, ts 0.089 s) and Kp = 10, Ki = 20, Kd = 0.25 (frontal, RMSE 0.70 deg, ts
+0.148 s). The frontal peak of 100.2 N m at t = 0 is Kp times the initial
+error of 10 deg (cosine reference), the transient that the settling time
+measures. For a sine reference the settling time is the last time |e| leaves
+the band. With the same gains the sagittal error at 0.5 Hz and 1 Hz never
+stays inside the band (no settling time, RMSE 0.72 and 1.32 deg), which is
+the case for the adaptation of Problem 4. The report explains both points.
+
+### ISS-075 - Parallel sessions on ISSUES.md and CHANGELOG.md
+
+The Final Project and Assignment 3 were worked on in two sessions at the same
+time. ISS-069 to ISS-072 (A3) were written after ISS-062 to ISS-068 (FP), and
+my first FP code referred to an FP issue as ISS-069. I changed that reference
+to ISS-073. Rule from now on: every session reads the newest ISSUES.md and
+CHANGELOG.md right before it adds an entry, takes the next free number at that
+moment, and never rewrites entries of the other session.
+
+### ISS-076 - References chapter not filled
+
+- **Found by:** my own review of the report (session 5): the chapter
+  REFERENCES contained only the word REFS, although the text cites [1] to
+  [8].
+- **Cause:** `build_report.py` replaces the placeholder `@@REFS@@`, but
+  `report_part3.md` contained `REFS` without the markers, so nothing was
+  replaced and no error was raised. The reports of sessions 1 to 4 had the
+  same gap.
+- **Fix:** the report I had edited in Word was completed by `fix_report.py`,
+  which inserts the eight IEEE entries in the order of first citation
+  (checked against the numbers in the text) and changes nothing else. The
+  source now uses `@@REFS@@`, and `build_report.py` stops with an error
+  when the placeholder is missing.
