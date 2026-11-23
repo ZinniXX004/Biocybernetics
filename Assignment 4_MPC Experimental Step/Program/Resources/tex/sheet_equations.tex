@@ -1,0 +1,99 @@
+% Equation sheet of the Assignment 4 program (shown by Unit2.pas).
+% Build: pdflatex sheet_equations.tex, then pdftoppm -r 130 -png.
+\documentclass[border=12pt,varwidth=17cm]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{mathptmx}
+\definecolor{hl}{HTML}{FFF2A8}
+\definecolor{ink}{HTML}{1A1A1A}
+\newcommand{\used}[1]{\colorbox{hl}{$\displaystyle #1$}}
+\setlength{\parindent}{0pt}
+\begin{document}
+\color{ink}
+{\large\textbf{MPC experimental steps: equations}}\\[2pt]
+{\small Yellow = equations used by the program. Numbers in brackets refer to the report.}
+
+\medskip
+\textbf{1. Continuous state-space model} (one input, one output)
+\[
+\dot x=Ax+Bu,\quad y=Cx+Du\ \ (1.1)\qquad
+G(s)=C(sI-A)^{-1}B+D\ \ (1.2)
+\]
+
+\textbf{2. Bilinear (Tustin) discretisation} with sampling time $T$
+\[
+s=\frac{2}{T}\,\frac{z-1}{z+1},\qquad z=\frac{1+sT/2}{1-sT/2}\ \ (1.3)
+\]
+\[
+\used{A_d=\left(I-\tfrac{T}{2}A\right)^{-1}\left(I+\tfrac{T}{2}A\right)}\ (1.4)\quad
+\used{B_d=\left(I-\tfrac{T}{2}A\right)^{-1}B\,\frac{T}{1-T/2}}\ (1.5)\quad
+\used{C_d=C,\ D_d=D}\ (1.6)
+\]
+Standard bilinear input matrix and the exact zero-order hold (comparison):
+\[
+\used{B_d=\left(I-\tfrac{T}{2}A\right)^{-1}B\,T=\tfrac{T}{2}\left(I+A_d\right)B}\ (1.7)\qquad
+\used{\exp\!\left(\begin{bmatrix}A&B\\0&0\end{bmatrix}T\right)=\begin{bmatrix}A_d&B_d\\0&1\end{bmatrix}}\ (1.8)
+\]
+Lecture factor: $(z+1)/2$ taken at $z=(1+T/2)/(1-T/2)$ gives $1/(1-T/2)$, i.e.\ 1.0005 at $T=0.001$ s and 1.0526 at $T=0.1$ s.
+
+\medskip
+\textbf{3. Discrete step and impulse response}
+\[
+\used{x(k+1)=A_dx(k)+B_du(k),\quad y(k)=C_dx(k)+D_du(k)}\ (1.9)
+\]
+\[
+\used{g_0=S_0,\quad g_k=S_k-S_{k-1}=C_dA_d^{\,k-1}B_d\ \ (k\ge1)}\ (1.10)\qquad
+|z|=1 \text{ for } s=\pm j\omega:\ \ \angle z=2\arctan\tfrac{\omega T}{2}
+\]
+
+\textbf{4. Ho-Kalman realisation} from the Markov parameters $g_k$
+\[
+\used{H_{k,l}=\begin{bmatrix}g_1&g_2&\cdots&g_l\\ g_2&g_3&\cdots&g_{l+1}\\ \vdots&&&\vdots\\ g_k&g_{k+1}&\cdots&g_{k+l-1}\end{bmatrix},\
+H^{\uparrow}_{k,l}=\begin{bmatrix}g_2&\cdots&g_{l+1}\\ \vdots&&\vdots\\ g_{k+1}&\cdots&g_{k+l}\end{bmatrix}}\ (1.11)
+\]
+\[
+H_{k,l}=\mathcal{O}_k\,\mathcal{C}_l,\quad
+\mathcal{O}_k=\begin{bmatrix}C\\CA\\ \vdots\\ CA^{k-1}\end{bmatrix},\quad
+\mathcal{C}_l=\begin{bmatrix}B&AB&\cdots&A^{l-1}B\end{bmatrix}\ \ (1.12)
+\]
+\[
+\used{H_{k,l}=U\Sigma V^T,\quad \mathcal{O}_k=U_1\Sigma_1^{1/2},\quad \mathcal{C}_l=\Sigma_1^{1/2}V_1^T}\ (1.13)
+\]
+\[
+\used{A=\mathcal{O}_k^{+}H^{\uparrow}_{k,l}\,\mathcal{C}_l^{+}=\Sigma_1^{-1/2}U_1^TH^{\uparrow}_{k,l}V_1\Sigma_1^{-1/2}}\ (1.14)\qquad
+\used{B=\mathcal{C}_l(:,1),\ C=\mathcal{O}_k(1,:),\ D=g_0}\ (1.15)
+\]
+Order $n$: number of $\sigma_i>\text{tol}\cdot\sigma_1$ (default tol $=10^{-8}$).
+
+\medskip
+\textbf{5. One-sided Jacobi SVD} (columns $a_p,a_q$ of the working matrix)
+\[
+\used{\alpha=\|a_p\|^2,\ \beta=\|a_q\|^2,\ \gamma=a_p^Ta_q,\ \
+\zeta=\frac{\beta-\alpha}{2\gamma},\ t=\frac{\operatorname{sign}\zeta}{|\zeta|+\sqrt{1+\zeta^2}},\
+c=\frac{1}{\sqrt{1+t^2}},\ s=ct}
+\]
+\[
+\used{a_p\leftarrow c\,a_p-s\,a_q,\quad a_q\leftarrow s\,a_p+c\,a_q,\quad \sigma_j=\|a_j\|,\ u_j=a_j/\sigma_j}\ (1.16)
+\]
+
+\textbf{6. Observer and pole placement}
+\[
+\used{\hat x(k+1)=A\hat x(k)+Bu(k)+K_{ob}\left(y(k)-C\hat x(k)\right)}\ (1.17)\qquad
+\used{\tilde x(k+1)=(A-K_{ob}C)\,\tilde x(k)}\ (1.18)
+\]
+\[
+\used{\det\left(\lambda I-(A-K_{ob}C)\right)=(\lambda-p_1)(\lambda-p_2)}\ (1.19)\qquad
+\det\begin{bmatrix}C\\CA\end{bmatrix}\neq0\ \ (1.20)
+\]
+Closed form for a $2\times2$ plant (report Equations 2.7 and 2.8):
+\[
+\used{\begin{bmatrix}C_1&C_2\\ C_1A_{22}-C_2A_{21}&A_{11}C_2-A_{12}C_1\end{bmatrix}
+\begin{bmatrix}K_1\\K_2\end{bmatrix}=
+\begin{bmatrix}A_{11}+A_{22}-(p_1+p_2)\\ \det A-p_1p_2\end{bmatrix}}
+\]
+\[
+\used{K_1=\frac{\alpha m_{22}-C_2\beta}{\det M},\quad K_2=\frac{C_1\beta-m_{21}\alpha}{\det M},\quad
+\det M=C_1m_{22}-C_2m_{21}=-\det\begin{bmatrix}C\\CA\end{bmatrix}}
+\]
+with $\alpha=A_{11}+A_{22}-(p_1+p_2)$, $\beta=\det A-p_1p_2$, $m_{21}=C_1A_{22}-C_2A_{21}$, $m_{22}=A_{11}C_2-A_{12}C_1$.
+\end{document}

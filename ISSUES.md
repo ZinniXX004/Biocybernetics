@@ -78,6 +78,18 @@ confirmation** (requires the lecturer or my own check).
 | ISS-074 | FP / design          | Gain choice of Problem 3 and the meaning of the settling time for a sine reference          | Documented         |
 | ISS-075 | Repository           | Two parallel sessions append to ISSUES.md and CHANGELOG.md                                  | Mitigated          |
 | ISS-076 | A3 / report build    | References chapter printed the word REFS instead of the list (placeholder name mismatch)    | Resolved           |
+| ISS-077 | FP / build           | First Delphi 13 build: E2018 at the `Split` call on `TEdit.Text` and a torque-limit key with "=" | Resolved (retest)  |
+| ISS-078 | FP / UI              | UI v2: design-time card titles, button colours and fades, chart hover, busy guard, input checks | Resolved (retest)  |
+| ISS-079 | A4 / lecturer slides | Bd of the bilinear formula carries the factor T/(1 - T/2); the standard form has T only      | Documented         |
+| ISS-080 | A4 / lecturer program | `MPC.exe` of the MPC Simulator folder (and the copy in `MPC.zip`) is 0 bytes                | Open               |
+| ISS-081 | A4 / numerics        | Lecturer SVD (`svdcmp`) leaves the singular values unsorted; own one-sided Jacobi SVD written | Resolved           |
+| ISS-082 | A4 / problem sheet   | Missing brackets in Det(lambda I - Am - Kob Cm) and a garbled open-loop error equation      | Documented         |
+| ISS-083 | A4 / lecturer data   | Plant of Problem 3 is the Ho-Kalman model of Problem 2; `svdku123456.dat` matches to 2e-4 only | Documented         |
+| ISS-084 | A4 / numerics        | Close eigenvalues (1.002, 1, 0.998) lost 10 digits through the characteristic polynomial    | Resolved           |
+| ISS-085 | A4 / build           | First form load: "Error reading serP2Sigma.XValues.Order: Invalid property value"          | Resolved           |
+| ISS-086 | A4 / UI              | EIntOverflow on Problem 1, system 1, when the mouse moved over the charts                    | Resolved (retest)  |
+| ISS-087 | A4 / UI              | "Reset model" button of Problem 1 only partly visible at 125 % display scaling              | Resolved (retest)  |
+| ISS-088 | A4 / UI              | Eigenvalue markers of the Problem 1 pole chart invisible, axis labels 0.999 and 1.001 printed twice | Resolved (retest)  |
 
 ---
 
@@ -1185,3 +1197,216 @@ moment, and never rewrites entries of the other session.
   (checked against the numbers in the text) and changes nothing else. The
   source now uses `@@REFS@@`, and `build_report.py` stops with an error
   when the placeholder is missing.
+
+### ISS-077 - First Delphi 13 build of the FP program
+
+- **Found in:** the first build of `Final Project/Program`. Message
+  `Unit1.pas(1598): E2018 Record, object or class type required`, then
+  `F2063 Could not compile used unit 'Unit1.pas'`.
+- **Cause:** `edtFreqList.Text.Split(...)` in `btnSweepClick`. `TEdit.Text`
+  is a `TCaption`, which is declared as a distinct string type, and the
+  string helper with `Split` is attached to `string` only. The Free Pascal
+  test never compiles `Unit1.pas`, so CI could not see this.
+- **Fix:** the text is copied to a local `string` first, then split.
+- **Second finding in the same screenshot:** the settings key
+  "Torque limit (N m, 0 = off)" contains "=", which `TValueListEditor` uses
+  between key and value, so the designer showed the row cut in two. The key
+  is now "Torque limit (N m, 0 is off)" in the form and in the code.
+- **Lesson:** a form unit that only Delphi compiles needs a build in the IDE
+  before it is handed over. I now search the UI units for string helper
+  calls on `Text` and `Caption` before every delivery.
+
+### ISS-078 - UI v2 of the FP program
+
+- **Request:** livelier design (hover and press effects, varied gradients,
+  own colours for groups of buttons, EXIT red, CLEAR green), working chart
+  interaction, and error handling for inputs and accidental clicks.
+- **Changes:** every card has a title strip that is a real panel of the
+  form (visible in the Form Designer with its colour), painted at run time
+  as a horizontal gradient with a light top line and a dark base line. The
+  page header has a three-stop gradient and an amber base line. Buttons use
+  nine colour groups, fade towards white within about 0.1 s while the mouse
+  is over them, look raised (light upper edge, shadow below) and pressed
+  (darker inverted gradient, inner shadow, caption moved by one pixel),
+  and turn grey while disabled. The tabs highlight on hover. The table
+  choice and the adaptation mode are radio groups, so their items and the
+  default are visible in the designer.
+- **Charts:** a `TChart` interposer marks the point of the visible series
+  nearest to the cursor. A dotted cross-hair and a value box with the
+  series name and both axis values are drawn in `ChartAfterDraw`. Left drag
+  zooms, right drag pans, the wheel zooms at the cursor, a double click
+  shows the full view, and the legend check boxes hide or show a line. The
+  legends themselves are never changed at run time (A3 ISS-069).
+- **Busy guard:** every computation runs between `BeginWork` and `EndWork`.
+  All action buttons except EXIT and CLEAR are disabled meanwhile, and the
+  clicks made during the work are delivered while they are still disabled,
+  so they are dropped instead of starting a second run.
+- **New input checks:** fewer than 50 steps per reference cycle (refused),
+  a run shorter than one cycle, a settling band not smaller than the
+  amplitude, a torque limit below the static torque needed for the largest
+  target angle, C and k identified for another arm mass (warning once per
+  plane), a non-integer iteration count, release angles above 90 deg, a
+  target damping ratio close to 1, all learning rates 0, and grids of more
+  than 100000 steps per run. Editing any input after a run marks the shown
+  results as out of date.
+- **Status:** written without a Delphi build in my environment; to be
+  retested in the IDE.
+
+### ISS-079 - Bd of the lecture bilinear formula
+
+- **Found in:** problem sheet of Assignment 4 and the MPC slides (p. 11):
+  Bd = (I - T/2 A)^-1 B T/(1 - T/2), Cd = C, Dd = D.
+- **Check:** this formula reproduces every printed entry of Ad and Bd on
+  the sheet (relative difference 2e-15). The standard bilinear form
+  Bd = (I - T/2 A)^-1 B T misses the sheet by exactly T/2 = 5e-4.
+- **Origin:** in the slide derivation the input term (z + 1)(T/2) B U is
+  replaced by T/(1 - T/2) B U. That is (z + 1)/2 with z = (1 + T/2)/(1 - T/2),
+  the image of s = 1 rad/s. The factor adds a time (T in s) to a pure number,
+  so it is not dimensionally consistent, and it scales the input gain by
+  1/(1 - T/2): 1.0005 at T = 1 ms, 1.0526 at T = 0.1 s.
+- **Decision:** the program uses the lecture formula by default (the sheet
+  asks for it) and offers the standard form and the exact zero-order hold
+  for comparison. The report explains the difference. Problem 2 data made
+  with the lecture formula reach a steady value of 1.0526 instead of 1.
+
+### ISS-080 - Lecturer program MPC.exe is empty
+
+- **Found in:** `Materials/MPC Simulator`: `MPC.exe` has 0 bytes, and
+  `MPC.zip` holds the same 0-byte file. The download from MyITS Classroom
+  is also 0 bytes. The lecturer said in class that a working copy will be
+  sent.
+- **Mitigation:** section 2.3 compares my program with the output files of
+  the lecturer (`svdku1.dat`, `svdku123456.dat`) instead. To be repeated
+  when the working program arrives.
+
+### ISS-081 - SVD of the lecture material
+
+- **Found in:** `Singular Value Decomposition.txt` (the `svdcmp` routine of
+  Numerical Recipes, Pascal version by J-P Moreau). The singular values come
+  out unsorted (`svdku1.dat`: 0.71, 7.89, 6.57), so the order of a
+  realisation cannot be read from the first entries.
+- **Decision:** I wrote my own one-sided Jacobi SVD in `MPCModel.pas`
+  (sorted, descending, first entry of each column of U negative or zero as
+  in the lecturer's output). The Numerical Recipes code is not copied, as
+  its licence does not allow publishing it in this repository.
+- **Check:** `TestMPC` case C5 reproduces `svdku1.dat` to 6 decimals (up to
+  the sign of a column) with |U S V^T - A| = 3e-15.
+
+### ISS-082 - Typing errors on the problem sheet of Assignment 4
+
+- `Det(lambda I - Am - Kob Cm)` needs brackets: the matrix of the error
+  system is A - Kob C, so the polynomial is det(lambda I - (A - Kob C)).
+- The open-loop error equation is printed as
+  `x~(k+1) = Am (xm(k) - x^m(k)) - Am x~m(k)`; it should read
+  `x~(k+1) = Am (xm(k) - x^m(k)) = Am x~m(k)`.
+- I use the corrected forms in the program and the report and mention the
+  correction once.
+
+### ISS-083 - Plant of Problem 3 and the lecturer's Hankel data
+
+- **Finding:** with step data of Problem 2 made by the lecture bilinear
+  formula (T = 0.1 s), a 4 x 4 Hankel matrix of Markov parameters and the
+  balanced split of the SVD, the Ho-Kalman model is
+  A = [1.2009 -0.2486; 0.2486 0.7407], B = [-0.1152; 0.0903],
+  C = [-0.1152 -0.0903], which is the plant of Problem 3 to three decimals.
+  Zero-order-hold data give B1 = -0.1125 and do not match.
+- `svdku123456.dat` is the SVD of this 4 x 4 Hankel matrix (printed with two
+  decimals). Its U agrees with mine to 1.8e-4 only; RK4, Euler and rounded
+  data did not close the gap, so the lecturer's data generator is not known.
+- **Use:** Problem 3 is checked against Problem 2 in `TestMPC` (C6), and the
+  report presents the three problems as one chain.
+
+### ISS-084 - Close eigenvalues from the characteristic polynomial
+
+- **Found by:** `TestMPC` case C3. The eigenvalues of Ad of system 1 are
+  1.002002, 1 and 0.998002. Roots of the characteristic polynomial came out
+  as 1.00000000011, an error of 1e-10, because roots 0.002 apart are badly
+  conditioned in the coefficients.
+- **Fix:** for n > 2, `Eigenvalues` shifts by the mean diagonal entry and
+  scales by the norm, (A - cI)/s, so the roots are of order one and well
+  apart. The error is now 1e-16. The 2 x 2 case uses the closed form.
+
+### ISS-085 - Invalid property value when Delphi 13 opened the A4 form
+
+- **Found in:** the first opening of `Project1` in Delphi 13. Message
+  `Error reading serP2Sigma.XValues.Order: Invalid property value`.
+- **Cause:** I write `Unit1.dfm` with a small generator script. Its helper for
+  line series took the marker size as the eighth argument, after the list
+  order, and five calls passed the size as the seventh. The form therefore
+  held `XValues.Order = 5` (serP2Sigma) and `XValues.Order = 3` (serP3ErrObs,
+  serP3ErrOpen, serP3Xo1, serP3Xo2), while the property only accepts
+  `loNone`, `loAscending` or `loDescending`. My earlier check compared object
+  names and event handlers only, not property values.
+- **Fix:** the list order is now a keyword-only argument of the helper, and
+  the form was written again. New check before every delivery: every
+  property of the generated form is compared with the properties that
+  Delphi itself wrote into the forms of Assignments 1 to 3 and the Final
+  Project, by class, name and kind of value (number, identifier, string,
+  set). The A4 form now has no mismatch.
+- **Also changed:** the singular value chart plots log10 sigma on a linear
+  axis instead of a logarithmic TeeChart axis, which has no valid range while
+  its series are empty (after CLEAR). `MatExp` uses `IntPower` instead of
+  `Power` (no overload choice between integer and real exponent), and
+  `LMinv` in `Discretise` is initialised before the `try` block (Delphi hint
+  W1036 as in ISS-058).
+- **Status:** to be retested in the IDE. Ignoring the message must be
+  avoided, because Delphi would then drop the series from the form.
+- **Retest (2026-11-23):** the form opened without the message, all three
+  tabs ran, and Delphi saved the form again in its own property order
+  (`Explicit*` sizes, default values dropped). Resolved.
+
+### ISS-086 - Integer overflow in the chart hover of the A4 program
+
+- **Found in:** Problem 1, system 1, after Discretise. Moving the mouse over
+  the charts raised `EIntOverflow` (Integer overflow). The program went on
+  after the message, so the error was not fatal.
+- **Cause:** the hover helper of the `TChart` interposer searches the point
+  nearest to the mouse and computed `Sqr(ASer.CalcXPos(AIdx) - X)`. Both
+  operands are `Integer`, so `Sqr` returned an `Integer`. A series point far
+  outside the visible axis range (for example a point of the unit circle
+  while the pole chart is scaled or zoomed close to the poles of system 1)
+  lies tens of thousands of pixels away. A distance above 46341 pixels gives
+  a square above 2^31 - 1, and overflow checking (on in the Debug build)
+  raised the exception.
+- **Fix:** the pixel offsets are now computed as `Double` (`1.0 *
+  CalcXPos - X`), points more than 40 pixels away in x or y are skipped
+  before the square, and the initial best distance is `Sqr(1.0 *
+  CMaxDist)`. The cross-hair routine needed no change, because it only
+  draws a point that the hover search accepted.
+- **Status:** to be retested in the IDE (Problem 1, system 1, mouse over all
+  three charts, also after a wheel zoom).
+
+### ISS-087 - Reset button of Problem 1 cut off on the laptop screen
+
+- **Found in:** Problem 1 at 125 % display scaling. The button below
+  Discretise and Step and impulse was only partly visible.
+- **Cause:** the side panel holds four cards aligned to the top. Their
+  heights (172, 196, 150, 108 pixels plus margins) needed 650 pixels, while
+  the laptop leaves about 620 logical pixels for the panel when the window
+  is maximised with the taskbar shown. The third button sat in a second row.
+- **Fix:** the three buttons share one row (Discretise, Step and impulse,
+  Reset model) and the cards were tightened (162, 190, 164, 76 pixels), so
+  the panel needs 616 pixels. The change was made on top of the form that
+  Delphi saved, so the IDE edits (subtitle caption, property order) are
+  kept. The caption "Reset model" is shorter; its hint still says that it
+  loads the selected system.
+- **Status:** to be retested in the IDE at 125 % scaling.
+
+### ISS-088 - Invisible eigenvalue markers on the pole chart of Problem 1
+
+- **Found in:** the chart export `mpc_tsp1.png` that I saved during the
+  retest of ISS-085 (system 2). The pole chart showed only the unit circle,
+  and the legend entry Eigenvalues of Ad had no symbol. The axis labels read
+  0.999, 0.999, 1, 1.001, 1.001.
+- **Cause:** the eigenvalue series used the marker style `psDiagCross` with
+  `Pointer.Pen.Visible = False`. A cross has no filled area and is drawn
+  with the pen only, so nothing was drawn, in the chart and in the legend.
+  The axis is only about 0.005 wide around z = 1 and the default label
+  format keeps three decimals.
+- **Fix:** filled circles (`psCircle`, size 4) in the series colour, and
+  `AxisValuesFormat = '0.0000'` for both axes of the pole chart, set in
+  `PlotPoles` after the axis range.
+- **Consequence for the report:** the screenshots of Figures 2.1 and 2.2 were
+  taken before the fix and show the pole chart without markers. They have to
+  be taken again.
+- **Status:** to be retested in the IDE.

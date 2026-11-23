@@ -6,6 +6,118 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 ## [Unreleased]
 
+### 2026-11-23 - Assignment 4: MPC experimental steps (session 3, retest fixes, report format, README)
+
+#### Fixed
+
+- `Unit1.pas`: chart hover squared `Integer` pixel offsets, which raised
+  `EIntOverflow` on Problem 1, system 1. Offsets are now `Double` and points
+  more than 40 pixels away are skipped before the square (ISS-086).
+- `Unit1.dfm`: the Reset model button of Problem 1 was cut off at 125 %
+  display scaling. Its three buttons share one row and the side cards are
+  smaller (616 instead of 650 pixels). Applied to the form that Delphi saved,
+  so the IDE changes (subtitle caption, property order) are kept (ISS-087).
+- `Unit1.dfm` and `Unit1.pas`: eigenvalue markers of the pole chart were
+  invisible (cross marker with the pen switched off). Filled circles now,
+  and four decimals on both axes of the pole chart (ISS-088).
+
+#### Changed
+
+- Report (edited in place, my screenshots and the extra System 2 figure
+  kept): paragraph spacing 0 pt before and after with blank lines as
+  spacing, line spacing 1.15, no dot after the figure and table numbers,
+  blue table headers, caption Figure 2.2 for the System 2 screenshot with the
+  later figures renumbered, all code listings taken again from the current
+  code, and a new paragraph with the listing of `TChart.MouseMove` (ISS-086).
+  Code boxes keep single line spacing. The previous file is in
+  `Report/drafts/A4_report_before_session3_format.docx`.
+- `Report/source/report_part2.md`: the hover paragraph and listing.
+  New `Report/source/format_in_place.py` with the in-place edits.
+- `ISSUES.md`: ISS-085 retested and resolved, ISS-086 to ISS-088 added.
+- A4 README: section with the equations, log10 singular values, export and
+  `Data/` described, issue range updated.
+- Root README: Assignment 4 marked done, A4 regression badge, Featured block,
+  layout and CI tables.
+
+#### Moved
+
+- My chart exports `mpc_tsp1.csv/.png`, `mpc_tsp2.csv/.png`,
+  `mpc_tsp3.csv/.png` and `hokalman_process_data.dat` from `Program/` to the
+  new `Data/` folder. `mpc_tsp1.png` was saved before ISS-088 and shows the
+  pole chart without markers.
+
+### 2026-11-23 - Assignment 4: MPC experimental steps (session 2, form load fix)
+
+#### Fixed
+
+- `Unit1.dfm`: invalid `XValues.Order` values of five line series written
+  by the form generator, reported by Delphi 13 when it opened the form
+  (ISS-085).
+
+#### Changed
+
+- Singular value chart of Problem 2: log10 sigma on a linear axis instead of
+  a logarithmic axis (ISS-085).
+- `MPCModel.pas`: `IntPower` in `MatExp`, `LMinv` initialised in
+  `Discretise`. The golden output of `TestMPC` is unchanged.
+
+### 2026-11-23 - Assignment 4: MPC experimental steps (session 1, program, CI, report draft)
+
+#### Added
+
+- `Program/MPCModel.pas`: numerical unit without UI. Matrix helpers
+  (Gauss-Jordan inverse, determinant, matrix exponential), bilinear
+  discretisation with the lecture formula, the standard form and the
+  zero-order hold, discrete step and pulse responses, exact sampled
+  continuous responses, eigenvalues (closed form for n = 2, shifted and
+  scaled characteristic polynomial for n > 2), Markov parameters, Hankel
+  matrices, my own one-sided Jacobi SVD, the Ho-Kalman realisation with
+  its .dat text, the closed-form observer gain of a 2 x 2 plant and the
+  observer simulation.
+- `Program/Unit1.pas` and `Unit1.dfm`: main form with one tab per problem.
+  Every chart, series, legend with check boxes, axis title, table with keys
+  and defaults, radio group and button is designed in the form. Gradient
+  buttons by group (EXIT red, CLEAR green), card title strips by role,
+  nearest-point value box on the charts, wheel zoom, CSV, PNG and .dat
+  export, input checks and an error log.
+- `Program/Unit2.pas` and `Unit2.dfm`: equation window with the LaTeX sheet
+  `Resources/tex/sheet_equations.tex` (used equations in yellow).
+- `Program/Verification/TestMPC.dpr` and the golden file
+  `TestMPC_output.txt` (42 checks, 0 failures with FPC 3.2.2), and the
+  workflow `a4-model-regression.yml` (path filter on the A4 files only).
+- `Report/source`: Markdown chapters, `figs.py` and the build scripts
+  adapted from Assignment 3. The cover and Section 2.1 of my report are
+  copied unchanged.
+- `README.md` of the assignment and `docs/img/mpc-overview-*.png`.
+- ISS-079 to ISS-084.
+
+#### Changed
+
+- `Program/Project1.dpr` and `Project1.dproj`: `MPCModel.pas` and `Unit2.pas`
+  added, application title set.
+- `Program/Unit1.pas` and `Unit1.dfm` of the empty template were replaced.
+- The report Word file was rebuilt from the sources. My version before the
+  rebuild is kept in `Report/drafts/Template_original_before_A4_report.docx`.
+
+### 2026-11-17 - Final Project: shoulder joint model (session 3, build fix and UI v2)
+
+#### Fixed
+
+- Delphi 13 build error E2018 in `btnSweepClick` (string helper on a
+  `TCaption`) and the settings key with "=" (ISS-077).
+
+#### Changed
+
+- `Unit1.pas` / `Unit1.dfm` UI v2 (ISS-078): card title strips designed in
+  the form, colour groups for the buttons (EXIT red, CLEAR green), fade on
+  hover and pressed state, three-stop header gradient, hot-tracked tabs,
+  radio groups for the table and the adaptation mode.
+- Charts: nearest-point cross-hair with a value box, in addition to zoom,
+  pan, wheel zoom, double-click reset and legend check boxes.
+- Error handling: busy guard for every computation, checks of input
+  combinations, warning for C and k of another arm, out-of-date marker after
+  an input change.
+
 ### 2026-11-16 - Assignment 3: Ziegler-Nichols PID (session 5, report final, release)
 
 #### Added

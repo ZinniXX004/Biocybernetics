@@ -1,0 +1,134 @@
+C1 Problem 1 system 1, lecture bilinear, T = 0.001 s
+Ad:
+1.0000015000015         0.001000001000001       5.000005000005E-7
+0.003000003000003       1.000002000002          0.001000001000001
+1.5000015000015E-6      0.001000001000001       1.0000005000005
+Bd:
+0.00100100200150225
+0.00100350275437819
+0.00300200250175238
+Cd:
+0                       1                       0
+C1 entries printed exactly as on the sheet: 12 of 12
+[PASS] C1 max relative difference Ad vs sheet = 2.2204449E-16
+[PASS] C1 max relative difference Bd vs sheet = 2.1608355E-15
+[PASS] C1 sheet digits reproduced = 12
+C2 system 1, standard bilinear Bd = (I - T/2 A)^-1 B T
+Bd (standard):
+0.0010005015005015
+0.001003001003001
+0.0030005015005015
+C2 relative difference to the sheet = 0.0005 (T/2 = 0.0005)
+[PASS] C2 standard form misses the sheet by T/2 = 0.0005
+[PASS] C2 Bd(lecture) / Bd(standard) = 1 / (1 - T/2) = 1.0005003
+[PASS] C2 identity (I - T/2 A)^-1 B T = T/2 (I + Ad) B = 0
+[PASS] C2 same Ad for both bilinear forms = 0
+C2 gain factor 1 / (1 - T/2): T = 0.001 s gives 1.0005003, T = 0.1 s gives 1.0526316
+C3 eigenvalues of A: 2, 0, -2
+C3 eigenvalues of Ad: 1.002002002, 1, 0.998001998002
+[PASS] C3 z = (1 + sT/2) / (1 - sT/2) for s = 2, 0, -2 = 1.110223E-16
+[PASS] C3 largest |z| above 1 (step response diverges) = 1.002002
+C4 Problem 1 system 2, lecture bilinear, T = 0.001 s
+Ad:
+0.999998000002          0.000999999000001
+-0.003999996000004      0.999998000002
+Bd:
+5.00249624812907E-7
+0.00100049924962581
+C4 eigenvalues of Ad: 0.999998000002 + 0.00199999800001649j, 0.999998000002 - 0.00199999800001649j
+C4 |z| - 1 = -1.11E-16, angle per sample = 0.00199999933335 rad (omega T = 0.002, 2 atan(omega T / 2) = 0.00199999933333)
+[PASS] C4 poles stay on the unit circle = 1.110223E-16
+[PASS] C4 frequency warping, angle = 2 atan(omega T / 2) (relative) = 7.2440933E-12
+[PASS] C4 exact step response = 0.5 sin 2t = 2.9075987E-13
+[PASS] C4 exact impulse response = cos 2t = 8.2880708E-13
+[PASS] C4 lecture step = standard step / (1 - T/2) = 1.2212453E-14
+C4 lecture model over 10 s: max |step - 0.5 sin 2t| = 0.0002501, max |pulse/T - cos 2t| (k >= 1) = 0.001124
+C4 step: max 0.500250, min -0.500250; pulse/T at k = 1: 1.000499
+[PASS] C4 lecture step response follows 0.5 sin 2t = 0.00025014166
+[PASS] C4 lecture pulse response follows cos 2t = 0.0011241025
+C4 system 1 step response at t = 1, 2, 3 s: 5.9597, 53.1339, 402.1319
+[PASS] C4 system 1 step response grows = 402.13191
+C5 SVD of train1.dat (one-sided Jacobi, 5 sweeps)
+C5 sigma = 7.891309, 6.574084, 0.713210 (svdku1.dat: 7.89, 6.57, 0.71 in the order 0.71, 7.89, 6.57)
+U:
+-0.967505               -0.250314               -0.0357352
+0.2515                  -0.938082               -0.238223
+0.0261081               -0.23947                0.970553
+V:
+0.866414                -0.378747               0.325389
+-0.20515                -0.864123               -0.459569
+-0.455236               -0.331424               0.826389
+[PASS] C5 max |U S V^T - A| = 2.6645353E-15
+[PASS] C5 max |U^T U - I|, |V^T V - I| = 6.6613381E-16
+[PASS] C5 |U| against svdku1.dat (6 decimals) = 4.3559609E-7
+[PASS] C5 |V| against svdku1.dat (6 decimals) = 4.5836123E-7
+[PASS] C5 wide 2 x 3 matrix reconstructed = 1.7763568E-15
+C6 Problem 2: x'' = -0.5 x' - x + u, lecture bilinear, T = 0.1 s, 40 samples
+C6 S(0..8) = 0.000000 0.005122 0.020190 0.044573 0.077580 0.118470 0.166462 0.220743 0.280479
+[PASS] C6 DC gain of the lecture data = 1 / (1 - T/2) = 1.0526316
+H (4 x 4):
+0.0051222948            0.015067772             0.02438264              0.033006929
+0.015067772             0.02438264              0.033006929             0.040890309
+0.02438264              0.033006929             0.040890309             0.04799211
+0.033006929             0.040890309             0.04799211              0.054281249
+C6 sigma = 0.1378980223, 0.01322153037, 1.5E-17, 4.88E-18
+U (4 x 4):
+-0.310181               -0.78489                -0.53641                -3.14481E-17
+-0.432906               -0.332359               0.736646                0.399353
+-0.545446               0.101385                0.167056                -0.815047
+-0.647201               0.513036                -0.376443               0.41978
+[PASS] C6 automatic order = 2
+A:
+1.200862958             -0.2486111663
+0.2486111663            0.740742881
+B:
+-0.1151844059
+0.09025049903
+C:
+-0.1151844059           -0.09025049903
+D:
+0
+[PASS] C6 A, B, C against the plant of Problem 3 (3 decimals) = 0.000742881
+[PASS] C6 identified step response reproduces the data = 1.5254464E-13
+C6 eigenvalues identified: 0.970802919708 + 0.0942331714406j, 0.970802919708 - 0.0942331714406j
+C6 eigenvalues of Ad (analytic): 0.970802919708 + 0.0942331714406j, 0.970802919708 - 0.0942331714406j
+[PASS] C6 eigenvalues identified = eigenvalues of Ad = 4.121703E-15
+[PASS] C6 U(:, 1:2) against svdku123456.dat = 0.00017762572
+C7 zero-order-hold data, Hankel 4 x 4: sigma = 0.1312690343, 0.01256372344
+A:
+1.200572491             -0.2484192566
+0.2484192566            0.7409109439
+B:
+-0.1124801749
+0.08796689571
+C:
+-0.1124801749           -0.08796689571
+C7 eigenvalues identified: 0.970741717395 + 0.0942864922257j, 0.970741717395 - 0.0942864922257j; e^(sT): 0.970741717395 + 0.0942864922257j, 0.970741717395 - 0.0942864922257j
+[PASS] C7 eigenvalues identified = e^(sT) = 4.7184479E-15
+[PASS] C7 DC gain of the zero-order-hold data = 1
+C7 lecture data, Hankel 8 x 8: order 2, sigma = 0.4605006928, 0.05153769379, 1.12E-16
+A:
+1.065330232             -0.1334739804
+0.1334739804            0.8762756071
+[PASS] C7 8 x 8 Hankel: order still 2 = 2
+[PASS] C7 8 x 8 Hankel: eigenvalues of Ad unchanged = 1.179612E-15
+C7 forced order 3: sigma_3 is zero within rounding, so an order of 3 cannot be realised. Lower the order.
+[PASS] C7 order 3 rejected (sigma_3 is rounding noise) = 0
+[PASS] C7 too few samples for 30 x 30 rejected = 40
+C8 Problem 3: alpha = 0.441, beta = 0.390741, det O = -0.010081275, det M = 0.010081275
+C8 Kob = [-2.49264453157; -1.71495420966]
+C8 eigenvalues of A: 0.9705 + 0.09418465905j, 0.9705 - 0.09418465905j (|z| = 0.975059)
+C8 eigenvalues of A - Kob C: 0.800000000000001, 0.699999999999999
+[PASS] C8 observer gain found = 1
+[PASS] C8 Kob1 = -2.49264453 = -2.4926445
+[PASS] C8 Kob2 = -1.71495421 = -1.7149542
+[PASS] C8 error poles at 0.8 and 0.7 = 0.8
+[PASS] C8 det M = -det O = -1.7347235E-18
+C8 |error| at k = 0, 10, 20, 30: observer 1.000000 0.202050 0.024440 0.002702; open loop 1.000000 2.623838 1.891998 0.346307
+[PASS] C8 observer error below 1 % after 30 samples = 0.0027020134
+[PASS] C8 open-loop error still above 30 % after 30 samples = 0.34630716
+C8 unobservable plant: The plant is not observable (det [C; CA] = 0), so the observer poles cannot be placed.
+[PASS] C8 unobservable plant rejected = 0
+C9 lecture slides pendulum, poles 0.1 and 0.2: Kob = [-1.628779562; 1.6602], eigenvalues of A - Kob C: 0.2, 0.1
+C9 earlier student formula: K = [-4.6306505; -7.0567327], eigenvalues of A - K C: 1.06041, -0.287045
+0 failure(s)

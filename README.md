@@ -13,7 +13,8 @@
 [![A1 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a1-model-regression.yml)
 [![A2 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a2-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a2-model-regression.yml)
 [![A3 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a3-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a3-model-regression.yml)
-[![Assignments](https://img.shields.io/badge/assignments-3%20of%205%20done-2E7D32)](#assignments)
+[![A4 regression](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a4-model-regression.yml/badge.svg)](https://github.com/ZinniXX004/Biocybernetics/actions/workflows/a4-model-regression.yml)
+[![Assignments](https://img.shields.io/badge/assignments-4%20of%205%20done-2E7D32)](#assignments)
 
 [About](#about) ·
 [Assignments](#assignments) ·
@@ -45,7 +46,7 @@ Simulation programs and reports for **Biocybernetics (EB234701), Class Q**, Depa
 | 1   | [**Hodgkin-Huxley Neuron Model**](Assignment%201_HH%20Model/): action potential generation (RK4), refractory period, C-F converter, cable propagation (FTCS, Crank-Nicolson) | [Program](Assignment%201_HH%20Model/Program/) | [Report](Assignment%201_HH%20Model/Report/) | ![done](https://img.shields.io/badge/-done-2E7D32)       |
 | 2   | [**Lagrangian and Hamiltonian Mechanics**](Assignment%202_Lagrangian%20and%20Hamiltonian%20Mechanics/): Hamilton's principle, spherical pendulum with the Lagrangian and the Hamiltonian method (RK4) | [Program](Assignment%202_Lagrangian%20and%20Hamiltonian%20Mechanics/Program/) | [Report](Assignment%202_Lagrangian%20and%20Hamiltonian%20Mechanics/Report/) | ![done](https://img.shields.io/badge/-done-2E7D32)       |
 | 3   | [**Preliminary: PID by Ziegler-Nichols**](Assignment%203_Preliminary/): two second-order plants (RK4), ZN Method 1 (reaction curve) and Method 2 (critical gain), closed-loop P, PI, PID | [Program](Assignment%203_Preliminary/Program/) | [Report](Assignment%203_Preliminary/Report/) | ![done](https://img.shields.io/badge/-done-2E7D32)       |
-| 4   | MPC experimental step                                                                                                                                                        |                                               |                                             | ![planned](https://img.shields.io/badge/-planned-9E9E9E) |
+| 4   | [**MPC Experimental Steps**](Assignment%204_MPC%20Experimental%20Step/): bilinear discretisation, Ho-Kalman realisation from step data with my own Jacobi SVD, observer gain by pole placement | [Program](Assignment%204_MPC%20Experimental%20Step/Program/) | [Report](Assignment%204_MPC%20Experimental%20Step/Report/) | ![done](https://img.shields.io/badge/-done-2E7D32)       |
 | 5   | System identification by model parameter identification                                                                                                                      |                                               |                                             | ![planned](https://img.shields.io/badge/-planned-9E9E9E) |
 | FP  | Final project (topic announced later)                                                                                                                                        |                                               |                                             | ![planned](https://img.shields.io/badge/-planned-9E9E9E) |
 
@@ -114,12 +115,29 @@ Plant 2 in controllable canonical form (no derivative of the input), tangent and
 
 <p align="right"><sub><a href="#top">Back to top</a></sub></p>
 
+### Assignment 4: MPC Experimental Steps
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Assignment%204_MPC%20Experimental%20Step/docs/img/mpc-overview-dark.png">
+  <img alt="Assignment 4: step response of the undamped system 2, singular values of the Hankel matrix, and the estimation error of the observer against the open-loop model" src="Assignment%204_MPC%20Experimental%20Step/docs/img/mpc-overview-light.png" width="100%">
+</picture>
+
+```math
+B_d=\left(I-\tfrac{T}{2}A\right)^{-1}B\,\frac{T}{1-T/2},\qquad
+A=\Sigma_1^{-1/2}U_1^{\mathsf T}H^{\uparrow}V_1\Sigma_1^{-1/2},\qquad
+\det\left(\lambda I-A+K_{ob}C\right)=(\lambda-p_1)(\lambda-p_2)
+```
+
+The lecture form of the bilinear transformation reproduces every digit of the problem sheet, and the extra factor T / (1 - T/2) in its input matrix is documented. The Ho-Kalman method with a one-sided Jacobi SVD recovers a second-order model from step data, which turns out to be the plant of the observer problem, and the observer gain of a 2 x 2 plant comes out in closed form. One tab per problem with editable matrices, the z plane, the singular values and the estimation error, CSV, PNG and .dat export. Full description: **[Assignment 4 README](Assignment%204_MPC%20Experimental%20Step/README.md)**.
+
+<p align="right"><sub><a href="#top">Back to top</a></sub></p>
+
 ## Tech stack
 
 | Layer                     | Tools                                                                                          |
 | ------------------------- | ---------------------------------------------------------------------------------------------- |
 | Programs                  | RAD Studio Delphi 13 Florence CE, Object Pascal, VCL, TeeChart Standard                        |
-| Equations in the programs | LaTeX rendered to PNG, linked as RCDATA resources (A1) or stored in the form file (A2, A3)    |
+| Equations in the programs | LaTeX rendered to PNG, linked as RCDATA resources (A1) or stored in the form file (A2 to A4)  |
 | Verification              | Free Pascal 3.2.2 (Delphi mode) for the numerical cores, independent Python references (NumPy) |
 | Reports                   | Microsoft Word, IEEE references; figures and code listings generated by Python scripts         |
 | Automation                | GitHub Actions                                                                                 |
@@ -135,6 +153,8 @@ Biocybernetics/
 ├── Assignment 2_Lagrangian and Hamiltonian Mechanics/
 │                             program, report and README of Assignment 2
 ├── Assignment 3_Preliminary/ program, report and README of Assignment 3
+├── Assignment 4_MPC Experimental Step/
+│                             program, data, report and README of Assignment 4
 ├── docs/                     images of this README and the script that builds them
 ├── CHANGELOG.md              dated record of every change
 ├── ISSUES.md                 problems found and how they were resolved
@@ -162,6 +182,7 @@ flowchart LR
 | [`a1-model-regression.yml`](.github/workflows/a1-model-regression.yml) | Assignment 1: HH membrane (RK4), refractory sweep, C-F curve, cable (FTCS, Crank-Nicolson, APG drive) |
 | [`a2-model-regression.yml`](.github/workflows/a2-model-regression.yml) | Assignment 2: pendulum core (Lagrange vs Hamilton, planar periods, conical pendulum, H and p_phi)     |
 | [`a3-model-regression.yml`](.github/workflows/a3-model-regression.yml) | Assignment 3: plants, RK4 vs exact, ZN Method 1 and 2, Ku vs dt, closed-loop stability                |
+| [`a4-model-regression.yml`](.github/workflows/a4-model-regression.yml) | Assignment 4: bilinear discretisation vs the sheet, eigenvalues, Jacobi SVD, Ho-Kalman, observer gain |
 
 Run history: [Actions](https://github.com/ZinniXX004/Biocybernetics/actions).
 

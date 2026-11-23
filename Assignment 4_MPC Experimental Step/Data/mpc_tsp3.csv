@@ -1,0 +1,329 @@
+﻿chart,series,x,y
+chtP3Err,"Observer (poles p1, p2)",0,1
+chtP3Err,"Observer (poles p1, p2)",1,0.915239020614067
+chtP3Err,"Observer (poles p1, p2)",2,0.814348536344036
+chtP3Err,"Observer (poles p1, p2)",3,0.709646830171741
+chtP3Err,"Observer (poles p1, p2)",4,0.60874512917285
+chtP3Err,"Observer (poles p1, p2)",5,0.515868936093677
+chtP3Err,"Observer (poles p1, p2)",6,0.432985002706998
+chtP3Err,"Observer (poles p1, p2)",7,0.360632648092987
+chtP3Err,"Observer (poles p1, p2)",8,0.298499995926437
+chtP3Err,"Observer (poles p1, p2)",9,0.245808208876577
+chtP3Err,"Observer (poles p1, p2)",10,0.201559328049892
+chtP3Err,"Observer (poles p1, p2)",11,0.164690380929721
+chtP3Err,"Observer (poles p1, p2)",12,0.134164637763738
+chtP3Err,"Observer (poles p1, p2)",13,0.109021671069316
+chtP3Err,"Observer (poles p1, p2)",14,0.0884010851672529
+chtP3Err,"Observer (poles p1, p2)",15,0.0715499480980616
+chtP3Err,"Observer (poles p1, p2)",16,0.0578205841712716
+chtP3Err,"Observer (poles p1, p2)",17,0.0466630655615078
+chtP3Err,"Observer (poles p1, p2)",18,0.0376151667917777
+chtP3Err,"Observer (poles p1, p2)",19,0.030291490690783
+chtP3Err,"Observer (poles p1, p2)",20,0.0243727769864752
+chtP3Err,"Observer (poles p1, p2)",21,0.0195959513726604
+chtP3Err,"Observer (poles p1, p2)",22,0.0157451844231268
+chtP3Err,"Observer (poles p1, p2)",23,0.0126440514080537
+chtP3Err,"Observer (poles p1, p2)",24,0.0101487784019946
+chtP3Err,"Observer (poles p1, p2)",25,0.00814250158387248
+chtP3Err,"Observer (poles p1, p2)",26,0.00653043815222095
+chtP3Err,"Observer (poles p1, p2)",27,0.0052358573634924
+chtP3Err,"Observer (poles p1, p2)",28,0.00419674130190521
+chtP3Err,"Observer (poles p1, p2)",29,0.00336303220801888
+chtP3Err,"Observer (poles p1, p2)",30,0.00269437341375403
+chtP3Err,"Observer (poles p1, p2)",31,0.00215826222487595
+chtP3Err,"Observer (poles p1, p2)",32,0.00172854431147945
+chtP3Err,"Observer (poles p1, p2)",33,0.00138418967370531
+chtP3Err,"Observer (poles p1, p2)",34,0.00110829972814042
+chtP3Err,"Observer (poles p1, p2)",35,0.000887303394488961
+chtP3Err,"Observer (poles p1, p2)",36,0.000710307255928334
+chtP3Err,"Observer (poles p1, p2)",37,0.000568570990284069
+chtP3Err,"Observer (poles p1, p2)",38,0.000455084426572427
+chtP3Err,"Observer (poles p1, p2)",39,0.000364226888031309
+chtP3Err,"Observer (poles p1, p2)",40,0.000291493054837642
+chtP3Err,"Open-loop model (poles of A)",0,1
+chtP3Err,"Open-loop model (poles of A)",1,1.226327589148
+chtP3Err,"Open-loop model (poles of A)",2,1.46223583554969
+chtP3Err,"Open-loop model (poles of A)",3,1.68964714034771
+chtP3Err,"Open-loop model (poles of A)",4,1.89955785614333
+chtP3Err,"Open-loop model (poles of A)",5,2.08710061307828
+chtP3Err,"Open-loop model (poles of A)",6,2.24950614695007
+chtP3Err,"Open-loop model (poles of A)",7,2.38521433309012
+chtP3Err,"Open-loop model (poles of A)",8,2.49345157357497
+chtP3Err,"Open-loop model (poles of A)",9,2.57401033015709
+chtP3Err,"Open-loop model (poles of A)",10,2.62712242069469
+chtP3Err,"Open-loop model (poles of A)",11,2.65337849811821
+chtP3Err,"Open-loop model (poles of A)",12,2.65367148481851
+chtP3Err,"Open-loop model (poles of A)",13,2.62915303187726
+chtP3Err,"Open-loop model (poles of A)",14,2.58119742567022
+chtP3Err,"Open-loop model (poles of A)",15,2.51137005336513
+chtP3Err,"Open-loop model (poles of A)",16,2.42139897601479
+chtP3Err,"Open-loop model (poles of A)",17,2.31314899388186
+chtP3Err,"Open-loop model (poles of A)",18,2.18859815212422
+chtP3Err,"Open-loop model (poles of A)",19,2.0498171252346
+chtP3Err,"Open-loop model (poles of A)",20,1.89895250834186
+chtP3Err,"Open-loop model (poles of A)",21,1.73821596772543
+chtP3Err,"Open-loop model (poles of A)",22,1.56988289889284
+chtP3Err,"Open-loop model (poles of A)",23,1.39630765661162
+chtP3Err,"Open-loop model (poles of A)",24,1.21996980042707
+chtP3Err,"Open-loop model (poles of A)",25,1.043582817137
+chtP3Err,"Open-loop model (poles of A)",26,0.870338645174334
+chtP3Err,"Open-loop model (poles of A)",27,0.704469912639981
+chtP3Err,"Open-loop model (poles of A)",28,0.552591419839018
+chtP3Err,"Open-loop model (poles of A)",29,0.426799873570503
+chtP3Err,"Open-loop model (poles of A)",30,0.349201037540864
+chtP3Err,"Open-loop model (poles of A)",31,0.343768089909388
+chtP3Err,"Open-loop model (poles of A)",32,0.403673290383407
+chtP3Err,"Open-loop model (poles of A)",33,0.497393265340612
+chtP3Err,"Open-loop model (poles of A)",34,0.601760599803959
+chtP3Err,"Open-loop model (poles of A)",35,0.70537917690398
+chtP3Err,"Open-loop model (poles of A)",36,0.802761290653487
+chtP3Err,"Open-loop model (poles of A)",37,0.891047459852508
+chtP3Err,"Open-loop model (poles of A)",38,0.968639755807603
+chtP3Err,"Open-loop model (poles of A)",39,1.03462502199689
+chtP3Err,"Open-loop model (poles of A)",40,1.08851185539312
+chtP3X1,"Plant x1",0,1
+chtP3X1,"Plant x1",1,1.0856785521
+chtP3X1,"Plant x1",2,1.10432195777991
+chtP3X1,"Plant x1",3,1.05901082364164
+chtP3X1,"Plant x1",4,0.953298277040503
+chtP3X1,"Plant x1",5,0.791152392059173
+chtP3X1,"Plant x1",6,0.576897378726413
+chtP3X1,"Plant x1",7,0.315154168031004
+chtP3X1,"Plant x1",8,0.0107810003806395
+chtP3X1,"Plant x1",9,-0.331185404447352
+chtP3X1,"Plant x1",10,-0.705587551604658
+chtP3X1,"Plant x1",11,-1.10720324290204
+chtP3X1,"Plant x1",12,-1.53079954970427
+chtP3X1,"Plant x1",13,-1.97118426383932
+chtP3X1,"Plant x1",14,-2.42325444850753
+chtP3X1,"Plant x1",15,-2.88204175779485
+chtP3X1,"Plant x1",16,-3.34275424097008
+chtP3X1,"Plant x1",17,-3.80081439576818
+chtP3X1,"Plant x1",18,-4.25189328284261
+chtP3X1,"Plant x1",19,-4.69194056104316
+chtP3X1,"Plant x1",20,-5.11721034970499
+chtP3X1,"Plant x1",21,-5.52428286931311
+chtP3X1,"Plant x1",22,-5.9100818553592
+chtP3X1,"Plant x1",23,-6.27188778159708
+chtP3X1,"Plant x1",24,-6.60734696792549
+chtP3X1,"Plant x1",25,-6.91447668451837
+chtP3X1,"Plant x1",26,-7.19166639735737
+chtP3X1,"Plant x1",27,-7.43767533081075
+chtP3X1,"Plant x1",28,-7.65162655019984
+chtP3X1,"Plant x1",29,-7.83299779128718
+chtP3X1,"Plant x1",30,-7.98160928423789
+chtP3X1,"Plant x1",31,-8.09760883681005
+chtP3X1,"Plant x1",32,-8.18145445532078
+chtP3X1,"Plant x1",33,-8.23389479234328
+chtP3X1,"Plant x1",34,-8.25594771718014
+chtP3X1,"Plant x1",35,-8.24887730902179
+chtP3X1,"Plant x1",36,-8.21416957345592
+chtP3X1,"Plant x1",37,-8.15350718078776
+chtP3X1,"Plant x1",38,-8.06874351962726
+chtP3X1,"Plant x1",39,-7.96187635158334
+chtP3X1,"Plant x1",40,-7.83502134287827
+chtP3X1,"Observer estimate",0,0
+chtP3X1,"Observer estimate",1,0.171882714435019
+chtP3X1,"Observer estimate",2,0.29362820128244
+chtP3X1,"Observer estimate",3,0.354695857987823
+chtP3X1,"Observer estimate",4,0.35081433219836
+chtP3X1,"Observer estimate",5,0.281842855562097
+chtP3X1,"Observer estimate",6,0.150324083092399
+chtP3X1,"Observer estimate",7,-0.0394924349816542
+chtP3X1,"Observer estimate",8,-0.2823078585833
+chtP3X1,"Observer estimate",9,-0.572216595206173
+chtP3X1,"Observer estimate",10,-0.903004576723083
+chtP3X1,"Observer estimate",11,-1.26835131375474
+chtP3X1,"Observer estimate",12,-1.661968121917
+chtP3X1,"Observer estimate",13,-2.0776942024809
+chtP3X1,"Observer estimate",14,-2.50956495603077
+chtP3X1,"Observer estimate",15,-2.95186195344044
+chtP3X1,"Observer estimate",16,-3.39915065022544
+chtP3X1,"Observer estimate",17,-3.84630970008969
+chtP3X1,"Observer estimate",18,-4.28855425014188
+chtP3X1,"Observer estimate",19,-4.72145464157201
+chtP3X1,"Observer estimate",20,-5.14095132881068
+chtP3X1,"Observer estimate",21,-5.54336645287549
+chtP3X1,"Observer estimate",22,-5.92541228240358
+chtP3X1,"Observer estimate",23,-6.28419661536872
+chtP3X1,"Observer estimate",24,-6.61722517943809
+chtP3X1,"Observer estimate",25,-6.92240105487516
+chtP3X1,"Observer estimate",26,-7.19802115444549
+chtP3X1,"Observer estimate",27,-7.44276981904314
+chtP3X1,"Observer estimate",28,-7.65570961857907
+chtP3X1,"Observer estimate",29,-7.83626948044589
+chtP3X1,"Observer estimate",30,-7.98423029968358
+chtP3X1,"Observer estimate",31,-8.09970821404972
+chtP3X1,"Observer estimate",32,-8.18313575253068
+chtP3X1,"Observer estimate",33,-8.23524108690393
+chtP3X1,"Observer estimate",34,-8.25702563258357
+chtP3X1,"Observer estimate",35,-8.24974025717296
+chtP3X1,"Observer estimate",36,-8.21486036305676
+chtP3X1,"Observer estimate",37,-8.15406011422437
+chtP3X1,"Observer estimate",38,-8.0691860776057
+chtP3X1,"Observer estimate",39,-7.9622305458265
+chtP3X1,"Observer estimate",40,-7.83530480177508
+chtP3X1,"Open-loop model",0,0
+chtP3X1,"Open-loop model",1,-0.1151844059
+chtP3X1,"Open-loop model",2,-0.275942374107552
+chtP3X1,"Open-loop model",3,-0.478491658559806
+chtP3X1,"Open-loop model",4,-0.718827335955283
+chtP3X1,"Open-loop model",5,-0.992771618985466
+chtP3X1,"Open-loop model",6,-1.29602292793962
+chtP3X1,"Open-loop model",7,-1.62420377918918
+chtP3X1,"Open-loop model",8,-1.97290708205658
+chtP3X1,"Open-loop model",9,-2.33774047094147
+chtP3X1,"Open-loop model",10,-2.71436833685612
+chtP3X1,"Open-loop model",11,-3.09855126125481
+chtP3X1,"Open-loop model",12,-3.48618259478206
+chtP3X1,"Open-loop model",13,-3.87332196387549
+chtP3X1,"Open-loop model",14,-4.25622552862115
+chtP3X1,"Open-loop model",15,-4.63137285547088
+chtP3X1,"Open-loop model",16,-4.99549030801355
+chtP3X1,"Open-loop model",17,-5.34557089759075
+chtP3X1,"Open-loop model",18,-5.67889057283364
+chtP3X1,"Open-loop model",19,-5.99302096287414
+chtP3X1,"Open-loop model",20,-6.28583862277923
+chtP3X1,"Open-loop model",21,-6.55553086143684
+chtP3X1,"Open-loop model",22,-6.80059826147816
+chtP3X1,"Open-loop model",23,-7.01985402768306
+chtP3X1,"Open-loop model",24,-7.21242032454198
+chtP3X1,"Open-loop model",25,-7.37772178513136
+chtP3X1,"Open-loop model",26,-7.51547639212574
+chtP3X1,"Open-loop model",27,-7.62568394757229
+chtP3X1,"Open-loop model",28,-7.70861236097909
+chtP3X1,"Open-loop model",29,-7.76478199533155
+chtP3X1,"Open-loop model",30,-7.79494831789149
+chtP3X1,"Open-loop model",31,-7.8000831071202
+chtP3X1,"Open-loop model",32,-7.78135446888791
+chtP3X1,"Open-loop model",33,-7.74010591440145
+chtP3X1,"Open-loop model",34,-7.67783474912968
+chtP3X1,"Open-loop model",35,-7.5961700165816
+chtP3X1,"Open-loop model",36,-7.49685023325786
+chtP3X1,"Open-loop model",37,-7.38170114162906
+chtP3X1,"Open-loop model",38,-7.25261369677958
+chtP3X1,"Open-loop model",39,-7.11152248958839
+chtP3X1,"Open-loop model",40,-6.96038479519736
+chtP3X2,"Plant x2",0,0
+chtP3X2,"Plant x2",1,0.33886166533
+chtP3X2,"Plant x2",2,0.611171676331478
+chtP3X2,"Plant x2",3,0.817518337235742
+chtP3X2,"Plant x2",4,0.959103303414205
+chtP3X2,"Plant x2",5,1.03770003966448
+chtP3X2,"Plant x2",6,1.05560873493574
+chtP3X2,"Plant x2",7,1.01560828471565
+chtP3X2,"Plant x2",8,0.920905951096236
+chtP3X2,"Plant x2",9,0.775085303453583
+chtP3X2,"Plant x2",10,0.582053030069773
+chtP3X2,"Plant x2",11,0.345985193287468
+chtP3X2,"Plant x2",12,0.0712734783400815
+chtP3X2,"Plant x2",13,-0.23752804070897
+chtP3X2,"Plant x2",14,-0.575755124988348
+chtP3X2,"Plant x2",15,-0.938684125689504
+chtP3X2,"Plant x2",16,-1.32158084731289
+chtP3X2,"Plant x2",17,-1.71974713578482
+chtP3X2,"Plant x2",18,-2.1285648487445
+chtP3X2,"Plant x2",19,-2.54353690745497
+chtP3X2,"Plant x2",20,-2.96032517281924
+chtP3X2,"Plant x2",21,-3.37478493142353
+chtP3X2,"Plant x2",22,-3.7829958209391
+chtP3X2,"Plant x2",23,-4.18128906717271
+chtP3X2,"Plant x2",24,-4.56627094716688
+chtP3X2,"Plant x2",25,-4.93484243364572
+chtP3X2,"Plant x2",26,-5.28421501544205
+chtP3X2,"Plant x2",27,-5.61192272601954
+chtP3X2,"Plant x2",28,-5.91583044754469
+chtP3X2,"Plant x2",29,-6.194138590929
+chtP3X2,"Plant x2",30,-6.44538428264525
+chtP3X2,"Plant x2",31,-6.66843921675405
+chtP3X2,"Plant x2",32,-6.86250435532232
+chtP3X2,"Plant x2",33,-7.02710168217413
+chtP3X2,"Plant x2",34,-7.16206323361957
+chtP3X2,"Plant x2",35,-7.26751764542551
+chtP3X2,"Plant x2",36,-7.34387446782234
+chtP3X2,"Plant x2",37,-7.39180650980991
+chtP3X2,"Plant x2",38,-7.41223048049222
+chtP3X2,"Plant x2",39,-7.40628619871592
+chtP3X2,"Plant x2",40,-7.37531464302089
+chtP3X2,"Observer estimate",0,0
+chtP3X2,"Observer estimate",1,0.28748431700652
+chtP3X2,"Observer estimate",2,0.534105653846258
+chtP3X2,"Observer estimate",3,0.730690618569061
+chtP3X2,"Observer estimate",4,0.872018698005906
+chtP3X2,"Observer estimate",5,0.955696654005369
+chtP3X2,"Observer estimate",6,0.981371035475731
+chtP3X2,"Observer estimate",7,0.950173631494735
+chtP3X2,"Observer estimate",8,0.864327082962465
+chtP3X2,"Observer estimate",9,0.72686040705664
+chtP3X2,"Observer estimate",10,0.541399851629271
+chtP3X2,"Observer estimate",11,0.312011367609002
+chtP3X2,"Observer estimate",12,0.043078519749065
+chtP3X2,"Observer estimate",13,-0.260795136215554
+chtP3X2,"Observer estimate",14,-0.594866591437255
+chtP3X2,"Observer estimate",15,-0.954321751879177
+chtP3X2,"Observer estimate",16,-1.33433486538601
+chtP3X2,"Observer estimate",17,-1.73012109222828
+chtP3X2,"Observer estimate",18,-2.13698353328875
+chtP3X2,"Observer estimate",19,-2.550355518663
+chtP3X2,"Observer estimate",20,-2.96583862628651
+chtP3X2,"Observer estimate",21,-3.37923668934794
+chtP3X2,"Observer estimate",22,-3.78658592388404
+chtP3X2,"Observer estimate",23,-4.18418123715245
+chtP3X2,"Observer estimate",24,-4.56859874448733
+chtP3X2,"Observer estimate",25,-4.93671451443773
+chtP3X2,"Observer estimate",26,-5.28571957013062
+chtP3X2,"Observer estimate",27,-5.61313119280887
+chtP3X2,"Observer estimate",28,-5.91680059710308
+chtP3X2,"Observer estimate",29,-6.19491707386456
+chtP3X2,"Observer estimate",30,-6.4460087232959
+chtP3X2,"Observer estimate",31,-6.66893992728611
+chtP3X2,"Observer estimate",32,-6.86290573435604
+chtP3X2,"Observer estimate",33,-7.02742335282676
+chtP3X2,"Observer estimate",34,-7.16232096733963
+chtP3X2,"Observer estimate",35,-7.26772411044013
+chtP3X2,"Observer estimate",36,-7.34403983446104
+chtP3X2,"Observer estimate",37,-7.39193893935977
+chtP3X2,"Observer estimate",38,-7.41233651949933
+chtP3X2,"Observer estimate",39,-7.40637109667867
+chtP3X2,"Observer estimate",40,-7.37538260812104
+chtP3X2,"Open-loop model",0,0
+chtP3X2,"Open-loop model",1,0.09025049903
+chtP3X2,"Open-loop model",2,0.128466784202798
+chtP3X2,"Open-loop model",3,0.116808999414717
+chtP3X2,"Open-loop model",4,0.0578175644838099
+chtP3X2,"Open-loop model",5,-0.0456300540420242
+chtP3X2,"Open-loop model",6,-0.190363748726791
+chtP3X2,"Open-loop model",7,-0.372965864306452
+chtP3X2,"Open-loop model",8,-0.589816505664106
+chtP3X2,"Open-loop model",9,-0.8371386093086
+chtP3X2,"Open-loop model",10,-1.11104235121306
+chtP3X2,"Open-loop model",11,-1.40756849111416
+chtP3X2,"Open-loop model",12,-1.72273028318362
+chtP3X2,"Open-loop model",13,-2.05255361494491
+chtP3X2,"Open-loop model",14,-2.39311507000575
+chtP3X2,"Open-loop model",15,-2.74057764519691
+chtP3X2,"Open-loop model",16,-3.09122388864613
+chtP3X2,"Open-loop model",17,-3.44148626177736
+chtP3X2,"Open-loop model",18,-3.78797456483025
+chtP3X2,"Open-loop model",19,-4.12750030187933
+chtP3X2,"Open-loop model",20,-4.45709789715295
+chtP3X2,"Open-loop model",21,-4.77404270938885
+chtP3X2,"Open-loop model",22,-5.0758658247172
+chtP3X2,"Open-loop model",23,-5.36036564086429
+chtP3X2,"Open-loop model",24,-5.62561628607527
+chtP3X2,"Open-loop model",25,-5.86997294484812
+chtP3X2,"Open-loop model",26,-6.09207418916727
+chtP3X2,"Open-loop model",27,-6.290841438266
+chtP3X2,"Open-loop model",28,-6.46547569190648
+chtP3X2,"Open-loop model",29,-6.61545170164588
+chtP3X2,"Open-loop model",30,-6.74050976148814
+chtP3X2,"Open-loop model",31,-6.84064531366257
+chtP3X2,"Open-loop model",32,-6.91609657700964
+chtP3X2,"Open-loop model",33,-6.9673304146023
+chtP3X2,"Open-loop model",34,-6.9950266638263
+chtP3X2,"Open-loop model",35,-7.00006115624431
+chtP3X2,"Open-loop model",36,-6.98348765625804
+chtP3X2,"Open-loop model",37,-6.94651894696118
+chtP3X2,"Open-loop model",38,-6.89050728876156
+chtP3X2,"Open-loop model",39,-6.81692447147846
+chtP3X2,"Open-loop model",40,-6.72734167383761

@@ -101,3 +101,10 @@ __pycache__/
 **/Report/source/b/
 **/Report/source/body.docx
 **/Report/source/full.md
+
+# Assignment 4: problem sheet of the lecturer and the Claude working folder
+/Assignment 4_MPC Experimental Step/*.pdf
+/Assignment 4_MPC Experimental Step/*.docx
+/Assignment 4_MPC Experimental Step/Claude outputs/
+/Assignment 4_MPC Experimental Step/Report/drafts/A4_report_before_*.docx
+**/Verification/TestMPC
