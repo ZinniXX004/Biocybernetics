@@ -87,9 +87,11 @@ confirmation** (requires the lecturer or my own check).
 | ISS-083 | A4 / lecturer data   | Plant of Problem 3 is the Ho-Kalman model of Problem 2; `svdku123456.dat` matches to 2e-4 only | Documented         |
 | ISS-084 | A4 / numerics        | Close eigenvalues (1.002, 1, 0.998) lost 10 digits through the characteristic polynomial    | Resolved           |
 | ISS-085 | A4 / build           | First form load: "Error reading serP2Sigma.XValues.Order: Invalid property value"          | Resolved           |
-| ISS-086 | A4 / UI              | EIntOverflow on Problem 1, system 1, when the mouse moved over the charts                    | Resolved (retest)  |
-| ISS-087 | A4 / UI              | "Reset model" button of Problem 1 only partly visible at 125 % display scaling              | Resolved (retest)  |
-| ISS-088 | A4 / UI              | Eigenvalue markers of the Problem 1 pole chart invisible, axis labels 0.999 and 1.001 printed twice | Resolved (retest)  |
+| ISS-086 | A4 / UI              | EIntOverflow on Problem 1, system 1, when the mouse moved over the charts                    | Resolved           |
+| ISS-087 | A4 / UI              | "Reset model" button of Problem 1 only partly visible at 125 % display scaling              | Resolved           |
+| ISS-088 | A4 / UI              | Eigenvalue markers of the Problem 1 pole chart invisible, axis labels 0.999 and 1.001 printed twice | Resolved           |
+| ISS-089 | A4 / UI              | Pole chart drawn the unit circle as a line, and two clicks on a legend box reset it to the whole circle | Resolved (retest)  |
+| ISS-090 | A4 / method          | Impulse response 1000 times larger than the earlier student program (pulse u(0) = 1/T against u(0) = 1) | Documented         |
 
 ---
 
@@ -1373,8 +1375,8 @@ moment, and never rewrites entries of the other session.
   before the square, and the initial best distance is `Sqr(1.0 *
   CMaxDist)`. The cross-hair routine needed no change, because it only
   draws a point that the hover search accepted.
-- **Status:** to be retested in the IDE (Problem 1, system 1, mouse over all
-  three charts, also after a wheel zoom).
+- **Status:** retested on 2026-11-25, no overflow with hover and wheel zoom.
+  Resolved.
 
 ### ISS-087 - Reset button of Problem 1 cut off on the laptop screen
 
@@ -1390,7 +1392,8 @@ moment, and never rewrites entries of the other session.
   Delphi saved, so the IDE edits (subtitle caption, property order) are
   kept. The caption "Reset model" is shorter; its hint still says that it
   loads the selected system.
-- **Status:** to be retested in the IDE at 125 % scaling.
+- **Status:** retested on 2026-11-25, all three buttons fully visible.
+  Resolved.
 
 ### ISS-088 - Invisible eigenvalue markers on the pole chart of Problem 1
 
@@ -1409,4 +1412,49 @@ moment, and never rewrites entries of the other session.
 - **Consequence for the report:** the screenshots of Figures 2.1 and 2.2 were
   taken before the fix and show the pole chart without markers. They have to
   be taken again.
-- **Status:** to be retested in the IDE.
+- **Status:** retested on 2026-11-25, dots and four-decimal labels shown,
+  screenshots retaken. Resolved.
+
+### ISS-089 - Pole chart of Problem 1: straight unit circle and lost view
+
+- **Found in:** my retest on 2026-11-25. After Discretise the unit circle of
+  the pole chart is drawn as an almost vertical line. After clicking the
+  legend check box of the unit circle twice, the chart showed the whole
+  circle, and the poles of both systems sat in one dot at z = 1.
+- **Cause:** the vertical line is intended. `PlotPoles` sets the axes to the
+  poles, which lie within 0.003 of z = 1 at T = 0.001 s, so the axes are
+  only about 0.005 wide and the circle near z = 1 is a nearly straight
+  line. The jump to the whole circle was not intended. Two quick clicks on
+  a legend check box arrive at the chart as a double click, and the double
+  click handler reset both axes to automatic. At that scale all poles are
+  less than one pixel apart, so they merge into one dot at (1, 0). The
+  values were correct in both views.
+- **Fix:** `ChartDblClick` ignores double clicks on the legend
+  (`Legend.Clicked`). On the pole chart a double click now switches between
+  the whole unit circle and the view around the poles, which `PlotPoles`
+  stores in `FPoleView`. CLEAR forgets that view. `PlotPoles` writes a log
+  line that explains the scaled view. The charts of Problems 2 and 3 use
+  automatic axes and had only the legend double click, which now changes
+  nothing.
+- **Status:** to be retested in the IDE (Problem 1, both systems, legend
+  boxes, double click twice, CLEAR).
+
+### ISS-090 - Pulse convention of the impulse response of Problem 1
+
+- **Found in:** comparison with an earlier student program, whose impulse
+  response of system 2 has an amplitude of about 0.001 against 1 in mine.
+- **Cause:** two conventions, both valid. The lecture defines the unit pulse
+  as u(0) = 1, whose response is the sequence of Markov parameters g(k),
+  the same quantity that Problem 2 identifies. The continuous impulse
+  response g(t) = C exp(At) B belongs to a Dirac impulse of area 1, whose
+  one-sample counterpart has the height 1/T. Both responses come from the
+  same linear simulation and differ by the factor T only.
+- **Decision:** the program keeps both. The check box "Impulse as a pulse of
+  area 1: u(0) = 1/T" is ticked by default, because the sheet asks for an
+  impulse response and only this scale can be compared with cos 2t.
+  Unticked, the program gives the Markov parameters of the lecture
+  convention (chart title "unit pulse u(0) = 1 (Markov parameters)").
+  With the lecture output equation (Cd = C, Dd = 0) both start with y(0) = 0,
+  one sample later than g(0) = CB = 1. The report explains both in Sections
+  2.2.1 and 2.3.1.
+- **Status:** documented.

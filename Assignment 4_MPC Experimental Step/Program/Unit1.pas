@@ -194,6 +194,8 @@ type
     FP2Header: string;
     FLastError: string;       { last unexpected error and when it was shown }
     FLastErrorTime: TDateTime;
+    FPoleView: array [0 .. 3] of Double; { pole chart around the poles: x min, x max, y min, y max }
+    FPoleViewSet: Boolean;    { True from PlotPoles until the pole chart is cleared }
     procedure AppException(Sender: TObject; E: Exception);
     procedure SetStatus(const AText: string);
     procedure Log(const ALevel, AText: string);
@@ -209,6 +211,7 @@ type
     procedure ShowText(ARed: TRichEdit; const AText: string);
     procedure ClearChart(AChart: TChart);
     procedure ResetChart(AChart: TChart);
+    procedure SetPoleView;
     procedure ZoomAxis(AAxis: TChartAxis; const AFactor, ACenter: Double);
     procedure ZoomChart(AChart: TChart; const AFactor: Double; const APoint: TPoint; AXOnly: Boolean);
     procedure PlotResponse(ASeries: TChartSeries; const AT, AY: TVector);
@@ -563,8 +566,8 @@ begin
   Log('INFO', 'Ready. Problem 1: Discretise, then Step and impulse. Problem 2: Ho-Kalman (SVD). ' +
     'Problem 3: Compute Kob, then Simulate observer.');
   Log('INFO', 'Charts: hover = nearest value, wheel = zoom at the cursor, Shift + wheel = x axis only, ' +
-    'drag to the lower right = zoom box, right drag = pan, double click = full view, legend boxes ' +
-    'hide or show a line.');
+    'drag to the lower right = zoom box, right drag = pan, double click = full view (pole chart: whole ' +
+    'unit circle and back), legend boxes hide or show a line.');
   SetStatus('Ready. F1 shows the equations.');
 end;
 
@@ -674,10 +677,36 @@ begin
   AChart.Invalidate;
 end;
 
-procedure TForm1.ChartDblClick(Sender: TObject);
+{ View around the poles stored by PlotPoles. }
+procedure TForm1.SetPoleView;
 begin
-  if Sender is TChart then
-    ResetChart(TChart(Sender));
+  chtP1Poles.BottomAxis.Automatic := False;
+  chtP1Poles.LeftAxis.Automatic := False;
+  chtP1Poles.BottomAxis.SetMinMax(FPoleView[0], FPoleView[1]);
+  chtP1Poles.LeftAxis.SetMinMax(FPoleView[2], FPoleView[3]);
+end;
+
+{ A double click restores the full view. Two quick clicks on a legend check
+  box also arrive as a double click; they only hide and show the line and
+  must not change the axes (ISS-089). On the pole chart the double click
+  switches between the whole unit circle and the view around the poles,
+  because at T = 0.001 s all poles lie within 0.003 of z = 1 and merge into
+  one dot when the whole circle is shown. }
+procedure TForm1.ChartDblClick(Sender: TObject);
+var
+  LChart: TChart;
+  LP: TPoint;
+begin
+  if not (Sender is TChart) then
+    Exit;
+  LChart := TChart(Sender);
+  LP := LChart.ScreenToClient(Mouse.CursorPos);
+  if LChart.Legend.Visible and (LChart.Legend.Clicked(LP.X, LP.Y) >= 0) then
+    Exit;
+  if (LChart = chtP1Poles) and FPoleViewSet and LChart.BottomAxis.Automatic then
+    SetPoleView
+  else
+    ResetChart(LChart);
 end;
 
 { Cross-hair and value box of the point marked by the TChart interposer. }
@@ -963,6 +992,8 @@ begin
   AChart.SetHover(nil, -1);
   for LI := 0 to AChart.SeriesCount - 1 do
     AChart.Series[LI].Clear;
+  if AChart = chtP1Poles then
+    FPoleViewSet := False;
   ResetChart(AChart);
 end;
 
@@ -1102,7 +1133,9 @@ begin
 end;
 
 { Unit circle and the eigenvalues of Ad. The axes are set around the poles
-  because at T = 0.001 s every pole lies within 0.003 of z = 1. }
+  because at T = 0.001 s every pole lies within 0.003 of z = 1. At this
+  scale the unit circle near z = 1 is drawn as an almost vertical line; the
+  whole circle is one double click away (ISS-089). }
 procedure TForm1.PlotPoles(const AZ: TComplexArray);
 var
   LI: Integer;
@@ -1127,14 +1160,18 @@ begin
     serP1Circle.AddXY(Cos(LPhi), Sin(LPhi));
   end;
   LPad := Max(1.0e-3, 0.5 * Max(LXMax - LXMin, LYMax - LYMin));
-  chtP1Poles.BottomAxis.Automatic := False;
-  chtP1Poles.LeftAxis.Automatic := False;
-  chtP1Poles.BottomAxis.SetMinMax(LXMin - LPad, LXMax + LPad);
-  chtP1Poles.LeftAxis.SetMinMax(LYMin - LPad, LYMax + LPad);
+  FPoleView[0] := LXMin - LPad;
+  FPoleView[1] := LXMax + LPad;
+  FPoleView[2] := LYMin - LPad;
+  FPoleView[3] := LYMax + LPad;
+  FPoleViewSet := True;
+  SetPoleView;
   { The default label format rounds to three decimals, which printed 0.999
     twice and 1.001 twice on an axis only 0.005 wide (ISS-088). }
   chtP1Poles.BottomAxis.AxisValuesFormat := '0.0000';
   chtP1Poles.LeftAxis.AxisValuesFormat := '0.0000';
+  Log('INFO', 'Pole chart: the axes span ' + FmtG(FPoleView[1] - FPoleView[0], 3) + ' around the poles, ' +
+    'so the unit circle appears as an almost vertical line. Double click shows the whole circle and back.');
 end;
 
 procedure TForm1.btnP1DiscretiseClick(Sender: TObject);

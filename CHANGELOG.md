@@ -6,6 +6,30 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 ## [Unreleased]
 
+### 2026-11-25 - Assignment 4: MPC experimental steps (session 4, pole chart view, pulse convention)
+
+#### Fixed
+
+- `Unit1.pas`: two quick clicks on a legend check box arrived as a double
+  click and reset the pole chart to the whole unit circle, where all poles
+  merge into one dot. Double clicks on the legend are now ignored, and on
+  the pole chart a double click switches between the whole circle and the
+  view around the poles (stored by `PlotPoles`, forgotten by CLEAR). A log
+  line explains why the circle looks like a vertical line (ISS-089).
+
+#### Changed
+
+- Report (edited in place, my latest revision kept): new paragraph in
+  Section 2.2.1 on the two pulse conventions (u(0) = 1 gives the Markov
+  parameters, u(0) = 1/T the impulse response of area 1, factor T between
+  them, first sample y(0) = 0 with Cd = C, Dd = 0), new paragraph in Section
+  2.3.1 with the unit-pulse numbers and the pole chart view (ISS-089,
+  ISS-090), and every code listing taken again from the current code.
+  New `Report/source/patch_session4.py` for these edits.
+- `ISSUES.md`: ISS-086 to ISS-088 retested and resolved, ISS-089 and ISS-090
+  added.
+- A4 README: pole chart view, pulse convention finding, issue range.
+
 ### 2026-11-23 - Assignment 4: MPC experimental steps (session 3, retest fixes, report format, README)
 
 #### Fixed
