@@ -81,10 +81,10 @@ confirmation** (requires the lecturer or my own check).
 | ISS-077 | FP / build           | First Delphi 13 build: E2018 at the `Split` call on `TEdit.Text` and a torque-limit key with "=" | Resolved (retest)  |
 | ISS-078 | FP / UI              | UI v2: design-time card titles, button colours and fades, chart hover, busy guard, input checks | Resolved (retest)  |
 | ISS-079 | A4 / lecturer slides | Bd of the bilinear formula carries the factor T/(1 - T/2); the standard form has T only      | Documented         |
-| ISS-080 | A4 / lecturer program | `MPC.exe` of the MPC Simulator folder (and the copy in `MPC.zip`) is 0 bytes                | Open               |
+| ISS-080 | A4 / lecturer program | `MPC.exe` of the MPC Simulator folder (and the copy in `MPC.zip`) was 0 bytes; working copy released later | Resolved           |
 | ISS-081 | A4 / numerics        | Lecturer SVD (`svdcmp`) leaves the singular values unsorted; own one-sided Jacobi SVD written | Resolved           |
 | ISS-082 | A4 / problem sheet   | Missing brackets in Det(lambda I - Am - Kob Cm) and a garbled open-loop error equation      | Documented         |
-| ISS-083 | A4 / lecturer data   | Plant of Problem 3 is the Ho-Kalman model of Problem 2; `svdku123456.dat` matches to 2e-4 only | Documented         |
+| ISS-083 | A4 / lecturer data   | Plant of Problem 3 is the Ho-Kalman model of Problem 2; generator of `svdku123456.dat` found (RKN, input offset) | Resolved           |
 | ISS-084 | A4 / numerics        | Close eigenvalues (1.002, 1, 0.998) lost 10 digits through the characteristic polynomial    | Resolved           |
 | ISS-085 | A4 / build           | First form load: "Error reading serP2Sigma.XValues.Order: Invalid property value"          | Resolved           |
 | ISS-086 | A4 / UI              | EIntOverflow on Problem 1, system 1, when the mouse moved over the charts                    | Resolved           |
@@ -92,6 +92,7 @@ confirmation** (requires the lecturer or my own check).
 | ISS-088 | A4 / UI              | Eigenvalue markers of the Problem 1 pole chart invisible, axis labels 0.999 and 1.001 printed twice | Resolved           |
 | ISS-089 | A4 / UI              | Pole chart drawn the unit circle as a line, and two clicks on a legend box reset it to the whole circle | Resolved (retest)  |
 | ISS-090 | A4 / method          | Impulse response 1000 times larger than the earlier student program (pulse u(0) = 1/T against u(0) = 1) | Documented         |
+| ISS-091 | A4 / lecturer program | Working `MPC.exe` analysed: same formulas, three defects (state reset, stage time as input, output one sample early) | Documented         |
 
 ---
 
@@ -1280,6 +1281,11 @@ moment, and never rewrites entries of the other session.
 - **Mitigation:** section 2.3 compares my program with the output files of
   the lecturer (`svdku1.dat`, `svdku123456.dat`) instead. To be repeated
   when the working program arrives.
+- **Update (2026-11-28):** a working `MPC.exe` (794,624 bytes, MD5
+  603f37e44d18a168d8142876f5b72ad7) and new output files (`state space
+  model.dat`, `MPC Design.dat`, `MPC observer Design.dat`) are in the
+  folder. Section 2.3.4 and Table 2.4 of the report now compare with the
+  program itself (ISS-091). Resolved.
 
 ### ISS-081 - SVD of the lecture material
 
@@ -1315,6 +1321,14 @@ moment, and never rewrites entries of the other session.
 - `svdku123456.dat` is the SVD of this 4 x 4 Hankel matrix (printed with two
   decimals). Its U agrees with mine to 1.8e-4 only; RK4, Euler and rounded
   data did not close the gap, so the lecturer's data generator is not known.
+- **Update (2026-11-28):** the working `MPC.exe` shows the generator. It
+  integrates the plant with the Runge-Kutta-Nystrom method at 0.1 s for 150
+  samples, and it passes the stage time to the argument that the right-hand
+  side uses as the input, so the four stages see u = 1, 1.05, 1.05 and 1.1
+  and the data settle at 1.05. Replaying this integrator reproduces
+  `state space model.dat` within 4.9e-8, and the U of the 4 x 4 Hankel
+  matrix of these data matches `svdku123456.dat` to 1.9e-6. The Ho-Kalman
+  model of these data rounds to the same plant of Problem 3. Resolved.
 - **Use:** Problem 3 is checked against Problem 2 in `TestMPC` (C6), and the
   report presents the three problems as one chain.
 
@@ -1457,4 +1471,35 @@ moment, and never rewrites entries of the other session.
   With the lecture output equation (Cd = C, Dd = 0) both start with y(0) = 0,
   one sample later than g(0) = CB = 1. The report explains both in Sections
   2.2.1 and 2.3.1.
+- **Status:** documented.
+
+### ISS-091 - Working lecturer program compared with mine
+
+- **Found in:** `Materials/MPC Simulator/MPC.exe`, the working version
+  released after the first submission. It is a Delphi 7 program without
+  source, so I read its forms from the executable resources, its strings and
+  the machine code of the button handlers, and I replayed the numerical parts
+  in Python. The analysis notes stay outside the repository.
+- **Same as mine:** the lecture formula Ad = (I - T/2 A)^-1 (I + T/2 A),
+  Bd = (I - T/2 A)^-1 B T / (1 - T/2), Cd = C (Ad and Bd of system 1 equal the
+  sheet), a 4 x 4 Hankel matrix of Markov parameters with the balanced SVD
+  split, and the observer error matrix A - Kob C. For its default poles 0.851
+  and 0.872 it prints Kob = [-1.094; -1.025], and my closed form gives
+  -1.093695 and -1.024723.
+- **Choices that differ:** system 2 is discretised with T = 0.1 s (mine 0.001
+  s, editable), 150 samples per run, the impulse is the unit pulse u(0) = 1
+  (ISS-090), the Problem 2 data come from the integrator of ISS-083, and the
+  observer runs inside the predictive controller (nc = 4, np = 20).
+- **Defects in the reference:** (1) the simulation loops of the
+  Discretization button reset only the first two states, so for the
+  third-order system 1 the third state of the step run carries into the
+  impulse run and the impulse curve rises to 0.0728 at 0.15 s instead of
+  0.00196 (my replay of that loop gives 0.07275, as in its chart); a repeated
+  click also starts the step run from the old state. (2) The stage time of
+  the Runge-Kutta-Nystrom routine enters as the plant input (ISS-083).
+  (3) The output is computed after the state update, so the value at t = kT
+  is C x(k+1), one sample early. Misspelled captions ("Fisrt", "Continous",
+  "Obserber", "Estimattion") are cosmetic.
+- **Consequence:** no change to my program. Section 2.3.4, Table 2.4 and a
+  paragraph in Section 2.4 of the report describe the comparison.
 - **Status:** documented.

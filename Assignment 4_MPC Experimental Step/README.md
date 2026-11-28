@@ -95,6 +95,7 @@ m_{21}=C_1A_{22}-C_2A_{21},\qquad m_{22}=A_{11}C_2-A_{12}C_1,\qquad \det M=C_1m_
 | The SVD of the lecture material is unsorted           | I wrote a one-sided Jacobi SVD that sorts the singular values and matches the lecturer's `svdku1.dat` to six decimals.                                                                                                     |
 | The observer gain has a closed form                   | Both coefficient equations are linear in K1 and K2, and their determinant is minus the determinant of the observability matrix.                                                                                            |
 | The impulse response depends on the pulse convention | The unit pulse u(0) = 1 of the lecture gives the Markov parameters, a pulse of area 1 (u(0) = 1/T) gives the response that matches the continuous impulse response cos 2t. Both differ only by the factor T = 0.001, which explains a factor of 1000 against programs that use the unit pulse. A check box selects the convention.                                     |
+| The lecturer's program uses the same method | Its Ad and Bd, its Ho-Kalman plant and its observer gain agree with mine. It discretises system 2 with T = 0.1 s, and three defects change its curves. It resets only two of three states, it feeds the stage time of its Runge-Kutta-Nystrom routine in as the input (data settle at 1.05), and it plots each output one sample early. |
 
 <p align="right"><sub><a href="#top">Back to top</a></sub></p>
 
@@ -150,6 +151,6 @@ fpc -O2 -Fu.. -FU. -FE. TestMPC.dpr
 
 ## Notes and issues
 
-I checked the formulas against the lecture slides and the lecturer's data files and, as references only, against an earlier student program of this course. The lecturer's simulator in the course material is an empty file, so I compared with its output files instead. The findings are ISS-079 to ISS-084 and the fixes after my first tests in Delphi are ISS-085 to ISS-090 in the [issue log](../ISSUES.md). The changes are in the [changelog](../CHANGELOG.md). The report sources and the scripts that build the Word file and the figures are in [`Report/source`](Report/source/).
+I checked the formulas against the lecture slides and the lecturer's data files and, as references only, against an earlier student program of this course. The first copy of the lecturer's simulator was an empty file, so I compared with its output files first. When the working version arrived without source code, I read its forms, strings and machine code and replayed its numerical parts. The findings are ISS-079 to ISS-084 and ISS-091, and the fixes after my first tests in Delphi are ISS-085 to ISS-090 in the [issue log](../ISSUES.md). The changes are in the [changelog](../CHANGELOG.md). The report sources and the scripts that build the Word file and the figures are in [`Report/source`](Report/source/).
 
 <p align="right"><sub><a href="#top">Back to top</a></sub></p>

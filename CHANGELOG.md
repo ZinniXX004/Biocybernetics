@@ -6,6 +6,26 @@ assignment. Issue identifiers (`ISS-xxx`) refer to [ISSUES.md](ISSUES.md).
 
 ## [Unreleased]
 
+### 2026-11-28 - Assignment 4: MPC experimental steps (session 5, comparison with the working lecturer program)
+
+#### Changed
+
+- Report (edited in place, my latest revision kept): Section 2.3.4 renamed
+  "Comparison with the Lecturer's Program and an Earlier Program" and
+  rewritten for the working `MPC.exe` (discretisation, data generator,
+  observer gain, three defects of the reference), Table 2.4 extended to nine
+  rows, a paragraph added to Section 2.4 and one sentence to the conclusion.
+  New `Report/source/patch_session5.py` for these edits; `report_part2.md`
+  and `report_part3.md` updated to match.
+- `ISSUES.md`: ISS-080 and ISS-083 resolved, ISS-091 added.
+- A4 README: finding row on the lecturer program, notes on how it was
+  compared.
+
+#### Unchanged
+
+- Program and CI test. The lecturer program uses the same formulas, so no
+  numerical change was needed.
+
 ### 2026-11-25 - Assignment 4: MPC experimental steps (session 4, pole chart view, pulse convention)
 
 #### Fixed
